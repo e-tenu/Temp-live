@@ -1,0 +1,2140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>NAMA PHYSICAL PLANNING DEPARTMENT</title>
+<link rel="icon" type="Image/x-icon" href="./PIC.jpg">
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+<style>
+  :root {
+    --navy: #0d2137;
+    --navy2: #163352;
+    --blue: #1a5fb4;
+    --blue-light: #e8f0fb;
+    --gold: #c79a00;
+    --gold-light: #fef9e7;
+    --green: #1a7a3c;
+    --green-light: #eafaf0;
+    --red: #c0392b;
+    --red-light: #fdecea;
+    --orange: #d4600a;
+    --orange-light: #fdf3ea;
+    --grey0: #f7f8fa;
+    --grey1: #edf0f4;
+    --grey2: #d0d7e2;
+    --grey3: #8a96a8;
+    --grey4: #4a5568;
+    --text: #111827;
+    --sidebar-w: 260px;
+    --header-h: 64px;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'DM Sans', sans-serif; background: var(--grey0); color: var(--text); min-height: 100vh; }
+
+  /* ── LAYOUT ── */
+  #sidebar {
+    position: fixed; top: 0; left: 0; bottom: 0; width: var(--sidebar-w);
+    background: var(--navy); display: flex; flex-direction: column; z-index: 100;
+  }
+  #sidebar .logo {
+    padding: 20px 20px 16px; border-bottom: 1px solid rgba(255,255,255,0.1);
+  }
+  #sidebar .logo h1 { color: #fff; font-size: 14px; font-weight: 700; letter-spacing: 0.5px; }
+  #sidebar .logo p { color: rgba(255,255,255,0.5); font-size: 11px; margin-top: 2px; }
+  #sidebar nav { flex: 1; padding: 12px 0; overflow-y: auto; }
+  .nav-item {
+    display: flex; align-items: center; gap: 10px; padding: 10px 20px;
+    color: rgba(255,255,255,0.65); cursor: pointer; font-size: 13.5px; font-weight: 500;
+    transition: all 0.15s; border-left: 3px solid transparent;
+  }
+  .nav-item:hover { background: rgba(255,255,255,0.06); color: #fff; }
+  .nav-item.active { background: rgba(255,255,255,0.1); color: #fff; border-left-color: var(--gold); }
+  .nav-item .icon { font-size: 16px; opacity: 0.8; }
+  .nav-sep { height: 1px; background: rgba(255,255,255,0.08); margin: 8px 20px; }
+  .sync-badge {
+    margin: 0 16px 16px; padding: 10px 12px; border-radius: 8px;
+    background: rgba(255,255,255,0.07); border: 1px solid rgba(255,255,255,0.1);
+  }
+  .sync-badge p { font-size: 11px; color: rgba(255,255,255,0.5); }
+  .sync-dot { width: 8px; height: 8px; border-radius: 50%; background: #4caf50; display: inline-block; margin-right: 6px; animation: pulse 2s infinite; }
+  @keyframes pulse { 0%,100%{opacity:1}50%{opacity:0.4} }
+
+  #main { margin-left: var(--sidebar-w); min-height: 100vh; display: flex; flex-direction: column; }
+  #topbar {
+    height: var(--header-h); background: #fff; border-bottom: 1px solid var(--grey2);
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 0 28px; position: sticky; top: 0; z-index: 50;
+  }
+  #topbar h2 { font-size: 17px; font-weight: 600; color: var(--navy); }
+  .topbar-actions { display: flex; gap: 10px; align-items: center; }
+
+  #content { padding: 24px 28px; flex: 1; }
+
+  /* ── BUTTONS ── */
+  .btn { padding: 9px 18px; border-radius: 8px; border: none; cursor: pointer; font-family: inherit; font-size: 13.5px; font-weight: 500; transition: all 0.15s; display: inline-flex; align-items: center; gap: 7px; }
+  .btn-primary { background: var(--navy); color: #fff; }
+  .btn-primary:hover { background: var(--navy2); }
+  .btn-gold { background: var(--gold); color: #fff; }
+  .btn-gold:hover { filter: brightness(1.1); }
+  .btn-outline { background: #fff; color: var(--navy); border: 1px solid var(--grey2); }
+  .btn-outline:hover { background: var(--grey0); }
+  .btn-danger { background: var(--red); color: #fff; }
+  .btn-danger:hover { filter: brightness(1.1); }
+  .btn-sm { padding: 6px 12px; font-size: 12px; border-radius: 6px; }
+
+  /* ── STATS ── */
+  .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 16px; margin-bottom: 24px; }
+  .stat-card {
+    background: #fff; border-radius: 12px; padding: 18px 20px;
+    border: 1px solid var(--grey2); position: relative; overflow: hidden;
+  }
+  .stat-card::before { content:''; position:absolute; top:0;left:0;right:0; height:3px; }
+  .stat-card.blue::before { background: var(--blue); }
+  .stat-card.gold::before { background: var(--gold); }
+  .stat-card.green::before { background: var(--green); }
+  .stat-card.red::before { background: var(--red); }
+  .stat-card .label { font-size: 12px; color: var(--grey3); font-weight: 500; text-transform: uppercase; letter-spacing: 0.4px; }
+  .stat-card .value { font-size: 32px; font-weight: 700; margin-top: 4px; color: var(--navy); line-height: 1; }
+  .stat-card .sub { font-size: 12px; color: var(--grey3); margin-top: 6px; }
+
+  /* ── TABLE ── */
+  .table-wrap { background: #fff; border-radius: 12px; border: 1px solid var(--grey2); overflow: hidden; }
+  .table-toolbar { padding: 14px 20px; display: flex; gap: 12px; align-items: center; border-bottom: 1px solid var(--grey1); flex-wrap: wrap; }
+  .table-toolbar input, .table-toolbar select {
+    padding: 8px 12px; border: 1px solid var(--grey2); border-radius: 7px;
+    font-family: inherit; font-size: 13px; background: var(--grey0); color: var(--text);
+  }
+  .table-toolbar input { width: 240px; }
+  .table-toolbar input:focus, .table-toolbar select:focus { outline: 2px solid var(--blue); border-color: transparent; }
+  .tbl { width: 100%; border-collapse: collapse; font-size: 13px; }
+  .tbl thead th {
+    background: var(--grey0); color: var(--grey4); font-weight: 600; font-size: 11px;
+    text-transform: uppercase; letter-spacing: 0.5px; padding: 11px 14px;
+    text-align: left; border-bottom: 1px solid var(--grey1); white-space: nowrap;
+  }
+  .tbl tbody tr { border-bottom: 1px solid var(--grey1); transition: background 0.1s; cursor: pointer; }
+  .tbl tbody tr:hover { background: var(--blue-light); }
+  .tbl tbody tr:last-child { border-bottom: none; }
+  .tbl td { padding: 11px 14px; vertical-align: middle; max-width: 180px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .badge {
+    display: inline-block; padding: 3px 10px; border-radius: 100px; font-size: 11px; font-weight: 600;
+  }
+  .badge-green { background: var(--green-light); color: var(--green); }
+  .badge-red { background: var(--red-light); color: var(--red); }
+  .badge-gold { background: var(--gold-light); color: var(--gold); }
+  .badge-blue { background: var(--blue-light); color: var(--blue); }
+  .badge-grey { background: var(--grey1); color: var(--grey4); }
+  .permit-no { font-family: 'DM Mono', monospace; font-size: 11px; color: var(--navy); background: var(--blue-light); padding: 2px 7px; border-radius: 4px; }
+
+  /* ── MODAL ── */
+  .modal-overlay {
+    position: fixed; inset: 0; background: rgba(0,0,0,0.45); z-index: 200;
+    display: flex; align-items: center; justify-content: center; padding: 20px;
+  }
+  .modal {
+    background: #fff; border-radius: 16px; width: 100%; max-width: 760px;
+    max-height: 90vh; overflow-y: auto; box-shadow: 0 20px 60px rgba(0,0,0,0.2);
+  }
+  .modal-header {
+    padding: 22px 28px 16px; border-bottom: 1px solid var(--grey1);
+    display: flex; align-items: center; justify-content: space-between; position: sticky; top: 0; background: #fff; z-index: 1;
+  }
+  .modal-header h3 { font-size: 16px; font-weight: 700; color: var(--navy); }
+  .modal-body { padding: 24px 28px; }
+  .modal-footer { padding: 16px 28px; border-top: 1px solid var(--grey1); display: flex; gap: 10px; justify-content: flex-end; }
+  .close-btn { background: var(--grey1); border: none; border-radius: 6px; width: 30px; height: 30px; cursor: pointer; font-size: 16px; display: flex; align-items: center; justify-content: center; }
+  .close-btn:hover { background: var(--grey2); }
+
+  /* ── FORM ── */
+  .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  .form-grid.cols3 { grid-template-columns: 1fr 1fr 1fr; }
+  .form-group { display: flex; flex-direction: column; gap: 5px; }
+  .form-group.full { grid-column: 1 / -1; }
+  .form-group label { font-size: 12px; font-weight: 600; color: var(--grey4); text-transform: uppercase; letter-spacing: 0.4px; }
+  .form-group input, .form-group select, .form-group textarea {
+    padding: 9px 12px; border: 1px solid var(--grey2); border-radius: 8px;
+    font-family: inherit; font-size: 13.5px; background: #fff; color: var(--text);
+    transition: border-color 0.15s;
+  }
+  .form-group input:focus, .form-group select:focus, .form-group textarea:focus { outline: none; border-color: var(--blue); box-shadow: 0 0 0 3px rgba(26,95,180,0.1); }
+  .form-group input[readonly] { background: var(--grey0); color: var(--navy); font-weight: 600; font-family: 'DM Mono', monospace; font-size: 12px; }
+  .permit-preview {
+    background: linear-gradient(135deg, var(--navy), var(--navy2)); color: #fff;
+    border-radius: 10px; padding: 14px 18px; margin-bottom: 20px;
+    display: flex; align-items: center; justify-content: space-between;
+  }
+  .permit-preview .pp-label { font-size: 11px; opacity: 0.7; text-transform: uppercase; letter-spacing: 0.5px; }
+  .permit-preview .pp-num { font-family: 'DM Mono', monospace; font-size: 15px; font-weight: 500; margin-top: 2px; }
+  .section-divider { font-size: 12px; font-weight: 700; color: var(--grey3); text-transform: uppercase; letter-spacing: 0.6px; padding-bottom: 10px; border-bottom: 1px solid var(--grey1); margin: 20px 0 16px; }
+
+  /* ── MAP PANEL ── */
+  #map-container { background: #fff; border-radius: 12px; border: 1px solid var(--grey2); overflow: hidden; }
+  #map-header { padding: 14px 20px; border-bottom: 1px solid var(--grey1); display: flex; align-items: center; justify-content: space-between; }
+  #map-header h3 { font-size: 14px; font-weight: 700; color: var(--navy); }
+  #gmap { width: 100%; height: 520px; background: var(--grey1); }
+  .map-legend { padding: 14px 20px; display: flex; gap: 20px; flex-wrap: wrap; border-top: 1px solid var(--grey1); }
+  .legend-item { display: flex; align-items: center; gap: 7px; font-size: 12px; color: var(--grey4); }
+  .legend-dot { width: 10px; height: 10px; border-radius: 50%; }
+
+  /* ── DETAIL PANEL ── */
+  .detail-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+  .detail-item { }
+  .detail-item .dk { font-size: 11px; font-weight: 600; color: var(--grey3); text-transform: uppercase; letter-spacing: 0.4px; }
+  .detail-item .dv { font-size: 13.5px; color: var(--text); margin-top: 2px; }
+  .detail-map { width: 100%; height: 280px; border-radius: 10px; overflow: hidden; border: 1px solid var(--grey2); margin-top: 16px; }
+
+  /* ── PAGES ── */
+  .page { display: none; }
+  .page.active { display: block; }
+
+  /* ── EMPTY STATE ── */
+  .empty { text-align: center; padding: 60px 20px; color: var(--grey3); }
+  .empty .ei { font-size: 48px; margin-bottom: 12px; }
+  .empty p { font-size: 14px; }
+
+  /* ── PAGINATION ── */
+  .pagination { display: flex; align-items: center; gap: 6px; padding: 14px 20px; border-top: 1px solid var(--grey1); justify-content: space-between; }
+  .pagination span { font-size: 12px; color: var(--grey3); }
+  .page-btns { display: flex; gap: 4px; }
+  .pg-btn { width: 30px; height: 30px; border-radius: 6px; border: 1px solid var(--grey2); background: #fff; cursor: pointer; font-size: 12px; display: flex; align-items: center; justify-content: center; }
+  .pg-btn:hover { background: var(--grey0); }
+  .pg-btn.active { background: var(--navy); color: #fff; border-color: var(--navy); }
+
+  .toast {
+    position: fixed; bottom: 24px; right: 24px; background: var(--navy); color: #fff;
+    padding: 12px 20px; border-radius: 10px; font-size: 13px; z-index: 999;
+    animation: slideUp 0.3s ease; box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+  }
+  @keyframes slideUp { from{transform:translateY(20px);opacity:0}to{transform:translateY(0);opacity:1} }
+
+  .loading { display: flex; align-items: center; justify-content: center; padding: 60px; color: var(--grey3); gap: 10px; }
+  .spinner { width: 20px; height: 20px; border: 2px solid var(--grey2); border-top-color: var(--blue); border-radius: 50%; animation: spin 0.8s linear infinite; }
+  @keyframes spin { to{transform:rotate(360deg)} }
+
+  /* ── MOBILE OVERLAY ── */
+  #mobile-overlay {
+    display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 98;
+    transition: opacity 0.25s;
+  }
+  #mobile-overlay.open { display: block; }
+
+  /* ── HAMBURGER BUTTON (visible on mobile) ── */
+  #hamburger-btn {
+    display: none; background: none; border: none; cursor: pointer;
+    padding: 8px; border-radius: 8px; font-size: 22px; color: var(--navy);
+    align-items: center; justify-content: center; transition: background 0.15s;
+  }
+  #hamburger-btn:hover { background: var(--grey1); }
+
+  /* ── BOTTOM NAV (mobile only) ── */
+  #bottom-nav {
+    display: none; position: fixed; bottom: 0; left: 0; right: 0;
+    background: var(--navy); z-index: 90; border-top: 2px solid rgba(255,255,255,0.1);
+    grid-template-columns: repeat(6, 1fr); padding-bottom: env(safe-area-inset-bottom, 0px);
+  }
+  .bnav-item {
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    padding: 10px 4px 8px; gap: 3px; cursor: pointer; color: rgba(255,255,255,0.55);
+    font-size: 10px; font-weight: 500; transition: all 0.15s; border-top: 2px solid transparent;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .bnav-item .bi { font-size: 18px; line-height: 1; }
+  .bnav-item:active { background: rgba(255,255,255,0.08); }
+  .bnav-item.active { color: #fff; border-top-color: var(--gold); }
+
+  @media(max-width:900px){
+    /* Sidebar becomes a slide-in drawer */
+    #sidebar {
+      transform: translateX(calc(-1 * var(--sidebar-w)));
+      transition: transform 0.25s cubic-bezier(0.4,0,0.2,1);
+      z-index: 99;
+    }
+    #sidebar.drawer-open { transform: translateX(0); }
+
+    /* Restore sidebar width for drawer */
+    :root { --sidebar-w: 260px; }
+
+    #main { margin-left: 0; padding-bottom: 70px; }
+    #topbar { padding: 0 16px; }
+    #content { padding: 16px; }
+
+    /* Show hamburger and bottom nav */
+    #hamburger-btn { display: flex; }
+    #bottom-nav { display: grid; }
+
+    /* Responsive table toolbar — stack filters */
+    .table-toolbar { flex-direction: column; align-items: stretch; gap: 8px; padding: 12px; }
+    .table-toolbar input { width: 100%; }
+    .table-toolbar select { width: 100%; }
+
+    /* Responsive form grids */
+    .form-grid { grid-template-columns: 1fr; }
+    .form-grid.cols3 { grid-template-columns: 1fr; }
+
+    /* Responsive payment grid inside modal */
+    div[style*="grid-template-columns:1fr 1fr"] { display: flex !important; flex-direction: column !important; gap: 12px !important; }
+
+    /* Stats grid — 2 columns on mobile */
+    .stats-grid { grid-template-columns: repeat(2, 1fr); gap: 10px; }
+    .stat-card .value { font-size: 26px; }
+
+    /* Table — horizontal scroll */
+    .tbl td, .tbl th { padding: 10px 10px; font-size: 12px; }
+
+    /* Modal — full screen on mobile */
+    .modal-overlay { padding: 0; align-items: flex-end; }
+    .modal { border-radius: 20px 20px 0 0; max-height: 92vh; }
+    .modal-body { padding: 16px; }
+    .modal-header { padding: 16px 16px 12px; }
+    .modal-footer { padding: 12px 16px; }
+
+    /* Pagination — bigger touch targets */
+    .pg-btn { width: 36px; height: 36px; font-size: 13px; }
+    .pagination { padding: 12px 12px; flex-wrap: wrap; gap: 8px; }
+
+    /* Toast — bottom center on mobile */
+    .toast { right: 50%; transform: translateX(50%); bottom: 80px; white-space: nowrap; }
+
+    /* Topbar actions — hide export CSV label, keep icon */
+    .topbar-actions .btn-sm span.label { display: none; }
+
+    /* Detail grid — single column */
+    .detail-grid { grid-template-columns: 1fr; }
+
+    /* Map height */
+    #gmap, #gmap iframe { height: 360px !important; }
+  }
+
+  @media(max-width:480px){
+    .stats-grid { grid-template-columns: repeat(2, 1fr); }
+    #topbar h2 { font-size: 14px; }
+    .btn-primary { padding: 8px 12px; font-size: 12px; }
+    .stat-card { padding: 14px 12px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- MOBILE OVERLAY -->
+<div id="mobile-overlay" onclick="closeMobileNav()"></div>
+
+<!-- SIDEBAR -->
+<div id="sidebar">
+  <div class="logo">
+ <H1>NSAWAM ADOAGYIRI MUNICIPAL ASSEMBLY</H1>
+    <p>Temporary Structures Database</p>
+  </div>
+  <nav>
+    <div class="nav-item active" onclick="showPage('dashboard')">
+      <span class="icon">📊</span> Dashboard
+    </div>
+    <div class="nav-item" onclick="showPage('records')">
+      <span class="icon">📋</span> All Records
+    </div>
+    <div class="nav-item" onclick="showPage('map')">
+      <span class="icon">🗺️</span> Satellite Map
+    </div>
+    <div class="nav-sep"></div>
+    <div class="nav-item" onclick="showPage('expired')">
+      <span class="icon">⏰</span> Expiring / Expired
+    </div>
+    <div class="nav-item" onclick="showPage('unpaid')">
+      <span class="icon">💰</span> Payment Issues
+    </div>
+    <div class="nav-item" onclick="showPage('nopermit')">
+      <span class="icon">🔴</span> No Permit No.
+    </div>
+  </nav>
+  <div class="sync-badge">
+    <p><span class="sync-dot"></span><span id="sync-status">Syncing in real-time…</span></p>
+  </div>
+</div>
+
+<!-- MAIN -->
+<div id="main">
+  <div id="topbar">
+    <div style="display:flex;align-items:center;gap:10px">
+      <button id="hamburger-btn" onclick="toggleMobileNav()" aria-label="Open menu">☰</button>
+      <h2 id="page-title">Dashboard</h2>
+    </div>
+    <div class="topbar-actions">
+      <button class="btn btn-outline btn-sm" onclick="exportCSV()">⬇ Export CSV</button>
+      <button class="btn btn-primary" onclick="openAddModal()">＋ New Record</button>
+    </div>
+  </div>
+
+  <div id="content">
+
+    <!-- DASHBOARD PAGE -->
+    <div id="page-dashboard" class="page active">
+      <div class="stats-grid" id="stats-grid">
+        <div class="loading"><div class="spinner"></div> Loading…</div>
+      </div>
+      <div id="recent-wrap" class="table-wrap">
+        <div class="table-toolbar"><strong style="font-size:14px;color:var(--navy)">Recent Records</strong></div>
+        <div id="recent-table"></div>
+      </div>
+    </div>
+
+    <!-- RECORDS PAGE -->
+    <div id="page-records" class="page">
+      <div class="table-wrap">
+        <div class="table-toolbar">
+          <input type="text" id="search-input" placeholder="🔍  Search name, GPS, permit, location…" oninput="filterRecords()"/>
+          <select id="filter-location" onchange="filterRecords()"><option value="">All Locations</option></select>
+          <select id="filter-status" onchange="filterRecords()">
+            <option value="">All Status</option>
+            <option value="operational">Operational</option>
+            <option value="non-operational">Non-Operational</option>
+          </select>
+          <select id="filter-payment" onchange="filterRecords()">
+            <option value="">All Payments</option>
+            <option value="paid">Paid</option>
+            <option value="part">Part Payment</option>
+            <option value="unpaid">Unpaid</option>
+          </select>
+          <select id="filter-year" onchange="filterRecords()">
+            <option value="">All Years</option>
+            <option value="2025">2025</option>
+            <option value="2026">2026</option>
+            <option value="2027">2027</option>
+            <option value="2028">2028</option>
+            <option value="2029">2029</option>
+            <option value="2030">2030</option>
+            <option value="2031">2031</option>
+            <option value="2032">2032</option>
+            <option value="2033">2033</option>
+            <option value="2034">2034</option>
+            <option value="2035">2035</option>
+            <option value="2036">2036</option>
+            <option value="2037">2037</option>
+            <option value="2038">2038</option>
+            <option value="2039">2039</option>
+            <option value="2040">2040</option>
+            <option value="2041">2041</option>
+            <option value="2042">2042</option>
+            <option value="2043">2043</option>
+            <option value="2044">2044</option>
+            <option value="2045">2045</option>
+            <option value="2046">2046</option>
+            <option value="2047">2047</option>
+            <option value="2048">2048</option>
+            <option value="2049">2049</option>
+            <option value="2050">2050</option>
+            <option value="RENEWAL">RENEWAL</option>
+          </select>
+        </div>
+        <div id="records-table"></div>
+        <div class="pagination" id="pagination"></div>
+      </div>
+    </div>
+
+    <!-- MAP PAGE -->
+    <div id="page-map" class="page">
+      <div id="map-container">
+        <div id="map-header">
+          <h3>📍 GPS Satellite Map — All Registered Structures</h3>
+          <select id="map-location-filter" style="padding:7px 12px;border:1px solid var(--grey2);border-radius:7px;font-family:inherit;font-size:13px;" onchange="updateMapMarkers()">
+            <option value="">Show All Locations</option>
+          </select>
+        </div>
+        <div id="gmap">
+          <div class="loading" style="height:100%;display:flex;flex-direction:column;gap:8px;">
+            <div class="spinner"></div>
+            <p style="font-size:13px;color:var(--grey3)">Loading satellite map…</p>
+          </div>
+        </div>
+        <div class="map-legend">
+          <div class="legend-item"><div class="legend-dot" style="background:#1a7a3c"></div> Operational</div>
+          <div class="legend-item"><div class="legend-dot" style="background:#c0392b"></div> Non-operational</div>
+          <div class="legend-item"><div class="legend-dot" style="background:#c79a00"></div> Part payment</div>
+          <div class="legend-item"><div class="legend-dot" style="background:#8a96a8"></div> No permit</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- EXPIRED PAGE -->
+    <div id="page-expired" class="page">
+      <div class="table-wrap">
+        <div class="table-toolbar"><strong style="font-size:14px;color:var(--navy)">⏰ Expiring / Expired Permits</strong></div>
+        <div id="expired-table"></div>
+      </div>
+    </div>
+
+    <!-- UNPAID PAGE -->
+    <div id="page-unpaid" class="page">
+      <div class="table-wrap">
+        <div class="table-toolbar"><strong style="font-size:14px;color:var(--navy)">💰 Payment Issues — Outstanding Balances</strong></div>
+        <div id="unpaid-table"></div>
+      </div>
+    </div>
+
+    <!-- NO PERMIT PAGE -->
+    <div id="page-nopermit" class="page">
+      <div class="table-wrap">
+        <div class="table-toolbar"><strong style="font-size:14px;color:var(--navy)">🔴 Records Without Permit Number</strong></div>
+        <div id="nopermit-table"></div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ADD / EDIT MODAL -->
+<div class="modal-overlay" id="record-modal" style="display:none" onclick="if(event.target===this)closeModal()">
+  <div class="modal">
+    <div class="modal-header">
+      <h3 id="modal-title">New Temporary Structure Record</h3>
+      <button class="close-btn" onclick="closeModal()">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="permit-preview" id="permit-preview">
+        <div>
+          <div class="pp-label">Auto-Generated Permit Number</div>
+          <div class="pp-num" id="permit-display">Select a location to generate…</div>
+        </div>
+        <span style="font-size:24px">🔖</span>
+      </div>
+
+      <div class="section-divider">Operator Information</div>
+      <div class="form-grid">
+        <div class="form-group">
+          <label>Full Name *</label>
+          <input type="text" id="f-name" placeholder="e.g. Kwame Andrews"/>
+        </div>
+        <div class="form-group">
+          <label>Contact Number</label>
+          <input type="text" id="f-contact" placeholder="e.g. 0244123456"/>
+        </div>
+        <div class="form-group">
+          <label>GPS Code *</label>
+          <input type="text" id="f-gps" placeholder="e.g. EG-042-5124" oninput="tryGeocodeGPS()"/>
+        </div>
+        <div class="form-group">
+          <label>Structure Size</label>
+          <input type="text" id="f-size" placeholder="e.g. 12x10"/>
+        </div>
+      </div>
+
+      <div class="section-divider">Location & Permit</div>
+      <div class="form-grid">
+        <div class="form-group">
+          <label>Location / Zone *</label>
+          <input type="text" id="f-location" list="location-suggestions" placeholder="Type location e.g. Curve, Djankrom…" oninput="onLocationInput()" autocomplete="off"/>
+          <datalist id="location-suggestions"></datalist>
+        </div>
+        <div class="form-group">
+          <label>Auto Permit Number</label>
+          <input type="text" id="f-permit" readonly placeholder="Generated automatically"/>
+        </div>
+        <div class="form-group">
+          <label>Issue Date</label>
+          <input type="date" id="f-issue"/>
+        </div>
+        <div class="form-group">
+          <label>Expiry Date</label>
+          <input type="date" id="f-expiry"/>
+        </div>
+        <div class="form-group">
+          <label>Year</label>
+          <select id="f-year" onchange="generatePermitNo()">
+            <option value="2025">2025</option>
+            <option value="2026" selected>2026</option>
+            <option value="2027">2027</option>
+            <option value="2028">2028</option>
+            <option value="2029">2029</option>
+            <option value="2030">2030</option>
+            <option value="2031">2031</option>
+            <option value="2032">2032</option>
+            <option value="2033">2033</option>
+            <option value="2034">2034</option>
+            <option value="2035">2035</option>
+            <option value="2036">2036</option>
+            <option value="2037">2037</option>
+            <option value="2038">2038</option>
+            <option value="2039">2039</option>
+            <option value="2040">2040</option>
+            <option value="2041">2041</option>
+            <option value="2042">2042</option>
+            <option value="2043">2043</option>
+            <option value="2044">2044</option>
+            <option value="2045">2045</option>
+            <option value="2046">2046</option>
+            <option value="2047">2047</option>
+            <option value="2048">2048</option>
+            <option value="2049">2049</option>
+            <option value="2050">2050</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Operational Status</label>
+          <select id="f-status">
+            <option value="operational">Operational</option>
+            <option value="non-operational">Non-Operational</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="section-divider">Payment Details</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:4px">
+
+        <!-- Planning Payment -->
+        <div style="background:var(--green-light);border:1.5px solid var(--green);border-radius:10px;padding:16px">
+          <div style="font-size:11px;font-weight:700;color:var(--green);text-transform:uppercase;letter-spacing:0.5px;margin-bottom:12px">🏛 Planning Department</div>
+          <div class="form-group" style="margin-bottom:10px">
+            <label>Size Category</label>
+            <select id="f-payment-cat" onchange="onPaymentChange()">
+              <option value="">Unknown</option>
+              <option value="small-paid">Small</option>
+              <option value="medium-paid">Medium</option>
+              <option value="large-paid">Large</option>
+              <option value="part-payment">Part Payment</option>
+            </select>
+          </div>
+          <div class="form-group" style="margin-bottom:10px">
+            <label>Amount Paid — Planning (GHS)</label>
+            <input type="number" id="f-amt-planning" placeholder="0" oninput="onPaymentChange()"/>
+          </div>
+          <div class="form-group" style="margin-bottom:10px">
+            <label>Receipt No. (Planning)</label>
+            <input type="text" id="f-receipt-p" placeholder="e.g. 11001"/>
+          </div>
+          <div class="form-group" style="margin-bottom:0">
+            <label style="display:flex;align-items:center;gap:8px;cursor:pointer">
+              <input type="checkbox" id="f-planning-paid" onchange="onPaymentChange()" style="width:15px;height:15px;accent-color:var(--green)"/>
+              <span id="planning-paid-label" style="font-size:13px;font-weight:600;color:var(--grey4)">Mark as Paid (Planning)</span>
+            </label>
+          </div>
+        </div>
+
+        <!-- Revenue Payment -->
+        <div style="background:var(--blue-light);border:1.5px solid var(--blue);border-radius:10px;padding:16px">
+          <div style="font-size:11px;font-weight:700;color:var(--blue);text-transform:uppercase;letter-spacing:0.5px;margin-bottom:12px">💰 Revenue Department</div>
+          <div class="form-group" style="margin-bottom:10px">
+            <label>Amount Paid — Revenue (GHS)</label>
+            <input type="number" id="f-amt-revenue" placeholder="0" oninput="onPaymentChange()"/>
+          </div>
+          <div class="form-group" style="margin-bottom:10px">
+            <label>Balance Outstanding (GHS)</label>
+            <input type="number" id="f-balance" placeholder="0"/>
+          </div>
+          <div class="form-group" style="margin-bottom:10px">
+            <label>Receipt No. (Revenue)</label>
+            <input type="text" id="f-receipt-r" placeholder="e.g. 25/7223123"/>
+          </div>
+          <div class="form-group" style="margin-bottom:0">
+            <label style="display:flex;align-items:center;gap:8px;cursor:pointer">
+              <input type="checkbox" id="f-revenue-paid" onchange="onPaymentChange()" style="width:15px;height:15px;accent-color:var(--blue)"/>
+              <span id="revenue-paid-label" style="font-size:13px;font-weight:600;color:var(--grey4)">Mark as Paid (Revenue)</span>
+            </label>
+          </div>
+        </div>
+
+      </div>
+      <!-- Hidden legacy field to keep save/load compat -->
+      <input type="hidden" id="f-amt-paid"/>
+      <div class="form-grid" style="margin-top:12px">
+        <div class="form-group">
+          <label>Permit (Drawing)</label>
+          <select id="f-drawing">
+            <option value="">—</option>
+            <option value="yes">Yes</option>
+            <option value="no">No</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="section-divider">Notice & Renewal</div>
+      <div class="form-grid">
+        <div class="form-group">
+          <label>Notice</label>
+          <select id="f-notice">
+            <option value="">— Select —</option>
+            <option value="issued">Issued</option>
+            <option value="not issued">Not Issued</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Renewal Amount (GHS)</label>
+          <input type="number" id="f-renewal-amt" placeholder="0"/>
+        </div>
+        <div class="form-group">
+          <label>Receipt No. (Revenue — Renewal)</label>
+          <input type="text" id="f-renewal-receipt-r" placeholder="e.g. 25/07154500"/>
+        </div>
+        <div class="form-group">
+          <label>Renewal Start Date</label>
+          <input type="date" id="f-renewal-start"/>
+        </div>
+        <div class="form-group">
+          <label>Renewal End Date</label>
+          <input type="date" id="f-renewal-end"/>
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-outline" onclick="closeModal()">Cancel</button>
+      <button class="btn btn-primary" onclick="saveRecord()" id="save-btn">💾 Save Record</button>
+    </div>
+  </div>
+</div>
+
+<!-- DETAIL MODAL -->
+<div class="modal-overlay" id="detail-modal" style="display:none" onclick="if(event.target===this)closeDetailModal()">
+  <div class="modal">
+    <div class="modal-header">
+      <h3 id="detail-title">Record Details</h3>
+      <button class="close-btn" onclick="closeDetailModal()">✕</button>
+    </div>
+    <div class="modal-body" id="detail-body"></div>
+    <div class="modal-footer">
+      <button class="btn btn-danger btn-sm" id="detail-delete-btn">🗑 Delete</button>
+      <button class="btn btn-outline" onclick="closeDetailModal()">Close</button>
+      <button class="btn btn-primary" id="detail-edit-btn">✏️ Edit</button>
+    </div>
+  </div>
+</div>
+
+<!-- BOTTOM NAV (mobile) -->
+<nav id="bottom-nav" role="navigation" aria-label="Mobile navigation">
+  <div class="bnav-item active" id="bnav-dashboard" onclick="showPage('dashboard')" role="button" tabindex="0">
+    <span class="bi">📊</span><span>Dashboard</span>
+  </div>
+  <div class="bnav-item" id="bnav-records" onclick="showPage('records')" role="button" tabindex="0">
+    <span class="bi">📋</span><span>Records</span>
+  </div>
+  <div class="bnav-item" id="bnav-map" onclick="showPage('map')" role="button" tabindex="0">
+    <span class="bi">🗺️</span><span>Map</span>
+  </div>
+  <div class="bnav-item" id="bnav-expired" onclick="showPage('expired')" role="button" tabindex="0">
+    <span class="bi">⏰</span><span>Expiring</span>
+  </div>
+  <div class="bnav-item" id="bnav-unpaid" onclick="showPage('unpaid')" role="button" tabindex="0">
+    <span class="bi">💰</span><span>Unpaid</span>
+  </div>
+  <div class="bnav-item" id="bnav-nopermit" onclick="showPage('nopermit')" role="button" tabindex="0">
+    <span class="bi">🔴</span><span>No Permit</span>
+  </div>
+</nav>
+
+
+<!-- Firebase v9 compat SDK — real-time database across all devices -->
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
+
+<script>
+/* ═══════════════════════════════════════════════════════════════════════
+   FIREBASE CONFIGURATION
+   ───────────────────────────────────────────────────────────────────────
+   This app uses Firebase Realtime Database for live cross-device sync.
+   Changes on any phone, tablet or laptop appear on all others instantly.
+
+   HOW TO SET UP YOUR OWN FIREBASE PROJECT (free, 5 minutes):
+   1. Go to https://console.firebase.google.com
+   2. Click "Add project" → name it (e.g. "nama-temp-structures") → Create
+   3. In the left panel click "Realtime Database" → "Create Database"
+      → choose your region → Start in TEST mode (you can add rules later)
+   4. Click the gear icon ⚙ → "Project settings" → scroll to "Your apps"
+      → click </> (web) → register app → copy the firebaseConfig object
+   5. Paste the values below replacing the placeholder strings.
+   6. Open this file in your browser — all devices sharing the same
+      databaseURL will instantly see each other's changes in real time.
+═══════════════════════════════════════════════════════════════════════ */
+
+const FIREBASE_CONFIG = {
+  apiKey:            "AIzaSyBqSyIFg4bqxLu8Aw_iFMYWxIuZB5x2NTQ",
+  authDomain:        "nama-52f16.firebaseapp.com",
+  databaseURL:       "https://nama-52f16-default-rtdb.firebaseio.com",
+  projectId:         "nama-52f16",
+  storageBucket:     "nama-52f16.firebasestorage.app",
+  messagingSenderId: "1036252175990",
+  appId:             "Y1:1036252175990:web:4993669cda389a039f4957"
+};
+
+/* ── Global state ── */
+let allRecords  = [];
+let editingId   = null;
+let currentPage = 1;
+const PAGE_SIZE  = 20;
+let db           = null;   // Firebase database reference (set after config)
+let dbRef        = null;   // Reference to the /records node
+let _seedLoaded  = false;  // Guard: only push seed data once
+
+/* ── Location codes for permit number generation ── */
+const LOCATION_CODES = {
+  'Curve':                    'Curv',
+  'Hospital Road':            'Hos-RD',
+  'Duayeden':                 'Duay',
+  'Papito':                   'Papi',
+  'SDA Junction':             'SDA',
+  'Fire Service':             'Fire-Serv',
+  'Sarquah':                  'Sarq',
+  'Education Service':        'Edu-Serv',
+  'Adoagyiri':                'Adoa',
+  'Bungalow':                 'Bung',
+  'Weiggers':                 'Weig',
+  'Prince Boateng':           'Pri-Boa',
+  'Prison Market Junction':   'Pri-Mkt',
+  'Prison Market':            'Pri-Mkt',
+  'Prison Park':              'Pri-Pk',
+  'Asante-Akura':             'Asan-Aku',
+  'Djankrom':                 'Djan',
+  'Oparekrom':                'Opar',
+  'Railway Station':          'Rail',
+  'Akwamu Road':              'Akwa-RD',
+  'Fankyenekor':              'Fank',
+  'Aburi Junction':           'Abur-Junc',
+  'CMB Market':               'CMB-MKT',
+  'Nsawam Central':           'Nsaw-Cen',
+  'Africana':                 'Afri',
+  'Africity':                 'Afri',
+  'Kwadjo Sofo':              'Kwa-sofo',
+  'Asafo-Adjei':              'Asa-Adj',
+  'Nsawam-Prison':            'Nsaw',
+  'Dobro':                    'Dob',
+  'Nsumia':                   'Nsum',
+  'Djankrom Beech st.':       'Djan',
+  'Djankrom P.W.D. Quarters': 'Djan',
+  'Djankrom Methodist':       'Djan',
+  'Anglican C':               'Angl-c',
+  'Osei Djan':                'Osei-DJN',
+  'Affutu':                   'Afutu',
+  'Ahodjo':                   'Ahod',
+  'Obregyima':                'Obre',
+  'Tyre Factory':             'Tyr-Fac',
+  'GCB Down':                 'GCB-Dwn',
+  'Sector 2':                 'Sec.2',
+  'Sector-2':                 'Sec.2',
+  'Wieggers':                 'Weig',
+  'Kwarfokrom':               'Kwarf',
+  'Railway-Arbata':           'Rail',
+  'Akwamu':                   'Akwa',
+  'Chinto':                   'Chin',
+  'Fotobi':                   'Foto',
+  'Ayigbe town':              'Ayig',
+  'Dobro-Africity':           'Dob',
+  'Djankrom P.W.D Quarters':  'Djan',
+  'Oparekrom':                'Opar',
+  'Akotoshie NO.1':           'Akot',
+  'Djankrom Beech st.':       'Djan',
+  'New Road':                 'New-RD',
+};
+
+const ALL_LOCATIONS = Object.keys(LOCATION_CODES);
+
+/* ── GPS coordinate approximations for Nsawam area ── */
+const LOCATION_COORDS = {
+  'Curve':            { lat:5.8067, lng:-0.3512 },
+  'Hospital Road':    { lat:5.8095, lng:-0.3490 },
+  'Duayeden':         { lat:5.8050, lng:-0.3558 },
+  'Papito':           { lat:5.8040, lng:-0.3500 },
+  'SDA Junction':     { lat:5.8078, lng:-0.3530 },
+  'Fire Service':     { lat:5.8082, lng:-0.3503 },
+  'Sarquah':          { lat:5.8055, lng:-0.3545 },
+  'Education Service':{ lat:5.8070, lng:-0.3518 },
+  'Adoagyiri':        { lat:5.8115, lng:-0.3485 },
+  'Bungalow':         { lat:5.8062, lng:-0.3523 },
+  'Railway Station':  { lat:5.8030, lng:-0.3510 },
+  'Djankrom':         { lat:5.8045, lng:-0.3465 },
+  'Oparekrom':        { lat:5.8100, lng:-0.3540 },
+  'Akwamu Road':      { lat:5.8120, lng:-0.3555 },
+  'Asante-Akura':     { lat:5.8088, lng:-0.3475 },
+  'Nsawam Central':   { lat:5.8075, lng:-0.3520 },
+  'Anglican C':       { lat:5.8092, lng:-0.3495 },
+  'Prince Boateng':   { lat:5.8035, lng:-0.3530 },
+  'Prison Market Junction':{ lat:5.8060, lng:-0.3508 },
+  'CMB Market':       { lat:5.8025, lng:-0.3515 },
+  'GCB Down':         { lat:5.8080, lng:-0.3515 },
+  'Aburi Junction':   { lat:5.8140, lng:-0.3470 },
+};
+
+/* ════════════════════ DATA MANAGEMENT ════════════════════ */
+
+/* ════════════════════ FIREBASE INIT & REAL-TIME SYNC ════════════════════
+   initFirebase() is called:
+     • immediately if config looks valid (no placeholder strings)
+     • after the user submits their config in the setup overlay
+   Once initialised, Firebase's onValue() listener fires every time ANY
+   device writes to the database — all UIs update within ~200 ms.
+════════════════════════════════════════════════════════════════════════ */
+
+function configIsPlaceholder(cfg) {
+  return !cfg.apiKey || cfg.apiKey.startsWith('YOUR_') || cfg.databaseURL.includes('YOUR_PROJECT');
+}
+
+function initFirebase(cfg) {
+  try {
+    // Avoid double-initialising if called more than once
+    if (!firebase.apps.length) {
+      firebase.initializeApp(cfg);
+    }
+    db    = firebase.database();
+    dbRef = db.ref('nama_records');
+
+    // ── Real-time listener: fires on connect AND on every remote change ──
+    dbRef.on('value', snapshot => {
+      const data = snapshot.val();
+      if (data) {
+        // Firebase stores records as an object keyed by ID; convert to array
+        allRecords = Object.values(data).sort((a, b) => (b.createdAt||0) - (a.createdAt||0));
+        renderAll();
+        setSyncStatus('🟢 Live — synced', true);
+      } else if (!_seedLoaded) {
+        // Database is empty — first run: push seed data
+        _seedLoaded = true;
+        setSyncStatus('⏳ First run: loading seed data…', false);
+        const seed = getSeedData();
+        const updates = {};
+        seed.forEach(r => { updates[r.id] = r; });
+        dbRef.update(updates).then(() => setSyncStatus('🟢 Live — synced', true));
+      } else {
+        allRecords = [];
+        renderAll();
+        setSyncStatus('🟢 Live — database empty', true);
+      }
+    }, err => {
+      setSyncStatus('🔴 DB error: ' + err.message, false);
+    });
+
+    // Connection state indicator
+    db.ref('.info/connected').on('value', snap => {
+      if (snap.val()) {
+        setSyncStatus('🟢 Live — synced', true);
+      } else {
+        setSyncStatus('🟡 Reconnecting…', false);
+      }
+    });
+
+    // Hide setup overlay if shown
+    const overlay = document.getElementById('setup-overlay');
+    if (overlay) overlay.style.display = 'none';
+
+    // Persist config locally so next open skips setup
+    try { localStorage.setItem('nama_fb_config', JSON.stringify(cfg)); } catch(e){}
+
+  } catch(err) {
+    setSyncStatus('🔴 Firebase error', false);
+    console.error('Firebase init error:', err);
+    showSetupOverlay('Firebase error: ' + err.message);
+  }
+}
+
+function setSyncStatus(msg, live) {
+  const dot = document.querySelector('.sync-dot');
+  const txt = document.getElementById('sync-status');
+  if (dot) dot.style.background = live ? '#4caf50' : '#f59e0b';
+  if (txt)  txt.textContent = msg;
+}
+
+/* ── saveToStorage: write a single record to Firebase ── */
+function saveToStorage(record, isDelete = false, deleteId = null) {
+  if (!dbRef) { console.warn('Firebase not ready'); return; }
+  if (isDelete && deleteId) {
+    dbRef.child(deleteId).remove();
+  } else if (record) {
+    dbRef.child(record.id).set(record);
+  } else {
+    // Bulk write (not normally used but kept for safety)
+    const updates = {};
+    allRecords.forEach(r => { updates[r.id] = r; });
+    dbRef.update(updates);
+  }
+}
+
+/* ── loadRecords: just kick off Firebase (listener does the rest) ── */
+function loadRecords() {
+  // Try saved config first
+  try {
+    const saved = localStorage.getItem('nama_fb_config');
+    if (saved) {
+      const cfg = JSON.parse(saved);
+      if (!configIsPlaceholder(cfg)) {
+        initFirebase(cfg);
+        return;
+      }
+    }
+  } catch(e) {}
+
+  // Try the hard-coded config
+  if (!configIsPlaceholder(FIREBASE_CONFIG)) {
+    initFirebase(FIREBASE_CONFIG);
+    return;
+  }
+
+  // No valid config — show setup overlay
+  showSetupOverlay();
+}
+
+/* ── Setup overlay: shown when no valid Firebase config is found ── */
+function showSetupOverlay(errorMsg = '') {
+  document.getElementById('setup-overlay').style.display = 'flex';
+  if (errorMsg) {
+    document.getElementById('setup-error').textContent = errorMsg;
+    document.getElementById('setup-error').style.display = 'block';
+  }
+}
+
+function submitFirebaseConfig() {
+  const cfg = {
+    apiKey:            document.getElementById('cfg-apiKey').value.trim(),
+    authDomain:        document.getElementById('cfg-authDomain').value.trim(),
+    databaseURL:       document.getElementById('cfg-databaseURL').value.trim(),
+    projectId:         document.getElementById('cfg-projectId').value.trim(),
+    storageBucket:     document.getElementById('cfg-storageBucket').value.trim(),
+    messagingSenderId: document.getElementById('cfg-messagingSenderId').value.trim(),
+    appId:             document.getElementById('cfg-appId').value.trim(),
+  };
+  if (!cfg.apiKey || !cfg.databaseURL || cfg.databaseURL.includes('YOUR_PROJECT')) {
+    document.getElementById('setup-error').textContent = 'Please fill in at least the API Key and Database URL.';
+    document.getElementById('setup-error').style.display = 'block';
+    return;
+  }
+  document.getElementById('setup-error').style.display = 'none';
+  initFirebase(cfg);
+}
+
+/* ════════════════════ PERMIT NUMBER GENERATION ════════════════════ */
+/* Permit is only generated once at least one payment (planning OR revenue) is marked paid */
+
+function generatePermitNo() {
+  const location = document.getElementById('f-location')?.value?.trim();
+  const year     = document.getElementById('f-year')?.value;
+  const planningPaid = document.getElementById('f-planning-paid')?.checked;
+  const revenuePaid  = document.getElementById('f-revenue-paid')?.checked;
+
+  // Only generate if location + year are set AND at least one payment is confirmed
+  if (!location || !year || (!planningPaid && !revenuePaid)) {
+    // Clear permit display only if editing a NEW record (preserve existing permit on edits)
+    if (!editingId) {
+      const currentDisplay = document.getElementById('permit-display').textContent;
+      if (!currentDisplay || currentDisplay === 'Select location & confirm payment…') {
+        document.getElementById('permit-display').textContent = 'Select location & confirm payment…';
+        document.getElementById('f-permit').value = '';
+      }
+    }
+    return;
+  }
+
+  // For known locations use the predefined code; for new/unknown locations derive a
+  // 4-letter title-cased code from the first four letters of the location name
+  // e.g. "Amasaman" → "Amas", "New Juaben" → "NewJ"
+  const code = LOCATION_CODES[location] ||
+    (() => {
+      const letters = location.replace(/[^a-zA-Z]/g, ''); // strip spaces & punctuation
+      const four = letters.substring(0, 4);               // first 4 letters
+      return four.charAt(0).toUpperCase() + four.slice(1).toLowerCase(); // Title-case
+    })();
+  const yr   = year.toString().substring(2); // e.g. "2026" → "26"
+
+  // Build a normalised prefix for comparison — lowercase, strip leading "xx/" or "XX/"
+  // Permit format: xx/<code>/Temp/<yr>/<seq>  e.g. xx/Djan/Temp/26/022
+  const normPrefix = `${code}/Temp/${yr}/`.toLowerCase();
+
+  // Find the highest existing sequence number for this EXACT location-code + year combo.
+  // We compare after stripping any leading "xx/" (case-insensitive) so records whose
+  // prefix was stored with different capitalisation are still matched correctly.
+  let maxSeq = 0;
+  allRecords.forEach(r => {
+    if (!r.permitNo) return;
+    // Exclude the record currently being edited so its own number isn't re-used
+    if (editingId && r.id === editingId) return;
+
+    // Normalise stored permit: strip leading "xx/" or "XX/" etc.
+    const normalised = r.permitNo.toLowerCase().replace(/^[a-z]{2}\//, '');
+    if (normalised.startsWith(normPrefix)) {
+      // Sequence is the last segment after the final "/"
+      const parts = normalised.split('/');
+      const seqPart = parseInt(parts[parts.length - 1], 10);
+      if (!isNaN(seqPart) && seqPart > maxSeq) maxSeq = seqPart;
+    }
+  });
+
+  const seq = String(maxSeq + 1).padStart(3, '0');
+  const permitNo = `xx/${code}/Temp/${yr}/${seq}`;
+
+  document.getElementById('f-permit').value = permitNo;
+  document.getElementById('permit-display').textContent = permitNo;
+
+  // Auto-set dates if not already filled
+  const today = new Date();
+  const expiry = new Date(today);
+  expiry.setFullYear(expiry.getFullYear() + 1);
+  if (!document.getElementById('f-issue').value)
+    document.getElementById('f-issue').value = today.toISOString().split('T')[0];
+  if (!document.getElementById('f-expiry').value)
+    document.getElementById('f-expiry').value = expiry.toISOString().split('T')[0];
+}
+
+/* Called whenever location text input changes */
+function onLocationInput() {
+  generatePermitNo();
+}
+
+/* Called whenever a payment checkbox or amount changes */
+function onPaymentChange() {
+  const planningPaid = document.getElementById('f-planning-paid')?.checked;
+  const revenuePaid  = document.getElementById('f-revenue-paid')?.checked;
+
+  // Update labels
+  const plLabel = document.getElementById('planning-paid-label');
+  const rvLabel = document.getElementById('revenue-paid-label');
+  if (plLabel) plLabel.style.color = planningPaid ? 'var(--green)' : 'var(--grey4)';
+  if (plLabel) plLabel.textContent = planningPaid ? '✅ Paid (Planning)' : 'Mark as Paid (Planning)';
+  if (rvLabel) rvLabel.style.color = revenuePaid  ? 'var(--blue)'  : 'var(--grey4)';
+  if (rvLabel) rvLabel.textContent = revenuePaid  ? '✅ Paid (Revenue)'  : 'Mark as Paid (Revenue)';
+
+  // Sync legacy amt_paid hidden field (sum of both)
+  const planAmt = parseFloat(document.getElementById('f-amt-planning')?.value || 0) || 0;
+  const revAmt  = parseFloat(document.getElementById('f-amt-revenue')?.value || 0) || 0;
+  const amtEl = document.getElementById('f-amt-paid');
+  if (amtEl) amtEl.value = (planAmt + revAmt) || '';
+
+  // Derive payment_cat from planning field if not set
+  generatePermitNo();
+}
+
+function tryGeocodeGPS() {
+  // GPS codes in format EG-XXX-XXXX — real implementation calls Ghana Post GPS API
+}
+
+/* ════════════════════ MODAL MANAGEMENT ════════════════════ */
+
+function openAddModal(prefill = null) {
+  editingId = prefill ? prefill.id : null;
+  document.getElementById('modal-title').textContent = editingId ? 'Edit Record' : 'New Temporary Structure Record';
+  document.getElementById('save-btn').textContent = editingId ? '💾 Update Record' : '💾 Save Record';
+
+  // Populate location datalist with all known locations (from LOCATION_CODES + existing records)
+  const knownLocs = [...new Set([...ALL_LOCATIONS, ...allRecords.map(r => r.location).filter(Boolean)])].sort();
+  document.getElementById('location-suggestions').innerHTML =
+    knownLocs.map(l => `<option value="${l}">`).join('');
+
+  // Also populate map filter
+  populateLocationFilters();
+
+  // Clear all plain fields
+  ['name','contact','gps','size','permit','issue','expiry'].forEach(f => {
+    const el = document.getElementById('f-' + f);
+    if (el) el.value = prefill ? (prefill[f.replace(/-/g,'_').replace('permit','permitNo').replace('issue','issue').replace('expiry','expiry')] || '') : '';
+  });
+
+  // Fix field mappings explicitly
+  if (prefill) {
+    document.getElementById('f-name').value        = prefill.name || '';
+    document.getElementById('f-contact').value     = prefill.contact || '';
+    document.getElementById('f-gps').value         = prefill.gps || '';
+    document.getElementById('f-size').value        = prefill.size || '';
+    document.getElementById('f-location').value    = prefill.location || '';
+    document.getElementById('f-permit').value      = prefill.permitNo || '';
+    document.getElementById('f-issue').value       = prefill.issue || '';
+    document.getElementById('f-expiry').value      = prefill.expiry || '';
+    document.getElementById('f-year').value        = prefill.year || '2026';
+    document.getElementById('f-status').value      = prefill.status || 'operational';
+    document.getElementById('f-payment-cat').value = prefill.payment_cat || '';
+    document.getElementById('f-drawing').value     = prefill.drawing || '';
+    document.getElementById('f-notice').value      = prefill.notice || '';
+    document.getElementById('f-renewal-amt').value       = prefill.renewal_amt || '';
+    document.getElementById('f-renewal-receipt-r').value = prefill.renewal_receipt_r || '';
+    document.getElementById('f-renewal-start').value     = prefill.renewal_start || '';
+    document.getElementById('f-renewal-end').value       = prefill.renewal_end || '';
+    document.getElementById('f-balance').value     = prefill.balance || '';
+    document.getElementById('f-receipt-p').value   = prefill.receipt_p || '';
+    document.getElementById('f-receipt-r').value   = prefill.receipt_r || '';
+
+    // Split payment amounts — stored as amt_planning / amt_revenue; fall back to legacy amt_paid for old records
+    document.getElementById('f-amt-planning').value = prefill.amt_planning || '';
+    document.getElementById('f-amt-revenue').value  = prefill.amt_revenue  || '';
+
+    // Paid checkboxes
+    const planningPaid = !!(prefill.planning_paid || (prefill.payment_cat && prefill.payment_cat.includes('paid') && !prefill.payment_cat.includes('part')));
+    const revenuePaid  = !!(prefill.revenue_paid);
+    document.getElementById('f-planning-paid').checked = planningPaid;
+    document.getElementById('f-revenue-paid').checked  = revenuePaid;
+
+    document.getElementById('permit-display').textContent = prefill.permitNo || 'No permit number';
+  } else {
+    document.getElementById('f-year').value        = '2026';
+    document.getElementById('f-status').value      = 'operational';
+    document.getElementById('f-location').value    = '';
+    document.getElementById('f-amt-planning').value = '';
+    document.getElementById('f-amt-revenue').value  = '';
+    document.getElementById('f-planning-paid').checked = false;
+    document.getElementById('f-revenue-paid').checked  = false;
+    document.getElementById('permit-display').textContent = 'Select location & confirm payment…';
+  }
+
+  // Refresh payment labels
+  onPaymentChange();
+
+  document.getElementById('record-modal').style.display = 'flex';
+}
+
+function closeModal() { document.getElementById('record-modal').style.display = 'none'; }
+
+function closeDetailModal() { document.getElementById('detail-modal').style.display = 'none'; }
+
+/* ════════════════════ SAVE RECORD ════════════════════ */
+
+function saveRecord() {
+  const name     = document.getElementById('f-name').value.trim();
+  const location = document.getElementById('f-location').value.trim();
+  if (!name)     { alert('Please enter the operator name.'); return; }
+  if (!location) { alert('Please enter a location.'); return; }
+
+  let permitNo = document.getElementById('f-permit').value.trim();
+  // If no permit yet but payment is now confirmed, generate one
+  if (!permitNo) { generatePermitNo(); permitNo = document.getElementById('f-permit').value.trim(); }
+
+  const planningPaid = document.getElementById('f-planning-paid').checked;
+  const revenuePaid  = document.getElementById('f-revenue-paid').checked;
+  const amtPlanning  = document.getElementById('f-amt-planning').value.trim();
+  const amtRevenue   = document.getElementById('f-amt-revenue').value.trim();
+
+  // Derive legacy payment_cat from planning size select (keep backwards compat)
+  const paymentCat = document.getElementById('f-payment-cat').value;
+
+  const renewalStart = document.getElementById('f-renewal-start').value;
+  const renewalEnd   = document.getElementById('f-renewal-end').value;
+
+  // If a renewal end date is provided and it is later than the current expiry,
+  // promote it to be the record's new official expiry date so all expiry checks
+  // (badges, Expired page, dashboard counter) immediately reflect the renewal.
+  let newIssueDate  = document.getElementById('f-issue').value;
+  let newExpiryDate = document.getElementById('f-expiry').value;
+
+  if (renewalEnd) {
+    const renewedDate   = new Date(renewalEnd);
+    const currentExpiry = newExpiryDate ? new Date(newExpiryDate) : null;
+    if (!isNaN(renewedDate) && (!currentExpiry || isNaN(currentExpiry) || renewedDate > currentExpiry)) {
+      newExpiryDate = renewalEnd;
+      if (renewalStart) newIssueDate = renewalStart;
+    }
+  }
+
+  const record = {
+    id: editingId || ('r_' + Date.now() + '_' + Math.random().toString(36).substr(2,6)),
+    name,
+    contact:        document.getElementById('f-contact').value.trim(),
+    gps:            document.getElementById('f-gps').value.trim(),
+    size:           document.getElementById('f-size').value.trim(),
+    location,
+    permitNo,
+    issue:          newIssueDate,
+    expiry:         newExpiryDate,
+    year:           document.getElementById('f-year').value,
+    status:         document.getElementById('f-status').value,
+    payment_cat:    paymentCat,
+    // Split payment fields
+    amt_planning:   amtPlanning,
+    amt_revenue:    amtRevenue,
+    planning_paid:  planningPaid,
+    revenue_paid:   revenuePaid,
+    // Legacy combined field (sum) for CSV export / display compat
+    amt_paid:       String((parseFloat(amtPlanning)||0) + (parseFloat(amtRevenue)||0) || ''),
+    balance:        document.getElementById('f-balance').value.trim(),
+    receipt_p:      document.getElementById('f-receipt-p').value.trim(),
+    receipt_r:      document.getElementById('f-receipt-r').value.trim(),
+    drawing:        document.getElementById('f-drawing').value,
+    notice:         document.getElementById('f-notice').value,
+    renewal_amt:         document.getElementById('f-renewal-amt').value.trim(),
+    renewal_receipt_r:   document.getElementById('f-renewal-receipt-r').value.trim(),
+    renewal_start:       renewalStart,
+    renewal_end:         renewalEnd,
+    createdAt: editingId ? (allRecords.find(r=>r.id===editingId)?.createdAt || Date.now()) : Date.now(),
+    updatedAt: Date.now(),
+  };
+
+  // Write to Firebase — onValue listener will update allRecords + re-render on all devices
+  saveToStorage(record);
+  closeModal();
+  showToast(editingId ? '✅ Record updated — syncing…' : '✅ New record saved — syncing…');
+}
+
+/* ════════════════════ DELETE ════════════════════ */
+
+function deleteRecord(id) {
+  if (!confirm('Are you sure you want to delete this record? This cannot be undone.')) return;
+  // Delete from Firebase — onValue listener will update all devices
+  saveToStorage(null, true, id);
+  closeDetailModal();
+  showToast('🗑 Record deleted — syncing…');
+}
+
+/* ════════════════════ DETAIL VIEW ════════════════════ */
+
+function openDetail(id) {
+  const r = allRecords.find(x => x.id === id);
+  if (!r) return;
+
+  document.getElementById('detail-title').textContent = r.name || 'Record Details';
+
+  const effExp    = effectiveExpiry(r);
+  const isRenewed = recordIsRenewed(r);
+  const expBadge  = recordIsExpired(r)      ? '<span class="badge badge-red">Expired</span>' :
+                    recordIsExpiringSoon(r)  ? '<span class="badge badge-gold">Expiring Soon</span>' :
+                    isRenewed               ? '<span class="badge badge-blue">↻ Renewed</span>' : '';
+
+  const coords = LOCATION_COORDS[r.location];
+  const mapHtml = coords
+    ? `<iframe class="detail-map" src="https://maps.google.com/maps?q=${coords.lat},${coords.lng}&z=17&output=embed&maptype=satellite" frameborder="0" style="border:0;width:100%;height:280px;border-radius:10px;" allowfullscreen loading="lazy"></iframe>`
+    : `<div style="background:var(--grey1);border-radius:10px;height:200px;display:flex;align-items:center;justify-content:center;color:var(--grey3);font-size:13px;margin-top:16px">📍 GPS location not mapped for this zone</div>`;
+
+  document.getElementById('detail-body').innerHTML = `
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px">
+      <div>
+        ${r.permitNo ? `<div class="permit-no" style="font-size:13px;padding:4px 12px">${r.permitNo}</div>` : '<span class="badge badge-red">No Permit Number</span>'}
+      </div>
+      <div style="display:flex;gap:8px;align-items:center">
+        ${expBadge}
+        <span class="badge ${r.status==='operational'?'badge-green':'badge-grey'}">${r.status||'Unknown'}</span>
+      </div>
+    </div>
+    <div class="detail-grid" style="margin-bottom:16px">
+      <div class="detail-item"><div class="dk">Name</div><div class="dv">${r.name||'—'}</div></div>
+      <div class="detail-item"><div class="dk">Contact</div><div class="dv">${r.contact||'—'}</div></div>
+      <div class="detail-item"><div class="dk">GPS Code</div><div class="dv" style="font-family:'DM Mono',monospace;font-size:12px">${r.gps||'—'}</div></div>
+      <div class="detail-item"><div class="dk">Location</div><div class="dv">${r.location||'—'}</div></div>
+      <div class="detail-item"><div class="dk">Size</div><div class="dv">${r.size||'—'}</div></div>
+      <div class="detail-item"><div class="dk">Year</div><div class="dv">${r.year||'—'}</div></div>
+      <div class="detail-item"><div class="dk">Issue Date</div><div class="dv">${r.issue||'—'}</div></div>
+      <div class="detail-item"><div class="dk">Expiry Date</div><div class="dv" style="${recordIsExpired(r)?'color:var(--red);font-weight:600':''}">${effExp||'—'}${isRenewed&&r.expiry&&r.expiry!==effExp ? `<span style="font-size:11px;color:var(--grey3);margin-left:6px">(orig: ${r.expiry})</span>` : ''}</div></div>
+      <div class="detail-item"><div class="dk">Payment Category</div><div class="dv">${r.payment_cat||'Not recorded'}</div></div>
+      <div class="detail-item"><div class="dk">Planning Paid</div><div class="dv" style="color:${r.planning_paid?'var(--green)':'var(--grey3)'}">${r.planning_paid ? '✅ Paid' : '—'} ${r.amt_planning ? '· GHS '+r.amt_planning : ''}</div></div>
+      <div class="detail-item"><div class="dk">Revenue Paid</div><div class="dv" style="color:${r.revenue_paid?'var(--blue)':'var(--grey3)'}">${r.revenue_paid ? '✅ Paid' : '—'} ${r.amt_revenue ? '· GHS '+r.amt_revenue : ''}</div></div>
+      <div class="detail-item"><div class="dk">Balance</div><div class="dv" style="color:${r.balance>0?'var(--red)':'inherit'}">${r.balance ? 'GHS ' + r.balance : '—'}</div></div>
+      <div class="detail-item"><div class="dk">Notice</div><div class="dv">${r.notice === 'issued' ? '<span class="badge badge-green">Issued</span>' : r.notice === 'not issued' ? '<span class="badge badge-red">Not Issued</span>' : '—'}</div></div>
+      <div class="detail-item"><div class="dk">Receipt (Planning)</div><div class="dv" style="font-family:'DM Mono',monospace;font-size:12px">${r.receipt_p||'—'}</div></div>
+      <div class="detail-item"><div class="dk">Receipt (Revenue)</div><div class="dv" style="font-family:'DM Mono',monospace;font-size:12px">${r.receipt_r||'—'}</div></div>
+    </div>
+    ${(r.renewal_end || r.renewal_start || r.renewal_amt) ? `
+    <div style="background:var(--blue-light);border:1.5px solid var(--blue);border-radius:10px;padding:14px 16px;margin-bottom:16px">
+      <div style="font-size:11px;font-weight:700;color:var(--blue);text-transform:uppercase;letter-spacing:0.5px;margin-bottom:10px">↻ Renewal Details</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:10px">
+        <div><div class="dk">Renewal Start</div><div class="dv">${r.renewal_start||'—'}</div></div>
+        <div><div class="dk">Renewal End</div><div class="dv" style="font-weight:600;color:var(--blue)">${r.renewal_end||'—'}</div></div>
+        <div><div class="dk">Renewal Amount</div><div class="dv">${r.renewal_amt ? 'GHS '+r.renewal_amt : '—'}</div></div>
+        <div><div class="dk">Revenue Receipt (Renewal)</div><div class="dv" style="font-family:'DM Mono',monospace;font-size:12px">${r.renewal_receipt_r||'—'}</div></div>
+      </div>
+    </div>` : ''}
+    <div style="font-size:12px;font-weight:700;color:var(--grey3);text-transform:uppercase;letter-spacing:0.5px;margin-bottom:8px">📍 Satellite Location Map</div>
+    ${mapHtml}
+  `;
+
+  document.getElementById('detail-edit-btn').onclick = () => { closeDetailModal(); openAddModal(r); };
+  document.getElementById('detail-delete-btn').onclick = () => deleteRecord(r.id);
+  document.getElementById('detail-modal').style.display = 'flex';
+}
+
+/* ════════════════════ RENDER FUNCTIONS ════════════════════ */
+
+function renderAll() {
+  renderDashboard();
+  renderRecordsTable(allRecords, 'records-table');
+  renderExpired();
+  renderUnpaid();
+  renderNoPermit();
+  renderMapMarkers();
+  populateLocationFilters();
+}
+
+function renderDashboard() {
+  const total = allRecords.length;
+  const operational = allRecords.filter(r => r.status === 'operational').length;
+  const noPermit = allRecords.filter(r => !r.permitNo).length;
+  const hasBalance = allRecords.filter(r => r.balance && parseFloat(r.balance) > 0).length;
+  const expired = allRecords.filter(r => recordIsExpired(r)).length;
+  const expiringSoon = allRecords.filter(r => recordIsExpiringSoon(r)).length;
+  const yr2025 = allRecords.filter(r => r.year === '2025').length;
+  const yr2026 = allRecords.filter(r => r.year === '2026').length;
+
+  document.getElementById('stats-grid').innerHTML = `
+    <div class="stat-card blue">
+      <div class="label">Total Records</div>
+      <div class="value">${total}</div>
+      <div class="sub">2025: ${yr2025} &nbsp;|&nbsp; 2026: ${yr2026}</div>
+    </div>
+    <div class="stat-card green">
+      <div class="label">Operational</div>
+      <div class="value">${operational}</div>
+      <div class="sub">${Math.round(operational/total*100||0)}% of total</div>
+    </div>
+    <div class="stat-card red">
+      <div class="label">No Permit No.</div>
+      <div class="value">${noPermit}</div>
+      <div class="sub">${Math.round(noPermit/total*100||0)}% need formalising</div>
+    </div>
+    <div class="stat-card gold">
+      <div class="label">Outstanding Balance</div>
+      <div class="value">${hasBalance}</div>
+      <div class="sub">${expired} expired, ${expiringSoon} expiring soon</div>
+    </div>
+  `;
+
+  // Recent 15
+  const recent = [...allRecords].slice(0, 15);
+  renderRecordsTable(recent, 'recent-table', true);
+}
+
+function filterRecords() {
+  const search   = document.getElementById('search-input').value.toLowerCase();
+  const location = document.getElementById('filter-location').value;
+  const status   = document.getElementById('filter-status').value;
+  const payment  = document.getElementById('filter-payment').value;
+  const year     = document.getElementById('filter-year').value;
+
+  filteredRecords = allRecords.filter(r => {
+    const matchSearch = !search || [r.name,r.gps,r.permitNo,r.location,r.contact]
+      .some(v => v && v.toLowerCase().includes(search));
+    const matchLoc    = !location || r.location === location;
+    const matchStatus = !status || r.status === status;
+    const matchPay    = !payment || (
+      payment==='paid'   ? (r.payment_cat||'').includes('paid') && !(r.payment_cat||'').includes('part') :
+      payment==='part'   ? (r.payment_cat||'').includes('part') :
+      payment==='unpaid' ? !(r.payment_cat||'').includes('paid')
+      : true
+    );
+    const matchYear = !year || r.year === year;
+    return matchSearch && matchLoc && matchStatus && matchPay && matchYear;
+  });
+
+  currentPage = 1;
+  renderRecordsTable(filteredRecords, 'records-table');
+}
+
+function renderRecordsTable(records, containerId, compact = false) {
+  const container = document.getElementById(containerId);
+  if (!container) return;
+
+  const start = compact ? 0 : (currentPage - 1) * PAGE_SIZE;
+  const end   = compact ? records.length : start + PAGE_SIZE;
+  const page  = records.slice(start, end);
+
+  if (page.length === 0) {
+    container.innerHTML = `<div class="empty"><div class="ei">📂</div><p>No records found</p></div>`;
+    if (!compact) document.getElementById('pagination').innerHTML = '';
+    return;
+  }
+
+  container.innerHTML = `<div style="overflow-x:auto"><table class="tbl">
+    <thead><tr>
+      <th>#</th><th>Name</th><th>GPS Code</th><th>Permit No.</th>
+      <th>Location</th><th>Status</th><th>Payment</th><th>Expiry</th><th>Size</th>
+    </tr></thead>
+    <tbody>
+    ${page.map((r, i) => {
+      const effExp = effectiveExpiry(r);
+      const exp = recordIsExpired(r) ? 'badge-red' : recordIsExpiringSoon(r) ? 'badge-gold' : '';
+      const isRenewed = recordIsRenewed(r);
+      const payBadge = r.payment_cat
+        ? (r.payment_cat.includes('part') ? 'badge-gold' : r.payment_cat.includes('paid') ? 'badge-green' : 'badge-grey')
+        : 'badge-grey';
+      const payLabel = r.payment_cat
+        ? (r.payment_cat.includes('part') ? 'Part' : r.payment_cat.includes('paid') ? 'Paid' : r.payment_cat)
+        : '—';
+      return `<tr onclick="openDetail('${r.id}')">
+        <td style="color:var(--grey3);font-size:11px">${start+i+1}</td>
+        <td style="font-weight:500;max-width:160px">${r.name||'—'}</td>
+        <td style="font-family:'DM Mono',monospace;font-size:11px;color:var(--navy)">${r.gps||'—'}</td>
+        <td>${r.permitNo ? `<span class="permit-no">${r.permitNo}</span>` : '<span class="badge badge-red">Missing</span>'}</td>
+        <td>${r.location||'—'}</td>
+        <td><span class="badge ${r.status==='operational'?'badge-green':'badge-grey'}">${r.status||'—'}</span></td>
+        <td><span class="badge ${payBadge}">${payLabel}</span></td>
+        <td><span class="${exp?'badge '+exp:''}">${effExp||'—'}${isRenewed ? ' <span style="font-size:10px;background:var(--blue-light);color:var(--blue);padding:1px 5px;border-radius:4px;margin-left:4px">↻ Renewed</span>' : ''}</span></td>
+        <td style="font-size:12px;color:var(--grey3)">${r.size||'—'}</td>
+      </tr>`;
+    }).join('')}
+    </tbody></table></div>`;
+
+  if (!compact) {
+    const total = records.length;
+    const totalPages = Math.ceil(total / PAGE_SIZE);
+    const pag = document.getElementById('pagination');
+    pag.innerHTML = `
+      <span>Showing ${start+1}–${Math.min(end,total)} of ${total} records</span>
+      <div class="page-btns">
+        ${currentPage > 1 ? `<button class="pg-btn" onclick="goPage(${currentPage-1})">‹</button>` : ''}
+        ${Array.from({length: Math.min(totalPages,7)}, (_,i) => {
+          const p = totalPages <= 7 ? i+1 : (currentPage <= 4 ? i+1 : currentPage - 3 + i);
+          if (p < 1 || p > totalPages) return '';
+          return `<button class="pg-btn ${p===currentPage?'active':''}" onclick="goPage(${p})">${p}</button>`;
+        }).join('')}
+        ${currentPage < totalPages ? `<button class="pg-btn" onclick="goPage(${currentPage+1})">›</button>` : ''}
+      </div>`;
+  }
+}
+
+function goPage(p) {
+  currentPage = p;
+  renderRecordsTable(filteredRecords, 'records-table');
+  window.scrollTo(0, 0);
+  // Update pagination only (renderRecordsTable already does it)
+}
+
+function renderExpired() {
+  const today = new Date();
+  const soon  = new Date(); soon.setDate(soon.getDate() + 30);
+  const records = allRecords.filter(r => {
+    const eff = effectiveExpiry(r);
+    if (!eff) return false;
+    const d = new Date(eff);
+    return !isNaN(d) && d <= soon;
+  }).sort((a,b) => new Date(effectiveExpiry(a))-new Date(effectiveExpiry(b)));
+  renderRecordsTable(records, 'expired-table', true);
+}
+
+function renderUnpaid() {
+  const records = allRecords.filter(r =>
+    (r.balance && parseFloat(r.balance) > 0) ||
+    (r.payment_cat || '').includes('part') ||
+    (!r.payment_cat && r.amt_paid)
+  );
+  renderRecordsTable(records, 'unpaid-table', true);
+}
+
+function renderNoPermit() {
+  const records = allRecords.filter(r => !r.permitNo || r.permitNo.trim() === '');
+  renderRecordsTable(records, 'nopermit-table', true);
+}
+
+function populateLocationFilters() {
+  const locs = [...new Set(allRecords.map(r => r.location).filter(Boolean))].sort();
+  ['filter-location','map-location-filter'].forEach(id => {
+    const el = document.getElementById(id);
+    if (!el) return;
+    const current = el.value;
+    el.innerHTML = `<option value="">All Locations</option>` +
+      locs.map(l => `<option value="${l}"${l===current?' selected':''}>${l}</option>`).join('');
+  });
+}
+
+/* ════════════════════ MAP ════════════════════ */
+
+let mapInitialized = false;
+
+function renderMapMarkers() {
+  if (!mapInitialized) return;
+  updateMapMarkers();
+}
+
+function initGoogleMap() {
+  const center = { lat: 5.8075, lng: -0.3510 }; // Nsawam
+
+  // Since we can't load Google Maps API key dynamically, we use an embed iframe
+  // with a cluster of locations. The full interactive version needs an API key.
+  showMapEmbed();
+  mapInitialized = true;
+}
+
+function showMapEmbed() {
+  const filterLoc = document.getElementById('map-location-filter')?.value || '';
+  const records = filterLoc
+    ? allRecords.filter(r => r.location === filterLoc)
+    : allRecords;
+
+  // Build a query for the embed — center on Nsawam
+  const center = { lat: 5.8075, lng: -0.3510 };
+  const zoom = filterLoc && LOCATION_COORDS[filterLoc] ? 17 : 15;
+  const coords = filterLoc && LOCATION_COORDS[filterLoc]
+    ? LOCATION_COORDS[filterLoc]
+    : center;
+
+  // Google Maps Embed with satellite view
+  const embedUrl = `https://maps.google.com/maps?q=${coords.lat},${coords.lng}&z=${zoom}&output=embed&maptype=satellite`;
+
+  document.getElementById('gmap').innerHTML = `
+    <div style="position:relative;width:100%;height:520px">
+      <iframe
+        src="${embedUrl}"
+        width="100%" height="520" style="border:0;display:block;"
+        allowfullscreen loading="lazy"
+        referrerpolicy="no-referrer-when-downgrade">
+      </iframe>
+      <div style="position:absolute;top:10px;right:10px;background:rgba(255,255,255,0.95);border-radius:10px;padding:12px 16px;max-width:240px;max-height:380px;overflow-y:auto;box-shadow:0 2px 12px rgba(0,0,0,0.15);font-family:'DM Sans',sans-serif;font-size:12px">
+        <div style="font-weight:700;color:#0d2137;margin-bottom:8px;font-size:13px">📍 ${filterLoc || 'All Locations'}</div>
+        ${buildLocationList(records, filterLoc)}
+      </div>
+    </div>`;
+}
+
+function buildLocationList(records, filterLoc) {
+  if (filterLoc) {
+    return records.slice(0,20).map(r => `
+      <div style="padding:5px 0;border-bottom:1px solid #eee;cursor:pointer" onclick="">
+        <div style="font-weight:600;color:#111">${r.name||'—'}</div>
+        <div style="color:#888;font-size:11px">${r.gps||'No GPS'} · ${r.permitNo ? r.permitNo.substr(-6) : 'No Permit'}</div>
+      </div>`).join('') + (records.length > 20 ? `<div style="color:#888;margin-top:6px">+${records.length-20} more</div>` : '');
+  }
+
+  // Show location summary
+  const byLoc = {};
+  records.forEach(r => {
+    const l = r.location || 'Unknown';
+    byLoc[l] = (byLoc[l] || 0) + 1;
+  });
+
+  return Object.entries(byLoc).sort((a,b)=>b[1]-a[1]).slice(0,15).map(([loc,cnt]) => `
+    <div style="display:flex;justify-content:space-between;padding:4px 0;border-bottom:1px solid #eee">
+      <span style="color:#111;font-weight:500">${loc}</span>
+      <span style="background:#e8f0fb;color:#1a5fb4;padding:1px 7px;border-radius:20px;font-size:11px;font-weight:600">${cnt}</span>
+    </div>`).join('');
+}
+
+function updateMapMarkers() {
+  showMapEmbed();
+}
+
+/* ════════════════════ HELPERS ════════════════════ */
+
+/* Returns the most recent valid expiry date — renewal_end takes precedence over expiry */
+function effectiveExpiry(r) {
+  if (!r) return null;
+  const orig    = r.expiry    ? new Date(r.expiry)    : null;
+  const renewed = r.renewal_end ? new Date(r.renewal_end) : null;
+  if (renewed && !isNaN(renewed)) {
+    if (!orig || isNaN(orig) || renewed > orig) return r.renewal_end;
+  }
+  return r.expiry || null;
+}
+
+function isExpired(expiry) {
+  if (!expiry) return false;
+  const d = new Date(expiry);
+  return !isNaN(d) && d < new Date();
+}
+
+function isExpiringSoon(expiry) {
+  if (!expiry) return false;
+  const d = new Date(expiry);
+  const soon = new Date(); soon.setDate(soon.getDate() + 30);
+  return !isNaN(d) && d >= new Date() && d <= soon;
+}
+
+/* Convenience wrappers that automatically use the effective expiry for a record */
+function recordIsExpired(r)      { return isExpired(effectiveExpiry(r)); }
+function recordIsExpiringSoon(r) { return isExpiringSoon(effectiveExpiry(r)); }
+function recordIsRenewed(r)      {
+  if (!r.renewal_end) return false;
+  const renewed = new Date(r.renewal_end);
+  const orig    = r.expiry ? new Date(r.expiry) : null;
+  return !isNaN(renewed) && (!orig || isNaN(orig) || renewed > orig);
+}
+
+function showToast(msg) {
+  const t = document.createElement('div');
+  t.className = 'toast';
+  t.textContent = msg;
+  document.body.appendChild(t);
+  setTimeout(() => t.remove(), 3000);
+}
+
+function exportCSV() {
+  const headers = ['Name','Contact','GPS Code','Permit No','Location','Status','Payment','Issue Date','Expiry Date','Size','Amount Paid','Balance','Year'];
+  const rows = allRecords.map(r => [
+    r.name,r.contact,r.gps,r.permitNo,r.location,r.status,r.payment_cat,r.issue,r.expiry,r.size,r.amt_paid,r.balance,r.year
+  ].map(v => `"${(v||'').replace(/"/g,'""')}"`).join(','));
+
+  const csv = [headers.join(','), ...rows].join('\n');
+  const blob = new Blob([csv], {type:'text/csv'});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url; a.download = `NAMA_TempStructures_${new Date().toISOString().split('T')[0]}.csv`;
+  a.click(); URL.revokeObjectURL(url);
+  showToast('📥 CSV exported');
+}
+
+/* ════════════════════ MOBILE NAV ════════════════════ */
+
+function toggleMobileNav() {
+  const sidebar  = document.getElementById('sidebar');
+  const overlay  = document.getElementById('mobile-overlay');
+  const isOpen   = sidebar.classList.contains('drawer-open');
+  if (isOpen) {
+    closeMobileNav();
+  } else {
+    sidebar.classList.add('drawer-open');
+    overlay.classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+}
+
+function closeMobileNav() {
+  document.getElementById('sidebar').classList.remove('drawer-open');
+  document.getElementById('mobile-overlay').classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+/* ════════════════════ NAVIGATION ════════════════════ */
+
+function showPage(page) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+  document.querySelectorAll('.bnav-item').forEach(n => n.classList.remove('active'));
+
+  const titles = {
+    dashboard: 'Dashboard',
+    records:   'All Records',
+    map:       'Satellite Map',
+    expired:   'Expiring / Expired',
+    unpaid:    'Payment Issues',
+    nopermit:  'No Permit Number',
+  };
+
+  document.getElementById(`page-${page}`).classList.add('active');
+  document.getElementById('page-title').textContent = titles[page] || page;
+
+  // Mark active nav (sidebar)
+  document.querySelectorAll('.nav-item').forEach(n => {
+    if (n.getAttribute('onclick') && n.getAttribute('onclick').includes(`'${page}'`))
+      n.classList.add('active');
+  });
+
+  // Mark active bottom nav
+  const bnavEl = document.getElementById(`bnav-${page}`);
+  if (bnavEl) bnavEl.classList.add('active');
+
+  // Close mobile drawer
+  closeMobileNav();
+
+  if (page === 'map' && !mapInitialized) {
+    initGoogleMap();
+  }
+
+  // Re-filter on records page
+  if (page === 'records') {
+    filteredRecords = [...allRecords];
+    currentPage = 1;
+    renderRecordsTable(filteredRecords, 'records-table');
+    populateLocationFilters();
+  }
+}
+
+/* ════════════════════ SEED DATA (from Excel) ════════════════════ */
+
+function getSeedData() {
+  return [
+    {"id": "e0001", "name": "Kwame Andrews", "contact": "533014375", "gps": "EG-157-6491", "permitNo": "xx/Curv/Temp/25/010", "issue": "2025-05-27", "expiry": "2026-05-27", "location": "Curve", "status": "operational", "payment_cat": "small-paid", "amt_revenue": "200", "planning_paid": true, "revenue_paid": true, "amt_paid": "200", "receipt_p": "25/7223123", "drawing": "yes", "notice": "issued", "year": "2025"},
+    {"id": "e0002", "name": "Georgina", "contact": "592156293", "gps": "EG-157-6195", "location": "Curve", "status": "operational", "notice": "issued", "year": "2025"},
+    {"id": "e0003", "name": "Christiana Kwakyewaa", "contact": "555579294", "gps": "EG-157-9482", "location": "Curve", "status": "operational", "notice": "issued", "year": "2025"},
+    {"id": "e0004", "name": "Doris Amoa", "contact": "548298479", "gps": "EG-157-6406", "location": "Curve", "status": "operational", "notice": "issued", "year": "2025"},
+    {"id": "e0005", "name": "Benjamin Kwaku Akagla(Doris Amoa)", "contact": "242511051", "gps": "EG-157-7196", "permitNo": "xx/Curv/Temp/25/003", "issue": "2025-04-14", "expiry": "2026-04-14", "location": "Curve", "status": "operational", "payment_cat": "small-paid", "amt_planning": "200", "amt_revenue": "100", "planning_paid": true, "revenue_paid": true, "amt_paid": "200", "receipt_p": "25/7223126", "drawing": "yes", "year": "2025"},
+    {"id": "e0006", "name": "Mercy Djan(Doris Amoa)", "contact": "243252153", "gps": "EG-157-6702", "permitNo": "xx/Curv/Temp/25/002", "issue": "2025-04-14", "expiry": "2026-04-14", "location": "Curve", "status": "operational", "payment_cat": "small-paid", "amt_planning": "200", "amt_revenue": "100", "planning_paid": true, "revenue_paid": true, "amt_paid": "200", "receipt_p": "25/7223125", "drawing": "yes", "notice": "issued", "year": "2025"},
+    {"id": "e0007", "name": "VIP", "contact": "244062459", "gps": "EG-157-6406", "location": "Curve", "status": "operational", "notice": "issued", "year": "2025"},
+    {"id": "e0008", "name": "Emmanuel Nutsuga", "contact": "243687453", "gps": "EG-158-0874", "permitNo": "xx/Curv/Temp/25/001", "issue": "2025-04-14", "expiry": "2026-04-14", "location": "Curve", "status": "operational", "payment_cat": "small-paid", "amt_planning": "200", "amt_revenue": "100", "planning_paid": true, "revenue_paid": true, "amt_paid": "200", "receipt_p": "25/7223124", "drawing": "yes", "notice": "issued", "year": "2025"},
+    {"id": "e0009", "name": "Akanbonsawie Christiana", "contact": "540829879", "gps": "EG-157-7499", "permitNo": "xx/Curv/Temp/25/005", "issue": "2025-04-14", "expiry": "2026-04-14", "location": "Curve", "status": "operational", "payment_cat": "small-paid", "amt_planning": "200", "planning_paid": true, "revenue_paid": true, "amt_paid": "200", "receipt_p": "25/7223127", "drawing": "yes", "year": "2025"},
+    {"id": "e0010", "name": "Daniel Ayesu", "contact": "541467515", "gps": "EG-157-7005", "permitNo": "xx/Curv/Temp/25/009", "issue": "2025-04-16", "expiry": "2026-04-16", "location": "Curve", "status": "operational", "payment_cat": "small-paid", "amt_planning": "300", "planning_paid": true, "revenue_paid": true, "amt_paid": "300", "receipt_r": "11001", "drawing": "yes", "notice": "issued", "year": "2025"},
+    {"id": "e0011", "name": "Solomon Kwadwo Awuah", "contact": "266563949", "gps": "EG-157-7604", "permitNo": "xx/Curv/Temp/25/004", "issue": "2025-04-14", "expiry": "2026-04-14", "location": "Curve", "status": "operational", "payment_cat": "small-paid", "amt_planning": "200", "amt_revenue": "100", "planning_paid": true, "revenue_paid": true, "amt_paid": "200", "receipt_p": "25/7223128", "drawing": "yes", "notice": "issued", "year": "2025"},
+    {"id": "e0012", "name": "Alex Boateng", "contact": "537070069", "gps": "EG-157-7407", "permitNo": "xx/Curv/Temp/25/006", "issue": "2025-04-14", "expiry": "2026-04-14", "location": "Curve", "status": "operational", "payment_cat": "small-paid", "amt_planning": "200", "amt_revenue": "100", "planning_paid": true, "revenue_paid": true, "amt_paid": "200", "receipt_p": "25/7223129", "drawing": "yes", "year": "2025"},
+    {"id": "e0013", "name": "Abigail Amavi Madou", "contact": "503443346", "gps": "EG-157-7907", "permitNo": "xx/Curv/Temp/25/007", "issue": "2025-04-14", "expiry": "2026-04-14", "location": "Curve", "status": "operational", "payment_cat": "small-paid", "amt_planning": "200", "amt_revenue": "100", "planning_paid": true, "revenue_paid": true, "amt_paid": "200", "receipt_p": "25/7223130", "drawing": "yes", "year": "2025"},
+    {"id": "e0014", "name": "Charlotte  Asante", "contact": "531971944", "gps": "EG-157-8519", "permitNo": "xx/Curv/Temp/25/008", "issue": "2025-04-14", "expiry": "2026-04-14", "location": "Curve", "status": "operational", "payment_cat": "part-payment", "amt_planning": "100", "amt_revenue": "100", "revenue_paid": true, "amt_paid": "100", "balance": "100", "receipt_p": "25/7223131", "year": "2025"},
+    {"id": "e0015", "name": "Ladze Rose", "contact": "549779364", "gps": "EG-157-8818", "permitNo": "only sticker", "issue": "2025-04-14", "expiry": "2026-04-14", "location": "Curve", "status": "non-operational", "amt_planning": "100", "amt_paid": "100", "year": "2025"},
+    {"id": "e0016", "name": "Manasseh Dartey", "contact": "543054629", "gps": "EG-157-8918", "issue": "2025-04-14", "expiry": "2026-04-14", "location": "Curve", "status": "non-operational", "payment_cat": "part-payment", "amt_planning": "100", "amt_paid": "100", "balance": "200", "year": "2025"},
+    {"id": "e0017", "name": "Eunice Ntow", "contact": "500436353", "gps": "EG-073-1405", "permitNo": "xx/Nsaw/Temp/25/001", "issue": "2025-04-14", "expiry": "2026-04-14", "location": "Nsawam-Prison", "status": "non-operational", "payment_cat": "small-paid", "amt_planning": "200", "amt_revenue": "100", "planning_paid": true, "revenue_paid": true, "amt_paid": "200", "receipt_p": "25/7223139", "drawing": "yes", "year": "2025", "renewal_amt": "100", "renewal_receipt": "25/27154440", "renewal_start": "2026-05-18", "renewal_end": "2027-05-18"},
+    {"id": "e0018", "name": "Theresa Essel", "contact": "549766714", "gps": "EG-008-0626", "permitNo": "xx/Asa-Adj/Temp/25/001", "issue": "2025-04-22", "expiry": "2026-04-22", "location": "Asafo-Adjei", "status": "operational", "payment_cat": "medium-paid", "amt_planning": "500", "planning_paid": true, "revenue_paid": true, "amt_paid": "500", "receipt_r": "11002", "drawing": "yes", "year": "2025"},
+    {"id": "e0019", "name": "Gilbert Justice", "contact": "244425443", "gps": "EG-042-5124", "location": "Fire service", "status": "operational", "notice": "issued", "year": "2025"},
+    {"id": "e0020", "name": "Mary Atamuge", "contact": "549294976", "gps": "EG-042-5915", "permitNo": "xx/Fire serv/Temp/25/001", "issue": "2025-04-28", "expiry": "2026-04-28", "location": "Fire service", "status": "operational", "payment_cat": "small-paid", "amt_planning": "200", "amt_revenue": "100", "planning_paid": true, "revenue_paid": true, "amt_paid": "200", "receipt_p": "25/7017118", "receipt_r": "11003", "drawing": "yes", "year": "2025"},
+    {"id": "e0021", "name": "Esther Ntiamoah Otima", "contact": "536991817", "gps": "EG-042-4713", "permitNo": "xx/Fire serv/Temp/25/002", "issue": "2025-04-28", "expiry": "2026-04-28", "location": "Fire service", "status": "operational", "payment_cat": "medium-paid", "amt_planning": "300", "amt_revenue": "200", "planning_paid": true, "revenue_paid": true, "amt_paid": "300", "receipt_p": "25/7017119", "receipt_r": "11004", "drawing": "yes", "year": "2025"},
+    {"id": "e0022", "name": "Deborah Acquaye", "contact": "591811518", "gps": "EG-042-3616", "permitNo": "xx/Fire serv/Temp/25/003", "issue": "2025-04-28", "expiry": "2026-04-28", "location": "Fire service", "status": "operational", "payment_cat": "small-paid", "amt_planning": "200", "amt_revenue": "100", "planning_paid": true, "revenue_paid": true, "amt_paid": "200", "receipt_p": "25/7017120", "receipt_r": "11005", "drawing": "yes", "year": "2025"},
+    {"id": "e0023", "name": "Ellen Asantewa", "contact": "546245866", "permitNo": "xx/Bung/Temp/25/001", "issue": "2025-04-28", "expiry": "2026-04-28", "location": "Bungalow", "status": "operational", "payment_cat": "small-paid", "planning_paid": true, "revenue_paid": true, "drawing": "yes", "year": "2025"},
+    {"id": "e0024", "name": "Charity Ametepi", "gps": "EG-042-3615", "permitNo": "xx/Fire serv/Temp/25/004", "issue": "2025-04-28", "expiry": "2026-04-28", "location": "Fire service", "status": "operational", "payment_cat": "large-paid", "amt_planning": "500", "amt_revenue": "200", "planning_paid": true, "revenue_paid": true, "amt_paid": "500", "receipt_p": "25/7017121", "receipt_r": "11006", "drawing": "yes", "year": "2025"},
+    {"id": "e0025", "name": "Daniel Sakyi Mbrah", "contact": "249345120", "gps": "EG-042-3616", "permitNo": "xx/Fire serv/Temp/25/005", "issue": "2025-04-28", "expiry": "2026-04-28", "location": "Fire service", "status": "operational", "payment_cat": "small-paid", "amt_planning": "200", "amt_revenue": "100", "planning_paid": true, "revenue_paid": true, "amt_paid": "200", "receipt_p": "25/7017122", "receipt_r": "11007", "drawing": "yes", "notice": "issued", "year": "2025"},
+    {"id": "e0026", "name": "Aduni Gilbert Kawoe", "contact": "243359070", "gps": "EG-042-2518", "permitNo": "xx/Fire serv/Temp/25/006", "issue": "2025-04-30", "expiry": "2026-04-30", "location": "Fire service", "status": "operational", "payment_cat": "small-paid", "amt_planning": "200", "planning_paid": true, "revenue_paid": true, "amt_paid": "200", "receipt_r": "11008", "drawing": "yes", "year": "2025"},
+    {"id": "e0027", "name": "Lydia Tonto", "contact": "241260393", "gps": "EG-042-4395", "permitNo": "xx/Papi/Temp/25/005", "issue": "2026-01-21", "expiry": "2027-01-21", "location": "Papito", "status": "operational", "receipt_p": "25/02528703", "year": "2025"},
+    {"id": "e0028", "name": "Diana Adin", "contact": "541514342", "gps": "EG-006-4972", "permitNo": "xx/Asan-Aku/Temp/25/001", "issue": "2025-05-06", "expiry": "2026-05-06", "location": "Asante-Akura", "status": "operational", "payment_cat": "medium-paid", "amt_planning": "400", "planning_paid": true, "revenue_paid": true, "amt_paid": "400", "receipt_r": "11011", "drawing": "yes", "year": "2025"},
+    {"id": "e0029", "name": "Evelyn Effah", "gps": "EG-042-4496", "location": "Papito", "status": "operational", "notice": "issued", "year": "2025"},
+    {"id": "e0030", "name": "Ayekwai Agbezor", "contact": "548029813", "gps": "EG-042-6075", "location": "Papito", "status": "operational", "size": "10x12", "notice": "issued", "year": "2025"},
+    {"id": "e0031", "name": "Kofi Asiamah", "contact": "593034720", "gps": "EG-042-5871", "location": "Papito", "status": "operational", "notice": "issued", "year": "2025"},
+    {"id": "e0032", "name": "Joyce Darko", "contact": "240971337", "gps": "EG-042-5971", "permitNo": "xx/Papi/Temp/25/001", "issue": "2025-05-06", "expiry": "2026-05-06", "location": "Papito", "status": "operational", "payment_cat": "small-paid", "amt_planning": "100", "amt_revenue": "50", "planning_paid": true, "revenue_paid": true, "amt_paid": "100", "receipt_r": "11008", "size": "6x4", "drawing": "yes", "year": "2025"},
+    {"id": "e0033", "name": "Victoria A.", "gps": "EG-042-6771", "location": "Papito", "status": "non-operational", "size": "12x10", "year": "2025"},
+    {"id": "e0034", "name": "Mr. Danquah", "contact": "538867201", "gps": "EG-042-5681", "location": "Papito", "status": "non-operational", "size": "20x8", "notice": "issued", "year": "2025"},
+    {"id": "e0035", "name": "Azuntaba Felicity", "contact": "248518943", "gps": "EG-042-5107", "permitNo": "xx/Papi/Temp/25/002", "issue": "2025-05-06", "expiry": "2026-05-06", "location": "Papito", "status": "operational", "payment_cat": "small-paid", "amt_planning": "100", "amt_revenue": "100", "planning_paid": true, "revenue_paid": true, "amt_paid": "100", "receipt_p": "25/7223146", "receipt_r": "11009", "drawing": "yes", "year": "2025"},
+    {"id": "e0036", "name": "Beauty Aziabu", "contact": "543365861", "gps": "EG-042-4488", "location": "Papito", "status": "operational", "payment_cat": "part-payment", "amt_planning": "150", "amt_paid": "150", "balance": "150", "size": "8x10", "notice": "issued", "year": "2025"},
+    {"id": "e0037", "name": "Prince", "contact": "243299812", "gps": "EG-042-3989", "location": "Papito", "status": "operational", "notice": "issued", "year": "2025"},
+    {"id": "e0038", "name": "Samuel Owusu", "contact": "243043719", "gps": "EG-042-2513", "location": "Papito", "status": "operational", "notice": "issued", "year": "2025"},
+    {"id": "e0039", "name": "Lydia Agbeze", "contact": "244691928", "gps": "EG-042-3691", "location": "Papito", "status": "non-operational", "notice": "issued", "year": "2025"},
+    {"id": "e0040", "name": "Godfred Annor", "contact": "244107459", "gps": "EG-042-3595", "location": "Papito", "status": "operational", "notice": "issued", "year": "2025"},
+    {"id": "e0041", "name": "Sandy Appiah", "contact": "546244897", "gps": "EG-042-2513", "location": "Papito", "status": "non-operational", "notice": "issued", "year": "2025"},
+    {"id": "e0042", "name": "Eric Agyekum", "contact": "245838118", "gps": "EG-042-2514", "location": "Papito", "status": "non-operational", "notice": "issued", "year": "2025"},
+    {"id": "e0043", "name": "Richard Homey", "contact": "246517153", "gps": "EG-042-2613", "permitNo": "xx/Papi/Temp/25/003", "issue": "2025-05-12", "expiry": "2026-05-12", "location": "Papito", "status": "operational", "payment_cat": "small-paid", "amt_planning": "300", "planning_paid": true, "revenue_paid": true, "amt_paid": "300", "receipt_r": "11012", "drawing": "yes", "notice": "issued", "year": "2025"},
+    {"id": "e0044", "name": "Danso Agya ENT.", "contact": "244453250", "gps": "EG-042-2018", "location": "Papito", "status": "non-operational", "notice": "issued", "year": "2025"},
+    {"id": "e0045", "name": "Bernice Narh", "contact": "243229210", "gps": "EG-042-1524", "permitNo": "xx/Pri-Boa/Temp/25/001", "issue": "2025-05-06", "expiry": "2026-05-06", "location": "Prince Boateng", "status": "operational", "payment_cat": "large-paid", "amt_planning": "500", "amt_revenue": "200", "planning_paid": true, "revenue_paid": true, "amt_paid": "500", "receipt_p": "25/7223147", "receipt_r": "11010", "drawing": "yes", "year": "2025"},
+    {"id": "e0046", "name": "Opoku William Gyampo", "contact": "208361111", "gps": "EG-019-7976", "permitNo": "xx/SDA/Temp/25/009", "issue": "2025-05-14", "expiry": "2026-05-14", "location": "SDA Junction", "status": "operational", "payment_cat": "small-paid", "amt_planning": "300", "planning_paid": true, "revenue_paid": true, "amt_paid": "300", "receipt_r": "11025", "size": "12x10", "drawing": "yes", "notice": "issued", "year": "2025"},
+    {"id": "e0047", "name": "Joseph Kofi Amoani", "contact": "244565891", "gps": "EG-019-7681", "permitNo": "xx/SDA/Temp/25/011", "issue": "2025-05-20", "expiry": "2026-05-20", "location": "SDA Junction", "status": "operational", "payment_cat": "small-paid", "amt_planning": "300", "planning_paid": true, "revenue_paid": true, "amt_paid": "300", "receipt_r": "11030", "size": "10x12", "drawing": "yes", "notice": "issued", "year": "2025"},
+    {"id": "e0048", "name": "Deborah Asante", "contact": "531373336", "gps": "EG-019-7780", "permitNo": "xx/SDA/Temp/25/010", "issue": "2025-05-20", "expiry": "2026-05-20", "location": "SDA Junction", "status": "operational", "payment_cat": "small-paid", "amt_planning": "300", "planning_paid": true, "revenue_paid": true, "amt_paid": "300", "receipt_r": "11026", "size": "11x11", "drawing": "yes", "notice": "issued", "year": "2025"},
+    {"id": "e0049", "name": "Afaribea Mercy", "contact": "248533712", "gps": "EG-041-4064", "permitNo": "xx/SDA/Temp/25/001", "issue": "2025-05-12", "expiry": "2026-05-12", "location": "SDA Junction", "status": "operational", "payment_cat": "medium-paid", "amt_planning": "500", "planning_paid": true, "revenue_paid": true, "amt_paid": "500", "receipt_r": "11013", "drawing": "yes", "year": "2025"},
+    {"id": "e0050", "name": "Amedome Yaba Elizabeth", "contact": "544857043", "gps": "EG-041-4065", "permitNo": "xx/SDA/Temp/25/002", "issue": "2025-05-12", "expiry": "2026-05-12", "location": "SDA Junction", "status": "operational", "payment_cat": "small-paid", "amt_planning": "300", "planning_paid": true, "revenue_paid": true, "amt_paid": "300", "receipt_r": "11014", "size": "14x12", "drawing": "yes", "year": "2025"},
+    {"id": "e0051", "name": "Gifty Kutoglo", "contact": "547243599", "gps": "EG-041-4064", "permitNo": "xx/SDA/Temp/25/003", "issue": "2025-05-13", "expiry": "2026-05-13", "location": "SDA Junction", "status": "operational", "payment_cat": "small-paid", "amt_planning": "300", "planning_paid": true, "revenue_paid": true, "amt_paid": "300", "receipt_r": "11015", "drawing": "yes", "year": "2025"},
+    {"id": "e0052", "name": "Rose Amoah", "contact": "543239822", "gps": "EG-041-4064", "permitNo": "xx/SDA/Temp/25/004", "issue": "2025-05-13", "expiry": "2026-05-13", "location": "SDA Junction", "status": "operational", "payment_cat": "small-paid", "amt_planning": "200", "planning_paid": true, "revenue_paid": true, "amt_paid": "200", "receipt_r": "11016", "drawing": "yes", "year": "2025"},
+    {"id": "e0053", "name": "Dorcas Osei", "contact": "543677754", "gps": "EG-041-4064", "permitNo": "xx/SDA/Temp/25/005", "issue": "2025-05-13", "expiry": "2026-05-13", "location": "SDA Junction", "status": "operational", "payment_cat": "small-paid", "amt_planning": "250", "planning_paid": true, "revenue_paid": true, "amt_paid": "250", "receipt_r": "11017", "drawing": "yes", "notice": "issued", "year": "2025"},
+    {"id": "e0054", "name": "Boamah Richmond", "contact": "540874403", "gps": "EG-019-5503", "permitNo": "xx/SDA/Temp/25/006", "issue": "2025-05-13", "expiry": "2026-05-13", "location": "SDA Junction", "status": "operational", "payment_cat": "small-paid", "amt_planning": "300", "planning_paid": true, "revenue_paid": true, "amt_paid": "300", "receipt_r": "11018", "drawing": "yes", "year": "2025"},
+    {"id": "e0055", "name": "Elizabeth Okraku", "contact": "530774081", "gps": "EG-019-5170", "permitNo": "xx/SDA/Temp/25/012", "issue": "2025-07-11", "expiry": "2026-07-11", "location": "SDA Junction", "status": "operational", "payment_cat": "small-paid", "amt_planning": "200", "amt_revenue": "100", "planning_paid": true, "revenue_paid": true, "amt_paid": "200", "size": "9x12", "drawing": "yes", "year": "2025"},
+    {"id": "e0056", "name": "Sandra Opokuaa", "contact": "249338054", "gps": "EG-041-4064", "permitNo": "xx/SDA/Temp/25/007", "issue": "2025-05-13", "expiry": "2026-05-13", "location": "SDA Junction", "status": "non-operational", "payment_cat": "medium-paid", "amt_planning": "400", "planning_paid": true, "revenue_paid": true, "amt_paid": "400", "receipt_r": "11019", "size": "15x10", "drawing": "yes", "year": "2025"},
+    {"id": "e0057", "name": "Genyoh Eric Justice", "contact": "249338054", "gps": "EG-041-2747", "permitNo": "xx/Bung/Temp/25/002", "issue": "2025-05-12", "expiry": "2026-05-12", "location": "Bungalow", "status": "operational", "payment_cat": "medium-paid", "amt_planning": "300", "planning_paid": true, "revenue_paid": true, "amt_paid": "300", "receipt_r": "11020", "size": "12x12", "drawing": "yes", "year": "2025"},
+    {"id": "e0058", "name": "Esther Aboagye", "contact": "240198592", "gps": "EG-041-4064", "location": "Bungalow", "status": "operational", "notice": "issued", "year": "2025"},
+    {"id": "e0059", "name": "Solomon", "contact": "244961826", "gps": "EG-041-2749", "location": "Wieggers", "status": "operational", "size": "10x10", "notice": "issued", "year": "2025"},
+    {"id": "e0060", "name": "Florence Apau", "contact": "245819054", "gps": "EG-041-2650", "location": "Wieggers", "status": "operational", "amt_planning": "300", "amt_paid": "300", "receipt_r": "11034", "size": "10x11", "notice": "issued", "year": "2025"},
+    {"id": "e0061", "name": "Elizabeth Akolatse", "contact": "241862546", "gps": "EG-041-4064", "location": "SDA Junction", "status": "operational", "notice": "issued", "year": "2025"},
+    {"id": "e0062", "name": "Patience", "contact": "247839537", "gps": "EG-041-4065", "location": "SDA Junction", "status": "non-operational", "amt_planning": "150", "amt_paid": "150", "notice": "issued", "year": "2025"},
+    {"id": "e0063", "name": "Baafoe-Mintah Lucy", "contact": "593221441", "gps": "EG-041-4064", "permitNo": "xx/SDA/Temp/25/008", "issue": "2025-05-12", "expiry": "2026-05-12", "location": "SDA Junction", "status": "operational", "payment_cat": "small-paid", "amt_planning": "250", "planning_paid": true, "revenue_paid": true, "amt_paid": "250", "receipt_r": "11021", "size": "11x10", "drawing": "yes", "year": "2025"},
+    {"id": "e0064", "name": "Belinda Amponsah", "contact": "591156823", "gps": "EG-042-5430", "permitNo": "xx/Fire serv/Temp/25/007", "issue": "2025-05-12", "expiry": "2026-05-12", "location": "Fire service", "status": "operational", "payment_cat": "small-paid", "amt_planning": "300", "planning_paid": true, "revenue_paid": true, "amt_paid": "300", "receipt_r": "11022", "size": "10x10", "drawing": "yes", "year": "2025"},
+    {"id": "e0065", "name": "Nicolas Brenyah", "gps": "EG-041-0343", "permitNo": "xx/Pri-Boa/Temp/25/002", "issue": "2025-05-12", "expiry": "2026-05-12", "location": "Prince Boateng", "status": "operational", "payment_cat": "large-paid", "amt_planning": "700", "planning_paid": true, "revenue_paid": true, "amt_paid": "700", "receipt_r": "11023", "size": "20x16", "drawing": "yes", "year": "2025"},
+    {"id": "e0066", "name": "Francisca Polish", "contact": "242966774", "gps": "EG-041-2444", "location": "Wieggers", "status": "operational", "size": "12x12", "notice": "issued", "year": "2025"},
+    {"id": "e0067", "name": "Ellen Asiamah", "contact": "247151067", "gps": "EG-041-1244", "permitNo": "xx/Wieg/Temp/25/001", "issue": "2025-05-20", "expiry": "2026-05-20", "location": "Wieggers", "status": "operational", "payment_cat": "small-paid", "amt_planning": "300", "planning_paid": true, "revenue_paid": true, "amt_paid": "300", "receipt_r": "11029", "drawing": "yes", "notice": "issued", "year": "2025"},
+    {"id": "e0068", "name": "Mamudu Damata", "contact": "551876953", "gps": "EG-041-2151", "location": "Sarquah", "status": "operational", "year": "2025"},
+    {"id": "e0069", "name": "Anthony Brikorang", "contact": "242741435", "gps": "EG-041-1365", "location": "Sarquah", "status": "operational", "size": "10x9", "year": "2025"},
+    {"id": "e0070", "name": "Dorcas Mensah", "contact": "243373577", "gps": "EG-039-0275", "location": "Sarquah", "status": "operational", "size": "10x11", "notice": "issued", "year": "2025"},
+    {"id": "e0071", "name": "Doris Asumang", "contact": "551336008", "gps": "EG-019-0675", "location": "Sarquah", "status": "operational", "size": "10x11", "year": "2025"},
+    {"id": "e0072", "name": "Beatrice Amisah", "contact": "547324211", "gps": "EG-039-0271", "location": "Sarquah", "status": "non-operational", "size": "12x11", "notice": "issued", "year": "2025"},
+    {"id": "e0073", "name": "Hannah Mensah", "contact": "593004415", "gps": "EG-039-0171", "location": "Sarquah", "status": "non-operational", "size": "9x9", "year": "2025"},
+    {"id": "e0074", "name": "Dealers Network Enterprise Annex", "contact": "244404892", "gps": "EG-039-0077", "permitNo": "xx/Sarq/Temp/25/001", "issue": "2025-05-14", "expiry": "2026-05-14", "location": "Sarquah", "status": "non-operational", "payment_cat": "small-paid", "amt_planning": "300", "planning_paid": true, "revenue_paid": true, "amt_paid": "300", "receipt_r": "11024", "drawing": "yes", "year": "2025"},
+    {"id": "e0075", "name": "Samuel Ernest Banson", "contact": "204624583", "gps": "EG-019-0775", "location": "Sarquah", "status": "non-operational", "size": "11x11", "year": "2025"},
+    {"id": "e0076", "name": "Belinda Agyei", "contact": "240258839", "gps": "EG-019-0875", "location": "Sarquah", "status": "non-operational", "size": "10x11", "year": "2025"},
+    {"id": "e0077", "name": "Enyo", "contact": "244755938", "gps": "EG-019-3095", "location": "Education Service", "status": "operational", "size": "15x12", "year": "2025"},
+    {"id": "e0078", "name": "Eunice Mensah", "contact": "246625500", "gps": "EG-019-2581", "location": "Education Service", "status": "operational", "year": "2025"},
+    {"id": "e0079", "name": "Sylvester Amuzu", "contact": "248681641", "gps": "EG-019-3094", "location": "Education Service", "status": "operational", "year": "2025"},
+    {"id": "e0080", "name": "Portia Dadzie", "contact": "249544084", "gps": "EG-041-4064", "location": "Education service", "status": "operational", "year": "2025"},
+    {"id": "e0081", "name": "Hannah Tano", "contact": "543938468", "gps": "EG-019-2681", "location": "Education service", "status": "operational", "size": "12x13", "year": "2025"},
+    {"id": "e0082", "name": "Selena Osafo", "contact": "549975916", "gps": "EG-019-3474", "location": "Education Service", "status": "non-operational", "size": "10x10", "year": "2025"},
+    {"id": "e0083", "name": "Felix Obeng", "contact": "244905066", "gps": "EG-041-3475", "location": "Education Service", "status": "non-operational", "size": "16x14", "year": "2025"},
+    {"id": "e0084", "name": "Victoria Abena Konadu", "contact": "244528455", "gps": "EG-042-2323", "location": "Education Service", "status": "non-operational", "year": "2025"},
+    {"id": "e0085", "name": "Bright Keme", "contact": "244826265", "gps": "EG-065-6332", "permitNo": "xx/Adoa/Temp/25/001", "issue": "2025-05-13", "expiry": "2026-05-13", "location": "Adoagyiri", "status": "operational", "payment_cat": "medium-paid", "amt_planning": "500", "planning_paid": true, "revenue_paid": true, "amt_paid": "500", "receipt_r": "11037", "drawing": "yes", "year": "2025"},
+    {"id": "e0086", "name": "Salomey Moro", "contact": "591995368", "gps": "EG-041-2545", "permitNo": "xx/Bung/Temp/25/003", "issue": "2025-05-20", "expiry": "2026-05-20", "location": "Bungalow", "status": "operational", "payment_cat": "medium-paid", "amt_planning": "500", "planning_paid": true, "revenue_paid": true, "amt_paid": "500", "receipt_r": "11027", "size": "11x10", "drawing": "yes", "notice": "issued", "year": "2025"},
+    {"id": "e0087", "name": "Derrick Atadi", "contact": "244365779", "gps": "EG-639-7020", "permitNo": "xx/Foto/Temp/25/001", "issue": "2025-05-20", "expiry": "2026-05-20", "location": "Fotobi", "status": "operational", "payment_cat": "large-paid", "amt_planning": "700", "planning_paid": true, "revenue_paid": true, "amt_paid": "700", "receipt_r": "11028", "drawing": "yes", "year": "2025"},
+    {"id": "e0088", "name": "Rita Snaman", "gps": "EG-019-2864", "permitNo": "xx/Duay/Temp/25/001", "issue": "2025-05-20", "expiry": "2026-05-20", "location": "Duayeden", "status": "operational", "payment_cat": "medium-paid", "amt_planning": "300", "amt_revenue": "200", "planning_paid": true, "revenue_paid": true, "amt_paid": "300", "receipt_r": "11032", "drawing": "yes", "year": "2025"},
+    {"id": "e0089", "name": "Musa Abdulai", "contact": "242968372", "gps": "EG-019-8124", "location": "Aburi Junction", "status": "operational", "size": "20x15", "year": "2025"},
+    {"id": "e0090", "name": "Charity Yankson", "contact": "246993557", "gps": "EG-019-8724", "location": "Aburi Junction", "status": "non-operational", "size": "12x10", "year": "2025"},
+    {"id": "e0091", "name": "Kennedy Owusu-Acheaw", "contact": "244419789", "gps": "EG-019-8518", "location": "Aburi Junction", "status": "non-operational", "payment_cat": "part-payment", "amt_planning": "100", "amt_paid": "100", "balance": "400", "receipt_r": "11033", "size": "12x11", "year": "2025"},
+    {"id": "e0092", "name": "Aunty B", "contact": "246168028", "gps": "EG-019-9134", "location": "Hospital Road", "status": "operational", "size": "15x10", "notice": "issued", "year": "2025"},
+    {"id": "e0093", "name": "Gifty Twumwaa", "contact": "504526354", "gps": "EG-019-9931", "location": "Hospital Road", "status": "operational", "size": "6x8", "notice": "issued", "year": "2025"},
+    {"id": "e0094", "name": "Esther Odei", "contact": "540829916", "gps": "EG-019-0031", "location": "Hospital Road", "status": "non-operational", "size": "10x10", "year": "2025"},
+    {"id": "e0095", "name": "Fred Dadzie", "contact": "242771372", "gps": "EG-020-1233", "location": "Hospital Road", "status": "non-operational", "size": "15x18", "notice": "issued", "year": "2025"},
+    {"id": "e0096", "name": "Richard Yerinkyi", "contact": "246233377", "gps": "EG-020-1234", "location": "Hospital Road", "status": "non-operational", "size": "20x20", "notice": "issued", "year": "2025"},
+    {"id": "e0097", "name": "Lydia Appiah", "contact": "557187199", "gps": "EG-020-1932", "location": "Hospital Road", "status": "non-operational", "size": "10x10", "year": "2025"},
+    {"id": "e0098", "name": "Millicent Adoley", "gps": "EG-020-1533", "permitNo": "xx/Hos-RD/Temp/25/001", "issue": "2025-05-21", "expiry": "2026-05-21", "location": "Hospital Road", "status": "operational", "payment_cat": "medium-paid", "amt_planning": "300", "amt_revenue": "200", "planning_paid": true, "amt_paid": "300", "receipt_r": "11035", "drawing": "yes", "year": "2025"},
+    {"id": "e0099", "name": "Bismark Djan", "contact": "244028998", "gps": "EG-020-2331", "location": "Hospital Road", "status": "operational", "size": "10x15", "notice": "issued", "year": "2025"},
+    {"id": "e0100", "name": "Melody Hanson", "contact": "541888232", "gps": "EG-020-1732", "location": "Hospital Road", "status": "operational", "size": "18x10", "year": "2025"},
+    {"id": "e0101", "name": "Patience Boye", "contact": "243560985", "gps": "EG-020-2032", "location": "Hospital Road", "status": "operational", "size": "15x12", "year": "2025"},
+    {"id": "e0102", "name": "Uche Best", "contact": "550135594", "gps": "EG-020-2431", "location": "Hospital Road", "status": "non-operational", "size": "10x12", "year": "2025"},
+    {"id": "e0103", "name": "Scott Isaac", "contact": "243836103", "gps": "EG-020-2623", "location": "Hospital Road", "status": "non-operational", "size": "10x10", "notice": "issued", "year": "2025"},
+    {"id": "e0104", "name": "Annabel Dede Darko", "contact": "248831482", "gps": "EG-020-2701", "location": "Hospital Road", "status": "non-operational", "size": "20x10", "year": "2025"},
+    {"id": "e0105", "name": "Ewurabena Oforiwaa", "contact": "241351579", "gps": "EG-020-3926", "location": "Hospital Road", "status": "operational", "size": "12x12", "year": "2025"},
+    {"id": "e0106", "name": "Janet Kumi", "contact": "257672474", "gps": "EG-020-5426", "location": "Hospital Road", "status": "non-operational", "size": "12x12", "notice": "issued", "year": "2025"},
+    {"id": "e0107", "name": "Larry Agyei", "contact": "244548102", "gps": "EG-020-5426", "location": "Hospital Road", "status": "non-operational", "size": "18x12", "year": "2025"},
+    {"id": "e0108", "name": "Beatrice Rosemary Asante", "contact": "247946403", "gps": "EG-020-4928", "location": "Hospital Road", "status": "non-operational", "size": "15x12", "year": "2025"},
+    {"id": "e0109", "name": "Victoria Darlington", "contact": "243506595", "gps": "EG-020-6424", "location": "Hospital Road", "status": "non-operational", "payment_cat": "part-payment", "amt_planning": "100", "amt_paid": "100", "balance": "400", "receipt_r": "11036", "size": "12x12", "year": "2025"},
+    {"id": "e0110", "name": "Ge Above All Catering institute", "contact": "243754721", "gps": "EG-020-5426", "location": "Hospital Road", "status": "non-operational", "size": "28x30", "year": "2025"},
+    {"id": "e0111", "name": "Hayford Boateng", "contact": "245316414", "gps": "EG-020-5426", "location": "Hospital Road", "status": "operational", "payment_cat": "part-payment", "amt_planning": "100", "amt_paid": "100", "balance": "400", "size": "13x10", "year": "2025"},
+    {"id": "e0112", "name": "Anna Wiredu", "contact": "246254133", "gps": "EG-020-5426", "permitNo": "xx/Hos-RD/Temp/25/003", "issue": "2025-07-08", "expiry": "2026-07-08", "location": "Hospital Road", "status": "operational", "payment_cat": "large-paid", "amt_planning": "400", "amt_revenue": "300", "planning_paid": true, "amt_paid": "400", "size": "16\u00d716", "drawing": "yes", "year": "2025"},
+    {"id": "e0113", "name": "Lina Asare", "contact": "247773293", "gps": "EG-020-5426", "location": "Hospital Road", "status": "non-operational", "size": "20x18", "year": "2025"},
+    {"id": "e0114", "name": "Vivian", "contact": "544235210", "gps": "EG-020-5426", "location": "Hospital Road", "status": "non-operational", "size": "30x15", "notice": "issued", "year": "2025"},
+    {"id": "e0115", "name": "Mary Ofori", "contact": "543935822", "gps": "EG-020-5326", "location": "Hospital Road", "status": "non-operational", "size": "10x12", "year": "2025"},
+    {"id": "e0116", "name": "Grace Yakple", "contact": "559218986", "gps": "EG-019-0031", "location": "Hospital Road", "status": "non-operational", "size": "10x10", "notice": "issued", "year": "2025"},
+    {"id": "e0117", "name": "Alex Segbedi", "contact": "246303155", "gps": "EG-019-9931", "location": "Hospital Road", "status": "non-operational", "size": "20x8", "notice": "issued", "year": "2025"},
+    {"id": "e0118", "name": "Gladys Boatemaa", "contact": "244219390", "gps": "EG-039-4630", "permitNo": "xx/Rail/Temp/25/001", "issue": "2025-05-23", "expiry": "2026-05-23", "location": "Railway station", "status": "operational", "payment_cat": "medium-paid", "amt_planning": "500", "planning_paid": true, "revenue_paid": true, "amt_paid": "500", "receipt_r": "11038", "size": "8x8", "drawing": "yes", "year": "2025"},
+    {"id": "e0119", "name": "Hellen Srumawuda Kwasiwor Dzameshie", "contact": "249841619", "gps": "EG-196-5464", "permitNo": "xx/Akwa-RD/Temp/25/001", "issue": "2025-05-23", "expiry": "2026-05-23", "location": "Akwamu Road", "status": "operational", "payment_cat": "large-paid", "amt_planning": "700", "planning_paid": true, "revenue_paid": true, "amt_paid": "700", "drawing": "yes", "year": "2025"},
+    {"id": "e0120", "name": "Alberta Akueku", "gps": "EG-042-5330", "permitNo": "xx/Fire serv/Temp/25/008", "issue": "2025-05-26", "expiry": "2026-05-26", "location": "Fire service", "status": "operational", "payment_cat": "medium-paid", "amt_planning": "500", "planning_paid": true, "revenue_paid": true, "amt_paid": "500", "drawing": "yes", "year": "2025"},
+    {"id": "e0121", "name": "Esther Awukubea", "contact": "240536413", "location": "Duayeden", "status": "operational", "payment_cat": "part-payment", "amt_planning": "200", "amt_paid": "200", "receipt_r": "11039", "size": "10x12", "year": "2025"},
+    {"id": "e0122", "name": "John Sosu", "contact": "244403642", "gps": "EG-157-6614", "location": "Curve", "status": "operational", "size": "32x20", "notice": "issued", "year": "2025"},
+    {"id": "e0123", "name": "Gabriel", "contact": "592677032", "gps": "EG-157-8110", "location": "Curve", "status": "non-operational", "size": "20x14", "notice": "issued", "year": "2025"},
+    {"id": "e0124", "name": "Amoako", "contact": "244876125", "gps": "EG-157-7224", "location": "Curve", "status": "non-operational", "size": "8x8", "year": "2025"},
+    {"id": "e0125", "name": "Samposant Ent", "contact": "544095414", "gps": "EG-157-8322", "location": "Curve", "status": "non-operational", "size": "8x8", "year": "2025"},
+    {"id": "e0126", "name": "Elizabeth Dodor", "contact": "546162879", "gps": "EG-157-9823", "location": "Curve", "status": "non-operational", "size": "12x12", "year": "2025"},
+    {"id": "e0127", "name": "Beatrice", "contact": "556087543", "gps": "EG-157-0045", "location": "Curve", "status": "non-operational", "size": "12x15", "year": "2025"},
+    {"id": "e0128", "name": "Patience Appiah", "contact": "201948045", "gps": "EG-157-7628", "location": "Curve", "status": "non-operational", "size": "25x20", "year": "2025"},
+    {"id": "e0129", "name": "Forson", "gps": "EG-157-9338", "location": "Curve", "status": "non-operational", "size": "50x30", "year": "2025"},
+    {"id": "e0130", "name": "Dwamena Yaw", "contact": "545947046", "gps": "EG-157-0045", "location": "Curve", "status": "non-operational", "size": "15x12", "year": "2025"},
+    {"id": "e0131", "name": "Richard Abotsi", "contact": "240075526", "gps": "EG-157-7349", "location": "Curve", "status": "non-operational", "size": "15x10", "year": "2025"},
+    {"id": "e0132", "name": "Dorcas", "contact": "555086419", "gps": "EG-157-0045", "location": "Curve", "status": "non-operational", "size": "10x10", "notice": "issued", "year": "2025"},
+    {"id": "e0133", "name": "Dompreh Kofi", "contact": "244613290", "gps": "EG-157-0045", "location": "Curve", "status": "non-operational", "size": "10x23", "year": "2025"},
+    {"id": "e0134", "name": "Ebenezer Ofosu Kumi", "contact": "247681661", "gps": "EG-157-9928", "location": "Curve", "status": "non-operational", "size": "12x10", "year": "2025"},
+    {"id": "e0135", "name": "Hamdiyaa Sauaib", "contact": "543813375", "gps": "EG-157-0029", "location": "Curve", "status": "non-operational", "size": "12x10", "notice": "issued", "year": "2025"},
+    {"id": "e0136", "name": "Martha", "contact": "249692510", "gps": "EG-157-0030", "location": "Curve", "status": "non-operational", "size": "12x10", "notice": "issued", "year": "2025"},
+    {"id": "e0137", "name": "Solomon Awutey", "contact": "246417316", "gps": "EG-158-0925", "location": "Curve", "status": "non-operational", "size": "12x10", "year": "2025"},
+    {"id": "e0138", "name": "Florence Amoakoa", "contact": "532894572", "gps": "EG-157-0045", "location": "Curve", "status": "non-operational", "size": "8x8", "year": "2025"},
+    {"id": "e0139", "name": "Owusu Bright", "contact": "535809445", "gps": "EG-157-0923", "location": "Curve", "status": "non-operational", "size": "8x8", "notice": "issued", "year": "2025"},
+    {"id": "e0140", "name": "Beatrice Ackah", "contact": "553077384", "gps": "EG-157-0321", "location": "Curve", "status": "non-operational", "size": "12x10", "year": "2025"},
+    {"id": "e0141", "name": "Baah Desmond", "contact": "247204537", "gps": "EG-157-0321", "permitNo": "xx/Curv/Temp/25/011", "issue": "2025-05-27", "expiry": "2026-05-27", "location": "Curve", "status": "non-operational", "payment_cat": "small-paid", "amt_planning": "300", "planning_paid": true, "revenue_paid": true, "amt_paid": "300", "drawing": "yes", "year": "2025"},
+    {"id": "e0142", "name": "Blessed Bina Ventures", "contact": "544035101", "gps": "EG-157-9303", "permitNo": "xx/Curv/Temp/25/014", "issue": "2025-06-11", "expiry": "2026-06-11", "location": "Curve", "status": "operational", "payment_cat": "large-paid", "amt_planning": "400", "amt_revenue": "300", "planning_paid": true, "amt_paid": "400", "drawing": "yes", "year": "2025"},
+    {"id": "e0143", "name": "Benjamin kwasi Djagor", "contact": "559404332", "gps": "EG-042-5824", "permitNo": "xx/Fire serv/Temp/25/009", "issue": "2025-05-27", "expiry": "2026-05-27", "location": "Fire service", "status": "operational", "payment_cat": "small-paid", "amt_planning": "300", "planning_paid": true, "revenue_paid": true, "amt_paid": "300", "drawing": "yes", "year": "2025"},
+    {"id": "e0144", "name": "Fatima Beatrice", "contact": "59759456", "gps": "EG-006-6993", "permitNo": "xx/Asan-Aku/Temp/25/002", "issue": "2025-05-27", "expiry": "2026-05-27", "location": "Asante-Akura", "status": "operational", "payment_cat": "medium-paid", "amt_planning": "500", "planning_paid": true, "revenue_paid": true, "amt_paid": "500", "drawing": "yes", "year": "2025"},
+    {"id": "e0145", "name": "Johnson Adjei", "contact": "244852008", "gps": "EG-157-6307", "permitNo": "xx/Curv/Temp/25/012", "issue": "2025-05-28", "expiry": "2026-05-28", "location": "Curve", "status": "operational", "payment_cat": "small-paid", "amt_planning": "300", "planning_paid": true, "revenue_paid": true, "amt_paid": "300", "drawing": "yes", "notice": "issued", "year": "2025"},
+    {"id": "e0146", "name": "DianaOsae-Affum", "contact": "246397109", "gps": "EG-020-4829", "permitNo": "xx/Hos-RD/Temp/25/002", "issue": "2025-05-30", "expiry": "2026-05-30", "location": "Hospital Road", "status": "operational", "payment_cat": "large-paid", "amt_planning": "700", "planning_paid": true, "revenue_paid": true, "amt_paid": "700", "drawing": "yes", "year": "2025"},
+    {"id": "e0147", "name": "Doris Atiemo", "contact": "558032805", "gps": "EG-021-5000", "permitNo": "xx/Pri-Mkt/Temp/25/003", "issue": "2025-05-30", "expiry": "2026-05-30", "location": "Prison Market Junction", "status": "operational", "payment_cat": "medium-paid", "amt_planning": "300", "amt_revenue": "200", "planning_paid": true, "revenue_paid": true, "amt_paid": "300", "drawing": "yes", "notice": "issued", "year": "2025"},
+    {"id": "e0148", "name": "Mabel Asare", "contact": "249385011", "gps": "EG-021-3806", "permitNo": "xx/Pri-Mkt/Temp/25/004", "issue": "2025-06-09", "expiry": "2026-06-09", "location": "Prison Market Junction", "status": "operational", "payment_cat": "medium-paid", "amt_planning": "300", "amt_revenue": "200", "planning_paid": true, "revenue_paid": true, "amt_paid": "300", "size": "12x12", "drawing": "yes", "notice": "issued", "year": "2025"},
+    {"id": "e0149", "name": "Tettekpoe Theophilus", "contact": "242821945", "gps": "EG-020-0264", "permitNo": "xx/Duay/Temp/25/002", "issue": "2025-06-02", "expiry": "2026-06-02", "location": "Duayeden", "status": "operational", "payment_cat": "large-paid", "amt_planning": "500", "amt_revenue": "200", "planning_paid": true, "revenue_paid": true, "amt_paid": "500", "drawing": "yes", "year": "2025"},
+    {"id": "e0150", "name": "Comfort Bokuro Appiah", "contact": "243417321", "gps": "EG-021-6906", "permitNo": "xx/Pri-Pk/Temp/25/001", "issue": "2025-06-02", "expiry": "2026-06-02", "location": "Prison Park", "status": "operational", "payment_cat": "small-paid", "amt_planning": "300", "planning_paid": true, "revenue_paid": true, "amt_paid": "300", "drawing": "yes", "year": "2025"},
+    {"id": "e0151", "name": "Emmanuel Yobo", "contact": "248181795", "gps": "EG-064-7275", "permitNo": "xx/Adoa/Temp/25/002", "issue": "2025-06-02", "expiry": "2026-06-02", "location": "Adoagyiri", "status": "operational", "payment_cat": "medium-paid", "amt_planning": "300", "amt_revenue": "200", "planning_paid": true, "revenue_paid": true, "amt_paid": "300", "drawing": "yes", "year": "2025"},
+    {"id": "e0152", "name": "Barber", "gps": "EG-020-2684", "location": "Duayeden", "status": "non-operational", "year": "2025"},
+    {"id": "e0153", "name": "Owusua", "contact": "244821923", "gps": "EG-020-1684", "location": "Duayeden", "status": "operational", "size": "50x30", "notice": "issued", "year": "2025"},
+    {"id": "e0154", "name": "Hannah Adwubi", "contact": "595322104", "gps": "EG-020-1292", "location": "Duayeden", "status": "non-operational", "size": "12x10", "year": "2025"},
+    {"id": "e0155", "name": "Ayesu Benjamin", "contact": "595376758", "gps": "EG-020-1292", "permitNo": "xx/Duay/Temp/25/007", "issue": "2025-12-16", "expiry": "2025-12-16", "location": "Duayeden", "status": "operational", "payment_cat": "medium-paid", "amt_planning": "350", "amt_revenue": "150", "planning_paid": true, "revenue_paid": true, "amt_paid": "350", "size": "13x13", "drawing": "yes", "notice": "issued", "year": "2025"},
+    {"id": "e0156", "name": "keti Gifty", "contact": "543804861", "gps": "EG-020-1292", "location": "Duayeden", "status": "non-operational", "year": "2025"},
+    {"id": "e0157", "name": "Yeboah", "gps": "EG-020-1292", "location": "Duayeden", "status": "non-operational", "year": "2025"},
+    {"id": "e0158", "name": "Alice Ntowbea", "gps": "EG-020-0696", "location": "Duayeden", "status": "non-operational", "payment_cat": "part-payment", "amt_planning": "200", "amt_paid": "200", "balance": "300", "size": "11x10", "year": "2025"},
+    {"id": "e0159", "name": "Mensco weldding shop", "gps": "EG-019-0245", "location": "Duayeden", "status": "non-operational", "payment_cat": "part-payment", "amt_planning": "100", "amt_revenue": "100", "amt_paid": "100", "balance": "100", "size": "6x6", "year": "2025"},
+    {"id": "e0160", "name": "Rashida Ibrahim", "contact": "544400491", "gps": "EG-091-0199", "location": "Duayeden", "status": "non-operational", "size": "15x11", "notice": "issued", "year": "2025"},
+    {"id": "e0161", "name": "Kwame Boateng", "contact": "243147120", "gps": "EG-019-8614", "location": "Duayeden", "status": "non-operational", "payment_cat": "part-payment", "amt_revenue": "200", "amt_paid": "200", "balance": "300", "size": "15x12", "notice": "issued", "year": "2025"},
+    {"id": "e0162", "name": "Helena Amissah", "contact": "256402188", "gps": "EG-019-9113", "location": "Duayeden", "status": "non-operational", "size": "12x10", "year": "2025"},
+    {"id": "e0163", "name": "Ohene Issac", "contact": "543172201", "gps": "EG-019-8514", "location": "Duayeden", "status": "non-operational", "year": "2025"},
+    {"id": "e0164", "name": "Maartin Obeng", "contact": "244532227", "gps": "EG-019-8514", "location": "Duayeden", "status": "non-operational", "year": "2025"},
+    {"id": "e0165", "name": "Aunty", "gps": "EG-019-1094", "location": "Duayeden", "status": "non-operational", "year": "2025"},
+    {"id": "e0166", "name": "juliana Addo", "contact": "541711664", "gps": "EG-019-8923", "location": "Duayeden", "status": "non-operational", "size": "16x12", "year": "2025"},
+    {"id": "e0167", "name": "Morris", "contact": "249386310", "gps": "EG-019-7017", "location": "Hospital Road", "status": "non-operational", "year": "2025"},
+    {"id": "e0168", "name": "Alfred Kumi", "contact": "553823501", "gps": "EG-019-7318", "location": "Hospital Road", "status": "non-operational", "size": "30x16", "year": "2025"},
+    {"id": "e0169", "name": "Dora Appiah", "contact": "548253722", "gps": "EG-019-7622", "location": "Hospital Road", "status": "non-operational", "size": "21x10", "year": "2025"},
+    {"id": "e0170", "name": "Elizabeth Kumiwaa", "contact": "244792399", "gps": "EG-019-7422", "location": "Hospital Road", "status": "non-operational", "balance": ".", "size": "17x13", "year": "2025"},
+    {"id": "e0171", "name": "Emma Mensah", "contact": "244806022", "gps": "EG-019-6916", "location": "Hospital Road", "status": "non-operational", "size": "16x15", "year": "2025"},
+    {"id": "e0172", "name": "Faustina Shop", "contact": "242048254", "gps": "EG-019-7017", "location": "Hospital Road", "status": "non-operational", "size": "13x10", "year": "2025"},
+    {"id": "e0173", "name": "Linda Darko", "contact": "242328381", "gps": "EG-019-7017", "location": "Hospital Road", "status": "non-operational", "size": "8x11", "year": "2025"},
+    {"id": "e0174", "name": "Georgina", "contact": "541631120", "gps": "EG-019-6918", "location": "Hospital Road", "status": "non-operational", "size": "14x12", "year": "2025"},
+    {"id": "e0175", "name": "Kojo Baah", "contact": "244513674", "gps": "EG-019-6818", "location": "Hospital Road", "status": "non-operational", "size": "12x12", "year": "2025"},
+    {"id": "e0176", "name": "Tetteh Prince Lartey", "contact": "546560402", "gps": "EG-019-7017", "location": "Hospital Road", "status": "non-operational", "size": "8x7", "year": "2025"},
+    {"id": "e0177", "name": "Priscilla Dansoa Kumi", "contact": "557464791", "gps": "EG-019-5153", "permitNo": "xx/Abur-Junc/Temp/25/001", "issue": "2025-08-06", "expiry": "2026-08-06", "location": "Aburi Junction", "status": "operational", "payment_cat": "medium-paid", "amt_planning": "300", "amt_revenue": "200", "planning_paid": true, "revenue_paid": true, "amt_paid": "300", "size": "10x12", "drawing": "yes", "year": "2025"},
+    {"id": "e0178", "name": "Charlotte Ankrah", "contact": "248575254", "gps": "EG-019-7017", "location": "Hospital Road", "status": "non-operational", "size": "21x12", "year": "2025"},
+    {"id": "e0179", "name": "Elizabeth Tsagli", "contact": "257354649", "gps": "EG-019-5825", "location": "Hospital Road", "status": "non-operational", "size": "10x12", "year": "2025"},
+    {"id": "e0180", "name": "Anoff", "gps": "EG-019-5806", "location": "Hospital Road", "status": "non-operational", "year": "2025"},
+    {"id": "e0181", "name": "Abigail Toah", "contact": "552141048", "gps": "EG-020-1292", "location": "Duayeden", "status": "non-operational", "size": "8x10", "year": "2025"},
+    {"id": "e0182", "name": "Duke Dugbatey", "contact": "243601295", "gps": "EG-111-1617", "permitNo": "xx/Dob/Temp/25/001", "issue": "2025-06-05", "expiry": "2026-06-05", "location": "Dobro", "status": "non-operational", "payment_cat": "large-paid", "amt_planning": "400", "amt_revenue": "300", "planning_paid": true, "revenue_paid": true, "amt_paid": "400", "drawing": "yes", "year": "2025"},
+    {"id": "e0183", "name": "Andaratu Abukari", "contact": "549617068", "permitNo": "xx/Nsum/Temp/25/001", "issue": "2025-06-09", "expiry": "2026-06-09", "location": "Nsumia", "status": "non-operational", "year": "2025"},
+    {"id": "e0184", "name": "Nat Obuobi", "contact": "244389208", "gps": "EG-021-7671", "permitNo": "xx/Pri-Mkt/Temp/25/005", "issue": "2025-06-09", "expiry": "2026-06-09", "location": "Prison Market Junction", "status": "operational", "payment_cat": "medium-paid", "amt_planning": "300", "amt_revenue": "200", "planning_paid": true, "revenue_paid": true, "amt_paid": "300", "drawing": "yes", "year": "2025"},
+    {"id": "e0185", "name": "Juliana Akorsu", "contact": "533321441", "gps": "EG-042-7226", "permitNo": "xx/Fire serv/Temp/25/010", "issue": "2025-06-09", "expiry": "2026-06-09", "location": "Fire service", "status": "operational", "payment_cat": "medium-paid", "amt_planning": "300", "amt_revenue": "200", "planning_paid": true, "revenue_paid": true, "amt_paid": "300", "drawing": "yes", "year": "2025"},
+    {"id": "e0186", "name": "Alice Acquah", "contact": "549766787/597008688", "gps": "EG-157-0313", "permitNo": "xx/Curv/Temp/25/013", "issue": "2025-06-10", "expiry": "2026-06-10", "location": "Curve", "status": "operational", "payment_cat": "medium-paid", "amt_planning": "300", "amt_revenue": "200", "planning_paid": true, "revenue_paid": true, "amt_paid": "300", "drawing": "yes", "year": "2025"},
+    {"id": "e0187", "name": "Stella Amenekpewo", "contact": "594005753", "gps": "EG-042-5426", "permitNo": "xx/Fire serv/Temp/25/011", "issue": "2025-06-30", "expiry": "2026-06-30", "location": "Fire service", "status": "operational", "payment_cat": "medium-paid", "planning_paid": true, "revenue_paid": true, "drawing": "yes", "year": "2025"},
+    {"id": "e0188", "name": "Kwabena Abori", "contact": "556608066", "gps": "EG-019-3471", "permitNo": "xx/Edu-serv/Temp/25/001", "issue": "2025-06-19", "expiry": "2026-06-19", "location": "Education Service", "status": "operational", "payment_cat": "medium-paid", "amt_planning": "300", "amt_revenue": "200", "planning_paid": true, "revenue_paid": true, "amt_paid": "300", "drawing": "yes", "year": "2025"},
+    {"id": "e0189", "name": "Mary Addo", "contact": "556840857", "gps": "EG-037-1876", "permitNo": "xx/Adoa/Temp/25/003", "issue": "2025-06-26", "expiry": "2026-06-26", "location": "Adoagyiri", "status": "operational", "payment_cat": "medium-paid", "amt_planning": "300", "amt_revenue": "200", "planning_paid": true, "revenue_paid": true, "amt_paid": "300", "size": "12x12", "drawing": "yes", "year": "2025"},
+    {"id": "e0190", "name": "Healthy Asamoah", "contact": "543463966", "gps": "EG-042-5725", "permitNo": "xx/Fire serv/Temp/25/012", "issue": "2025-06-26", "expiry": "2026-06-26", "location": "Fire service", "status": "operational", "payment_cat": "medium-paid", "amt_planning": "300", "amt_revenue": "200", "planning_paid": true, "revenue_paid": true, "amt_paid": "300", "drawing": "yes", "year": "2025"},
+    {"id": "e0191", "name": "Acquah Joshua", "contact": "540759178", "gps": "EG-041-0141", "permitNo": "xx/Bung/Temp/25/004", "issue": "2025-07-01", "expiry": "2026-07-01", "location": "Bungalow", "status": "operational", "payment_cat": "small-paid", "amt_planning": "200", "amt_revenue": "100", "planning_paid": true, "revenue_paid": true, "amt_paid": "200", "drawing": "yes", "year": "2025"},
+    {"id": "e0192", "name": "Christopher Forson", "contact": "240707989", "gps": "EG-252-3582", "permitNo": "xx/Akwa-RD/Temp/25/002", "issue": "2025-07-03", "expiry": "2026-07-03", "location": "Akwamu road", "status": "operational", "payment_cat": "large-paid", "amt_planning": "400", "amt_revenue": "300", "planning_paid": true, "revenue_paid": true, "amt_paid": "400", "drawing": "yes", "year": "2025"},
+    {"id": "e0193", "name": "Francis Osae", "contact": "543033018", "gps": "EG-017-4680", "permitNo": "xx/Djan/Temp/25/001", "issue": "2025-07-08", "expiry": "2026-07-08", "location": "Djankrom", "status": "operational", "payment_cat": "medium-paid", "amt_planning": "200", "amt_revenue": "200", "planning_paid": true, "revenue_paid": true, "amt_paid": "200", "drawing": "yes", "year": "2025"},
+    {"id": "e0194", "name": "Ahiagbedey Mary", "contact": "555505383", "gps": "EG-031-0893", "permitNo": "xx/Opar/Temp/25/001", "issue": "2025-07-14", "expiry": "2026-07-14", "location": "Oparekrom", "status": "operational", "payment_cat": "medium-paid", "amt_planning": "300", "amt_revenue": "200", "planning_paid": true, "revenue_paid": true, "amt_paid": "300", "drawing": "yes", "year": "2025"},
+    {"id": "e0195", "name": "Dorcas Asante", "contact": "542768110", "gps": "EG-039-4924", "permitNo": "xx/CMB-MKT/Temp/25/001", "issue": "2025-07-15", "expiry": "2026-07-15", "location": "CMB-Market", "status": "operational", "payment_cat": "small-paid", "amt_planning": "200", "amt_revenue": "100", "planning_paid": true, "revenue_paid": true, "amt_paid": "200", "drawing": "yes", "year": "2025"},
+    {"id": "e0196", "name": "Grace Larbi", "contact": "534012727", "gps": "EG-039-3935", "permitNo": "xx/Rail/Temp/25/002", "issue": "2025-07-15", "expiry": "2026-07-15", "location": "Railway Station", "status": "operational", "payment_cat": "small-paid", "amt_planning": "200", "amt_revenue": "100", "planning_paid": true, "revenue_paid": true, "amt_paid": "200", "drawing": "yes", "year": "2025"},
+    {"id": "e0197", "name": "Grace Larbi", "contact": "534012727", "gps": "EG-039-4029", "permitNo": "xx/Rail/Temp/25/003", "issue": "2025-07-15", "expiry": "2026-07-15", "location": "Railway Station", "status": "operational", "payment_cat": "small-paid", "amt_planning": "200", "amt_revenue": "100", "planning_paid": true, "revenue_paid": true, "amt_paid": "200", "drawing": "yes", "year": "2025"},
+    {"id": "e0198", "name": "Agnes Boateng", "contact": "545467756", "gps": "EG-039-4430", "permitNo": "xx/Rail/Temp/25/004", "issue": "2025-07-15", "expiry": "2026-07-15", "location": "Railway Station", "status": "operational", "payment_cat": "medium-paid", "amt_planning": "300", "amt_revenue": "200", "planning_paid": true, "revenue_paid": true, "amt_paid": "300", "drawing": "yes", "year": "2025"},
+    {"id": "e0199", "name": "Rose Astuku", "contact": "244083401", "gps": "EG-039-4632", "permitNo": "xx/Rail/Temp/25/005", "issue": "2025-07-21", "expiry": "2026-07-21", "location": "Railway Station", "status": "operational", "payment_cat": "medium-paid", "amt_planning": "300", "amt_revenue": "200", "planning_paid": true, "revenue_paid": true, "amt_paid": "300", "drawing": "yes", "year": "2025"},
+    {"id": "e0200", "name": "Abigail Darko", "contact": "248345430", "gps": "EG-041-7026", "permitNo": "xx/Papi/Temp/25/004", "issue": "2025-07-24", "expiry": "2026-07-24", "location": "Papito", "status": "operational", "payment_cat": "medium-paid", "planning_paid": true, "revenue_paid": true, "drawing": "yes", "year": "2025"},
+    {"id": "e0201", "name": "Ruth Amoako", "contact": "559407143", "gps": "EG-042-2968", "permitNo": "xx/Duay/Temp/25/003", "issue": "2025-07-28", "expiry": "2026-07-28", "location": "Duayeden", "status": "operational", "payment_cat": "medium-paid", "amt_planning": "200", "amt_revenue": "200", "planning_paid": true, "revenue_paid": true, "amt_paid": "200", "drawing": "yes", "year": "2025"},
+    {"id": "e0202", "name": "Fati Ali", "contact": "554729349", "gps": "EG-396-2955", "permitNo": "xx/Fank/Temp/25/001", "issue": "2025-07-28", "expiry": "2026-07-28", "location": "Fankyenekor", "status": "operational", "payment_cat": "medium-paid", "amt_planning": "300", "amt_revenue": "200", "planning_paid": true, "revenue_paid": true, "amt_paid": "300", "drawing": "yes", "year": "2025"},
+    {"id": "e0203", "name": "Esther Ayitey", "contact": "556237041", "gps": "EG-039-4035", "permitNo": "xx/Rail/Temp/25/006", "issue": "2025-07-30", "expiry": "2026-07-30", "location": "Railway Station", "status": "operational", "payment_cat": "medium-paid", "amt_planning": "300", "amt_revenue": "200", "planning_paid": true, "revenue_paid": true, "amt_paid": "300", "drawing": "yes", "year": "2025"},
+    {"id": "e0204", "name": "Veronica Cudjoe", "contact": "202358441", "gps": "EG-039-4732", "permitNo": "xx/Rail/Temp/25/007", "issue": "2025-01-31", "expiry": "2026-07-31", "location": "Railway Station", "status": "operational", "payment_cat": "medium-paid", "amt_planning": "300", "amt_revenue": "200", "planning_paid": true, "revenue_paid": true, "amt_paid": "300", "drawing": "yes", "year": "2025"},
+    {"id": "e0205", "name": "Daniel Mantey Osafo", "contact": "592114338", "gps": "EG-042-5127", "permitNo": "xx/Fire serv/Temp/25/013", "issue": "2025-08-12", "expiry": "2026-08-12", "location": "Fire Service", "status": "operational", "payment_cat": "large-paid", "amt_planning": "400", "amt_revenue": "300", "planning_paid": true, "revenue_paid": true, "amt_paid": "400", "drawing": "yes", "year": "2025"},
+    {"id": "e0206", "name": "Joseph Asani", "contact": "246848818", "gps": "EG-101-2095", "permitNo": "xx/Adoa/Temp/25/004", "issue": "2025-08-11", "expiry": "2026-08-11", "location": "Adoagyiri", "status": "operational", "payment_cat": "medium-paid", "amt_planning": "300", "amt_revenue": "200", "planning_paid": true, "revenue_paid": true, "amt_paid": "300", "drawing": "yes", "year": "2025"},
+    {"id": "e0207", "name": "Peprah Moses", "contact": "556245243", "gps": "GW-0413-8492", "permitNo": "xx/Akot/Temp/25/001", "issue": "2025-08-15", "expiry": "2026-08-15", "location": "Akotoshie NO.1", "status": "operational", "payment_cat": "small-paid", "amt_planning": "200", "amt_revenue": "100", "planning_paid": true, "revenue_paid": true, "amt_paid": "200", "drawing": "yes", "year": "2025"},
+    {"id": "e0208", "name": "Sophia Brew", "contact": "246973086", "gps": "EG-039-4431", "permitNo": "xx/Rail/Temp/25/008", "issue": "2025-08-20", "expiry": "2026-08-20", "location": "Railway station", "status": "operational", "payment_cat": "medium-paid", "amt_planning": "300", "amt_revenue": "200", "planning_paid": true, "revenue_paid": true, "amt_paid": "300", "drawing": "yes", "year": "2025"},
+    {"id": "e0209", "name": "Emmanuel Adjei", "contact": "244837957", "gps": "EG-042-1983", "permitNo": "xx/Bung/Temp/25/005", "issue": "2025-08-20", "expiry": "2026-08-20", "location": "Bungalow", "status": "operational", "year": "2025"},
+    {"id": "e0210", "name": "Happy Sosu", "contact": "248292990", "gps": "EG-042-6037", "permitNo": "xx/Fire serv/Temp/25/014", "issue": "2025-08-29", "expiry": "2026-08-29", "location": "Fire Service", "status": "operational", "payment_cat": "medium-paid", "amt_planning": "300", "amt_revenue": "200", "planning_paid": true, "revenue_paid": true, "amt_paid": "300", "size": "10x10", "drawing": "yes", "year": "2025"},
+    {"id": "e0211", "name": "Agnes Gyampoh", "contact": "242829895", "gps": "EG-039-4924", "permitNo": "xx/Rail/Temp/25/009", "issue": "2025-08-29", "expiry": "2026-08-29", "location": "Railway station", "status": "operational", "payment_cat": "medium-paid", "amt_planning": "300", "amt_revenue": "200", "planning_paid": true, "revenue_paid": true, "amt_paid": "300", "drawing": "yes", "year": "2025"},
+    {"id": "e0212", "name": "Vivian Korveh", "contact": "548317310", "gps": "EG-039-4335", "permitNo": "xx/Rail/Temp/25/010", "issue": "2025-08-29", "expiry": "2026-08-29", "location": "Railway station", "status": "operational", "payment_cat": "medium-paid", "amt_planning": "300", "amt_revenue": "200", "planning_paid": true, "revenue_paid": true, "amt_paid": "300", "drawing": "yes", "year": "2025"},
+    {"id": "e0213", "name": "Felicia Avarade Akankisiwai", "contact": "243275007", "gps": "EG-021-5671", "permitNo": "xx/Pri-Mkt/Temp/25/005", "issue": "2025-09-01", "expiry": "2026-09-01", "location": "Prison Market", "status": "operational", "payment_cat": "large-paid", "amt_planning": "400", "amt_revenue": "300", "planning_paid": true, "revenue_paid": true, "amt_paid": "400", "drawing": "yes", "year": "2025"},
+    {"id": "e0214", "name": "Asante Ernerst Budu", "contact": "249790985", "gps": "EG-068-0286", "permitNo": "xx/Fire serv/Temp/25/015", "issue": "2025-09-02", "expiry": "2026-09-02", "location": "Fire Service", "status": "operational", "payment_cat": "small-paid", "planning_paid": true, "revenue_paid": true, "drawing": "yes", "year": "2025"},
+    {"id": "e0215", "name": "Ekikplim Agurogo", "contact": "545865705", "gps": "EG-039-2826", "permitNo": "xx/Rail/Temp/25/011", "issue": "2025-09-03", "expiry": "2026-09-03", "location": "Rialway station", "status": "operational", "payment_cat": "small-paid", "amt_planning": "200", "amt_revenue": "100", "planning_paid": true, "revenue_paid": true, "amt_paid": "200", "drawing": "yes", "year": "2025"},
+    {"id": "e0216", "name": "Ohene Kofi Emmanuel", "contact": "244549253", "gps": "EG-143-2327", "permitNo": "xx/Akwa-RD/Temp/25/003", "issue": "2025-09-03", "expiry": "2026-09-03", "location": "Akwamu Road", "status": "operational", "payment_cat": "large-paid", "amt_planning": "600", "amt_revenue": "400", "planning_paid": true, "revenue_paid": true, "amt_paid": "600", "drawing": "yes", "year": "2025"},
+    {"id": "e0217", "name": "Stella Darko", "contact": "243157180", "gps": "EG-018-8493", "permitNo": "xx/Asan-Aku/Temp/25/003", "issue": "2025-09-10", "expiry": "2026-09-10", "location": "Asante-Akura", "status": "operational", "payment_cat": "medium-paid", "amt_planning": "300", "amt_revenue": "200", "planning_paid": true, "revenue_paid": true, "amt_paid": "300", "drawing": "yes", "year": "2025"},
+    {"id": "e0218", "name": "Fatau Alhassan", "contact": "244377853", "gps": "EG-038-1947", "permitNo": "xx/Adoa/Temp/25/005", "issue": "2025-09-15", "expiry": "2026-09-15", "location": "Adoagyiri", "status": "operational", "payment_cat": "medium-paid", "amt_planning": "300", "amt_revenue": "200", "planning_paid": true, "revenue_paid": true, "amt_paid": "300", "drawing": "yes", "year": "2025"},
+    {"id": "e0219", "name": "Jamila Sulley", "contact": "244433700", "gps": "EG-038-3149", "permitNo": "xx/Adoa/Temp/25/006", "issue": "2025-09-15", "expiry": "2026-09-15", "location": "Adoagyiri", "status": "operational", "payment_cat": "medium-paid", "amt_planning": "300", "amt_revenue": "200", "planning_paid": true, "revenue_paid": true, "amt_paid": "300", "drawing": "yes", "year": "2025"},
+    {"id": "e0220", "name": "Diana Ntow", "gps": "EG-007-1337", "permitNo": "xx/Djan/Temp/25/002", "issue": "2025-09-17", "expiry": "2026-09-17", "location": "Djankrom", "status": "operational", "year": "2025"},
+    {"id": "e0221", "name": "Suleman Musah", "contact": "248141971", "gps": "EG-038-0111", "permitNo": "xx/Rail/Temp/25/008", "issue": "2025-10-03", "expiry": "2026-10-03", "location": "Railway-Arbata", "status": "operational", "payment_cat": "medium-paid", "amt_planning": "300", "amt_revenue": "200", "planning_paid": true, "revenue_paid": true, "amt_paid": "300", "drawing": "yes", "year": "2025"},
+    {"id": "e0222", "name": "Christiana Debrah", "contact": "249233996", "gps": "EG-042-6639", "permitNo": "xx/Duay/Temp/25/004", "issue": "2025-10-03", "expiry": "2026-10-03", "location": "Duayeden", "status": "operational", "payment_cat": "medium-paid", "amt_planning": "300", "amt_revenue": "200", "planning_paid": true, "revenue_paid": true, "amt_paid": "300", "drawing": "yes", "year": "2025"},
+    {"id": "e0223", "name": "Ativor Samuel", "gps": "EG-373-2001", "permitNo": "xx/Kwarf/Temp/25/001", "issue": "2025-10-07", "expiry": "2026-10-07", "location": "Kwarfokrom", "status": "operational", "payment_cat": "medium-paid", "amt_planning": "300", "amt_revenue": "200", "planning_paid": true, "revenue_paid": true, "amt_paid": "300", "size": "7x8", "drawing": "yes", "year": "2025"},
+    {"id": "e0224", "name": "Joyce Nkum", "contact": "542537794", "gps": "EG-143-2912", "permitNo": "xx/Akwa/Temp/25/004", "issue": "2025-10-21", "expiry": "2026-10-21", "location": "Akwamu", "status": "operational", "payment_cat": "medium-paid", "amt_planning": "300", "amt_revenue": "200", "planning_paid": true, "revenue_paid": true, "amt_paid": "300", "drawing": "yes", "year": "2025"},
+    {"id": "e0225", "name": "Emmanuel Owusu Ansah", "contact": "242148059", "gps": "EG-020-5468", "permitNo": "xx/Asan-Aku/Temp/25/004", "issue": "2025-10-24", "expiry": "2026-10-24", "location": "Asante-Akura", "status": "operational", "payment_cat": "medium-paid", "amt_planning": "300", "amt_revenue": "200", "planning_paid": true, "revenue_paid": true, "amt_paid": "300", "drawing": "yes", "year": "2025"},
+    {"id": "e0226", "name": "Paulina Asare", "contact": "246412490", "gps": "EG-042-4950", "permitNo": "xx/Asan-Aku/Temp/25/005", "issue": "2025-10-28", "expiry": "2026-10-28", "location": "Asante-Akura", "status": "operational", "payment_cat": "medium-paid", "amt_planning": "300", "amt_revenue": "200", "planning_paid": true, "revenue_paid": true, "amt_paid": "300", "drawing": "yes", "year": "2025"},
+    {"id": "e0227", "name": "Linda Appiah", "contact": "541092197", "gps": "EG-463-1641", "permitNo": "xx/Chin/Temp/25/001", "location": "Chinto", "status": "non-operational", "year": "2025"},
+    {"id": "e0228", "name": "Emmanuel Attigah", "contact": "533215454", "gps": "EG-157-0133", "permitNo": "xx/Afri/Temp/25/001", "issue": "2025-11-03", "expiry": "2026-11-03", "location": "Africity", "status": "operational", "payment_cat": "medium-paid", "amt_planning": "300", "amt_revenue": "200", "planning_paid": true, "revenue_paid": true, "amt_paid": "300", "drawing": "yes", "year": "2025"},
+    {"id": "e0229", "name": "Ohene Kofi Emmanuel", "contact": "244549253", "gps": "EG-143-1326", "permitNo": "xx/Akwa/Temp/25/005", "issue": "2025-11-03", "expiry": "2026-11-03", "location": "Akwamu", "status": "operational", "payment_cat": "large-paid", "amt_planning": "700", "amt_revenue": "500", "planning_paid": true, "revenue_paid": true, "amt_paid": "700", "drawing": "yes", "year": "2025"},
+    {"id": "e0230", "name": "Seth Kyei Ntiamoah", "contact": "531294270", "gps": "EG-079-1307", "permitNo": "xx/Ahod/Temp/25/001", "issue": "2025-11-10", "expiry": "2026-11-10", "location": "Ahodjo", "status": "operational", "payment_cat": "large-paid", "amt_planning": "400", "amt_revenue": "300", "planning_paid": true, "revenue_paid": true, "amt_paid": "400", "drawing": "yes", "year": "2025"},
+    {"id": "e0231", "name": "Salem Upholstery", "contact": "249141406", "gps": "EG-2562-5285", "permitNo": "xx/Obre/Temp/25/001", "issue": "2025-11-10", "expiry": "2026-11-10", "location": "Obregyima", "status": "operational", "payment_cat": "large-paid", "amt_planning": "400", "amt_revenue": "300", "planning_paid": true, "revenue_paid": true, "amt_paid": "400", "drawing": "yes", "year": "2025"},
+    {"id": "e0232", "name": "Mary Obuobi", "contact": "242731120", "gps": "EG-004-8030", "permitNo": "xx/Djan/Temp/25/003", "issue": "2025-11-12", "expiry": "2026-11-12", "location": "Djankrom", "status": "operational", "payment_cat": "medium-paid", "amt_planning": "300", "amt_revenue": "200", "planning_paid": true, "revenue_paid": true, "amt_paid": "300", "drawing": "yes", "year": "2025"},
+    {"id": "e0233", "name": "Sampson Gasu", "contact": "248498984", "gps": "EG-042-5450", "permitNo": "xx/Opar/Temp/25/002", "issue": "2025-11-21", "expiry": "2026-11-21", "location": "Oparekrom", "status": "operational", "payment_cat": "medium-paid", "amt_planning": "300", "amt_revenue": "200", "planning_paid": true, "revenue_paid": true, "amt_paid": "300", "drawing": "yes", "year": "2025"},
+    {"id": "e0234", "name": "Diana Boateng", "contact": "245660707", "gps": "EG-021-5589", "permitNo": "xx/Pri-MKT/Temp/25/007", "issue": "2025-11-21", "expiry": "2026-11-21", "location": "Prison market", "status": "operational", "payment_cat": "medium-paid", "amt_planning": "300", "amt_revenue": "200", "planning_paid": true, "revenue_paid": true, "amt_paid": "300", "drawing": "yes", "year": "2025"},
+    {"id": "e0235", "name": "Yadak Real Estate", "contact": "244992552", "gps": "EG-021-3498", "permitNo": "xx/Duay/Temp/25/005", "issue": "2025-12-01", "expiry": "2026-12-01", "location": "Duayeden", "status": "operational", "payment_cat": "large-paid", "amt_planning": "400", "amt_revenue": "300", "planning_paid": true, "revenue_paid": true, "amt_paid": "400", "size": "14x31", "drawing": "yes", "year": "2025"},
+    {"id": "e0236", "name": "Isaac Kofi Aryee", "contact": "246779340", "permitNo": "xx/Sec.2/Temp/25/001", "issue": "2025-12-01", "expiry": "2026-12-01", "location": "Sector-2", "status": "operational", "payment_cat": "medium-paid", "amt_revenue": "200", "planning_paid": true, "revenue_paid": true, "amt_paid": "200", "drawing": "yes", "year": "2025"},
+    {"id": "e0237", "name": "Isaa Albudukarim", "contact": "536082710", "gps": "EG-039-8765", "permitNo": "xx/GCB-Dwn/Temp/25/001", "issue": "2025-12-03", "expiry": "2026-12-03", "location": "GCB Down", "status": "operational", "payment_cat": "medium-paid", "amt_planning": "300", "amt_revenue": "200", "planning_paid": true, "revenue_paid": true, "amt_paid": "300", "drawing": "yes", "year": "2025"},
+    {"id": "e0238", "name": "Rabi Nyarko", "contact": "244900769", "gps": "EG-039-9065", "permitNo": "xx/GCB-Dwn/Temp/25/002", "issue": "2025-12-03", "expiry": "2026-12-03", "location": "GCB Down", "status": "operational", "payment_cat": "large-paid", "amt_planning": "500", "amt_revenue": "400", "planning_paid": true, "revenue_paid": true, "amt_paid": "500", "drawing": "yes", "year": "2025"},
+    {"id": "e0239", "name": "Anane Teko", "contact": "598377160", "gps": "EG-039-8767", "permitNo": "xx/GCB-Dwn/Temp/25/003", "issue": "2025-12-03", "expiry": "2026-12-03", "location": "GCB Down", "status": "operational", "payment_cat": "small-paid", "amt_planning": "200", "amt_revenue": "100", "planning_paid": true, "revenue_paid": true, "amt_paid": "200", "drawing": "yes", "year": "2025"},
+    {"id": "e0240", "name": "Daniel Dorvi", "contact": "591995378", "gps": "EG-039-6942", "permitNo": "xx/CMB-MKT/Temp/25/002", "issue": "2025-12-09", "expiry": "2026-12-09", "location": "CMB Market", "status": "operational", "payment_cat": "small-paid", "amt_planning": "200", "amt_revenue": "100", "planning_paid": true, "revenue_paid": true, "amt_paid": "200", "drawing": "yes", "year": "2025"},
+    {"id": "e0241", "name": "Chrisdiana Enterprise", "contact": "244821923", "gps": "EG-020-1886", "permitNo": "xx/Duay/Temp/25/006", "issue": "2025-12-15", "expiry": "2026-12-15", "location": "Duayeden", "status": "operational", "payment_cat": "large-paid", "amt_planning": "500", "amt_revenue": "200", "planning_paid": true, "revenue_paid": true, "amt_paid": "500", "drawing": "yes", "year": "2025"},
+    {"id": "e0242", "name": "Bertha Aku Damptey", "contact": "249804178", "gps": "EG-042-1765", "permitNo": "xx/Fire serv/Temp/25/016", "issue": "2025-12-18", "expiry": "2026-12-18", "location": "Fire service", "status": "operational", "payment_cat": "medium-paid", "amt_planning": "300", "amt_revenue": "200", "planning_paid": true, "revenue_paid": true, "amt_paid": "300", "drawing": "yes", "year": "2025"},
+    {"id": "e0243", "name": "Patricia Gleku", "contact": "535926010", "gps": "EG-005-8439", "permitNo": "xx/Djan/Temp/25/004", "issue": "2025-12-18", "expiry": "2026-12-18", "location": "Djankrom", "status": "operational", "payment_cat": "medium-paid", "amt_planning": "300", "amt_revenue": "200", "planning_paid": true, "revenue_paid": true, "amt_paid": "300", "receipt_p": "25/02527334", "drawing": "yes", "year": "2025"},
+    {"id": "e0244", "name": "Akagah Rosina Aku", "contact": "248993185", "gps": "EG-004-0093", "permitNo": "xx/Tyr-Fac/Temp/25/001", "issue": "2025-12-19", "expiry": "2026-12-19", "location": "Tyre Factory", "status": "operational", "payment_cat": "medium-paid", "amt_planning": "300", "amt_revenue": "200", "planning_paid": true, "revenue_paid": true, "amt_paid": "300", "drawing": "yes", "year": "2025"},
+    {"id": "e0245", "name": "Ohene Isaac", "contact": "246015037", "location": "New Road", "status": "non-operational", "year": "2025"},
+    {"id": "e0246", "name": "Margrete Akuffo", "contact": "244564417", "gps": "EG-039-8801", "permitNo": "xx/Nsaw-Cen/Temp/26/001", "issue": "2026-01-16", "expiry": "2027-01-16", "location": "Nsawam Central", "status": "operational", "payment_cat": "large-paid", "amt_planning": "400", "amt_revenue": "300", "planning_paid": true, "revenue_paid": true, "amt_paid": "400", "receipt_p": "25/02528235", "drawing": "yes", "year": "2026"},
+    {"id": "e0247", "name": "Christine Nana Abena Okyere", "contact": "242260997", "gps": "EG-042-3942", "permitNo": "xx/Fire-Serv/Temp/26/001", "issue": "2026-01-28", "expiry": "2027-01-28", "location": "Fire Service", "status": "operational", "payment_cat": "medium-paid", "amt_planning": "300", "amt_revenue": "200", "planning_paid": true, "revenue_paid": true, "amt_paid": "300", "drawing": "yes", "year": "2026"},
+    {"id": "e0248", "name": "Asiamah George Isaac", "contact": "244546355", "gps": "EG-006-4020", "permitNo": "xx/Djan/Temp/26/001", "issue": "2026-01-29", "expiry": "2027-01-29", "location": "Djankrom Beech st.", "status": "operational", "payment_cat": "medium-paid", "amt_planning": "300", "amt_revenue": "200", "planning_paid": true, "revenue_paid": true, "amt_paid": "300", "receipt_p": "25/02529521", "drawing": "yes", "year": "2026"},
+    {"id": "e0249", "name": "Beatrice Mensah", "contact": "245687933", "gps": "EG-006-4119", "permitNo": "xx/Djan/Temp/26/002", "issue": "2026-01-29", "expiry": "2027-01-29", "location": "Djankrom Beech st.", "status": "operational", "payment_cat": "medium-paid", "amt_planning": "300", "amt_revenue": "200", "planning_paid": true, "revenue_paid": true, "amt_paid": "300", "receipt_p": "25/02529522", "drawing": "yes", "year": "2026"},
+    {"id": "e0250", "name": "Faustina Kumi", "contact": "244546355", "gps": "EG-006-3823", "permitNo": "xx/Djan/Temp/26/003", "issue": "2026-01-29", "expiry": "2027-01-29", "location": "Djankrom Beech st.", "status": "operational", "payment_cat": "large-paid", "amt_planning": "400", "amt_revenue": "300", "planning_paid": true, "revenue_paid": true, "amt_paid": "400", "receipt_p": "25/02529523", "drawing": "yes", "year": "2026"},
+    {"id": "e0251", "name": "Elizabeth Rockson", "contact": "532954509", "gps": "EG-006-3820", "permitNo": "xx/Djan/Temp/26/004", "issue": "2026-01-30", "expiry": "2027-01-30", "location": "Djankrom", "status": "operational", "payment_cat": "large-paid", "amt_planning": "400", "amt_revenue": "200", "planning_paid": true, "revenue_paid": true, "amt_paid": "400", "receipt_p": "25/02529534", "drawing": "yes", "year": "2026"},
+    {"id": "e0252", "name": "Emmaniuel Adu Nkatia", "contact": "543727779", "gps": "EG-006-4630", "permitNo": "xx/Djan/Temp/26/005", "issue": "2026-01-30", "expiry": "2027-01-30", "location": "Djankrom", "status": "operational", "payment_cat": "large-paid", "amt_planning": "400", "amt_revenue": "300", "planning_paid": true, "revenue_paid": true, "amt_paid": "400", "receipt_p": "25/02529535", "drawing": "yes", "year": "2026"},
+    {"id": "e0253", "name": "Emmanuel Adu Nkatia", "contact": "543727779", "gps": "EG-006-5058", "permitNo": "xx/Djan/Temp/26/006", "issue": "2026-01-30", "expiry": "2027-01-30", "location": "Djankrom P.W.D. Quarters", "status": "operational", "payment_cat": "large-paid", "amt_planning": "400", "amt_revenue": "200", "planning_paid": true, "revenue_paid": true, "amt_paid": "400", "receipt_p": "25/02529536", "drawing": "yes", "year": "2026"},
+    {"id": "e0254", "name": "Rosemary Awukubea", "contact": "241394354", "gps": "EG-006-8632", "permitNo": "xx/Djan/Temp/26/007", "issue": "2026-01-30", "expiry": "2027-01-30", "location": "Djankrom P.W.D. Quarters", "status": "operational", "payment_cat": "large-paid", "amt_planning": "400", "amt_revenue": "200", "planning_paid": true, "revenue_paid": true, "amt_paid": "400", "receipt_p": "25/02529537", "drawing": "yes", "year": "2026"},
+    {"id": "e0255", "name": "Faustina Kumi", "contact": "591997401", "gps": "EG-006-3720", "permitNo": "xx/Djan/Temp/26/008", "issue": "2026-01-30", "expiry": "2027-01-30", "location": "Djankrom P.W.D. Quarters", "status": "operational", "payment_cat": "medium-paid", "amt_planning": "300", "amt_revenue": "200", "planning_paid": true, "revenue_paid": true, "amt_paid": "300", "receipt_p": "25/02529538", "drawing": "yes", "year": "2026"},
+    {"id": "e0256", "name": "Abigail Yeboah", "contact": "54806225", "gps": "EG-006-3720", "permitNo": "xx/Djan/Temp/26/009", "issue": "2026-02-02", "expiry": "2027-02-02", "location": "Djankrom Methodist", "status": "operational", "payment_cat": "medium-paid", "amt_planning": "300", "amt_revenue": "200", "planning_paid": true, "revenue_paid": true, "amt_paid": "300", "receipt_p": "25/02529576", "drawing": "yes", "year": "2026"},
+    {"id": "e0257", "name": "Abigail Yeboah", "contact": "54806225", "gps": "EG-006-3720", "permitNo": "xx/Djan/Temp/26/010", "issue": "2026-02-02", "expiry": "2027-02-02", "location": "Djankrom Methodist", "status": "operational", "payment_cat": "medium-paid", "amt_planning": "300", "amt_revenue": "200", "planning_paid": true, "revenue_paid": true, "amt_paid": "300", "receipt_p": "25/02529577", "drawing": "yes", "year": "2026"},
+    {"id": "e0258", "name": "Comfort Nyam Akuffo", "contact": "545129685", "gps": "EG-006-5220", "permitNo": "xx/Djan/Temp/26/011", "issue": "2026-02-02", "expiry": "2027-02-02", "location": "Djankrom P.W.D Quarters", "status": "operational", "payment_cat": "medium-paid", "amt_planning": "300", "amt_revenue": "100", "planning_paid": true, "revenue_paid": true, "amt_paid": "300", "receipt_p": "25/02529578", "drawing": "yes", "year": "2026"},
+    {"id": "e0259", "name": "Kofi Getse", "contact": "543381447", "gps": "EG-042-5601", "permitNo": "xx/Fire-Serv/Temp/26/002", "issue": "2026-02-09", "expiry": "2027-02-09", "location": "Fire Service", "status": "operational", "payment_cat": "medium-paid", "amt_planning": "300", "amt_revenue": "200", "planning_paid": true, "revenue_paid": true, "amt_paid": "300", "receipt_p": "25/02529978", "drawing": "yes", "year": "2026"},
+    {"id": "e0260", "name": "Felicia Adzovie", "contact": "548761643", "gps": "EG-006-4214", "permitNo": "xx/Djan/Temp/26/012", "issue": "2026-02-09", "expiry": "2027-02-09", "location": "Djankrom P.W.D Quarters", "status": "operational", "payment_cat": "large-paid", "amt_planning": "400", "amt_revenue": "400", "planning_paid": true, "revenue_paid": true, "amt_paid": "400", "drawing": "yes", "year": "2026"},
+    {"id": "e0261", "name": "Beatrice Amponsah Larbi", "contact": "539373234", "gps": "EG-020-6187", "permitNo": "xx/Duay//Temp/26/001", "issue": "2026-02-10", "expiry": "2027-02-10", "location": "Duayeden", "status": "operational", "payment_cat": "medium-paid", "amt_planning": "300", "amt_revenue": "200", "planning_paid": true, "revenue_paid": true, "amt_paid": "300", "receipt_p": "25/02529987", "drawing": "yes", "year": "2026"},
+    {"id": "e0262", "name": "Vida Asare", "contact": "599029971", "gps": "EG-006-3820", "permitNo": "xx/Djan/Temp/26/013", "issue": "2026-02-11", "expiry": "2027-02-11", "location": "Djankrom", "status": "operational", "payment_cat": "medium-paid", "amt_planning": "300", "amt_revenue": "200", "planning_paid": true, "revenue_paid": true, "amt_paid": "300", "drawing": "yes", "year": "2026"},
+    {"id": "e0263", "name": "Victoria Mensah", "contact": "548427339", "gps": "EG-044-5138", "permitNo": "xx/Fire-Serv/Temp/26/003", "issue": "2026-02-20", "expiry": "2027-02-20", "location": "Fire Service", "status": "operational", "payment_cat": "medium-paid", "amt_planning": "300", "amt_revenue": "200", "planning_paid": true, "revenue_paid": true, "amt_paid": "300", "receipt_p": "25/06714158", "drawing": "yes", "year": "2026"},
+    {"id": "e0264", "name": "Arbu Rockina", "contact": "543621752", "gps": "EG-042-5128", "permitNo": "xx/Fire-Serv/Temp/26/004", "issue": "2026-02-16", "expiry": "2027-02-16", "location": "Fire Service", "status": "operational", "payment_cat": "medium-paid", "amt_planning": "300", "amt_revenue": "200", "planning_paid": true, "revenue_paid": true, "amt_paid": "300", "receipt_p": "25/06714609", "drawing": "yes", "year": "2026"},
+    {"id": "e0265", "name": "Africana Okada Ridders", "contact": "266393700", "gps": "EG-042-3612", "permitNo": "xx/Afri/Temp/26/001", "issue": "2026-02-20", "expiry": "2027-02-20", "location": "Africana", "status": "operational", "payment_cat": "medium-paid", "amt_planning": "300", "amt_revenue": "200", "planning_paid": true, "revenue_paid": true, "amt_paid": "300", "receipt_p": "25/06714182", "drawing": "yes", "year": "2026"},
+    {"id": "e0266", "name": "Madam Obeng Rose", "contact": "243088756", "gps": "EG-375-8630", "permitNo": "xx/Kwa-sofo/Temp/26/001", "issue": "2026-02-20", "expiry": "2027-02-20", "location": "Kwadjo Sofo", "status": "operational", "payment_cat": "medium-paid", "amt_planning": "300", "amt_revenue": "200", "planning_paid": true, "revenue_paid": true, "amt_paid": "300", "receipt_p": "25/06714199", "drawing": "yes", "year": "2026"},
+    {"id": "e0267", "name": "Beatrice Owusu Ansah", "contact": "241863121", "gps": "EG-041-9847", "permitNo": "xx/Pri-Boa/Temp/26/001", "issue": "2026-03-05", "expiry": "2027-03-05", "location": "Prince Boateng", "status": "operational", "payment_cat": "medium-paid", "amt_planning": "300", "amt_revenue": "200", "planning_paid": true, "revenue_paid": true, "amt_paid": "300", "receipt_p": "25/06716042", "drawing": "yes", "year": "2026"},
+    {"id": "e0268", "name": "Rebecca Mamley", "contact": "248600675", "gps": "EG-026-5413", "permitNo": "xx/Djan/Temp/26/014", "issue": "2026-03-24", "expiry": "2027-03-24", "location": "Djankrom", "status": "operational", "payment_cat": "medium-paid", "amt_planning": "300", "amt_revenue": "200", "planning_paid": true, "revenue_paid": true, "amt_paid": "300", "drawing": "yes", "year": "2026"},
+    {"id": "e0269", "name": "Ernest Amek", "contact": "243913107", "gps": "EG-111-9706", "permitNo": "xx/Dob/Temp/26/001", "issue": "2026-03-26", "expiry": "2027-03-26", "location": "Dobro-Africity", "status": "operational", "payment_cat": "medium-paid", "amt_planning": "300", "amt_revenue": "200", "planning_paid": true, "revenue_paid": true, "amt_paid": "300", "drawing": "yes", "year": "2026"},
+    {"id": "e0270", "name": "Mabel Hormeku", "contact": "552330254", "gps": "EG-006-7694", "permitNo": "xx/Djan/Temp/26/015", "issue": "2026-04-01", "expiry": "2027-04-01", "location": "Djankrom", "status": "operational", "payment_cat": "medium-paid", "amt_planning": "300", "amt_revenue": "200", "planning_paid": true, "revenue_paid": true, "amt_paid": "300", "receipt_p": "25/06717592", "drawing": "yes", "year": "2026"},
+    {"id": "e0271", "name": "Martha Appiah", "contact": "249149281", "gps": "EG-006-2176", "permitNo": "xx/Djan/Temp/26/016", "issue": "2026-04-01", "expiry": "2027-04-01", "location": "Djankrom", "status": "operational", "payment_cat": "medium-paid", "amt_planning": "300", "amt_revenue": "200", "planning_paid": true, "revenue_paid": true, "amt_paid": "300", "receipt_p": "25/06717593", "drawing": "yes", "year": "2026"},
+    {"id": "e0272", "name": "Mary Darkoa", "contact": "243365694", "gps": "EG-006-5085", "permitNo": "xx/Asan-Aku/Temp/26/001", "issue": "2026-04-13", "expiry": "2027-04-13", "location": "Asante Akura", "status": "operational", "payment_cat": "medium-paid", "amt_planning": "300", "amt_revenue": "200", "planning_paid": true, "revenue_paid": true, "amt_paid": "300", "receipt_p": "25/07150917", "drawing": "yes", "year": "2026"},
+    {"id": "e0273", "name": "Richard Arthur", "contact": "596563818", "gps": "EG-042-6158", "permitNo": "xx/Fire-Serv/Temp/26/005", "issue": "2026-04-14", "expiry": "2027-04-14", "location": "Fire Service", "status": "operational", "payment_cat": "medium-paid", "amt_planning": "300", "amt_revenue": "200", "planning_paid": true, "revenue_paid": true, "amt_paid": "300", "receipt_p": "25/07150962", "drawing": "yes", "year": "2026"},
+    {"id": "e0274", "name": "Attiogba Linda", "contact": "24786884", "gps": "EG-042-4951", "permitNo": "xx/Adoa/Temp/26/001", "issue": "2026-04-15", "expiry": "2027-04-15", "location": "Adoagyiri", "status": "operational", "payment_cat": "small-paid", "amt_planning": "200", "amt_revenue": "100", "planning_paid": true, "revenue_paid": true, "amt_paid": "200", "receipt_p": "20/07150970", "drawing": "yes", "year": "2026"},
+    {"id": "e0275", "name": "Beatrice Rosemary Asante", "contact": "247946403", "gps": "EG-020-4928", "permitNo": "xx/Hosp-RD/Temp/26/001", "issue": "2026-04-20", "expiry": "2027-04-20", "location": "Hospital Road", "status": "operational", "payment_cat": "medium-paid", "amt_planning": "300", "amt_revenue": "200", "planning_paid": true, "revenue_paid": true, "amt_paid": "300", "drawing": "yes", "year": "2026"},
+    {"id": "e0276", "name": "Janet Owusu", "contact": "547146893", "gps": "EG-039-3995", "location": "Ayigbe town", "status": "operational", "amt_planning": "300", "amt_revenue": "200", "amt_paid": "300", "year": "2026"},
+    {"id": "e0277", "name": "Eunice Oppong", "contact": "536907214", "gps": "EG-039-3997", "location": "Ayigbe town", "status": "operational", "amt_planning": "300", "amt_revenue": "200", "amt_paid": "300", "year": "2026"},
+    {"id": "e0278", "name": "Mabel Addotey", "contact": "241144846", "gps": "EG-020-1886", "permitNo": "xx/Duay/Temp/26/002", "issue": "2026-04-28", "expiry": "2027-04-28", "location": "Duayeden", "status": "operational", "payment_cat": "medium-paid", "amt_planning": "300", "amt_revenue": "200", "planning_paid": true, "revenue_paid": true, "amt_paid": "300", "receipt_p": "25/07152427", "drawing": "yes", "year": "2026"},
+    {"id": "e0279", "name": "Mavis Addotey", "contact": "241144846", "gps": "EG-020-1886", "permitNo": "xx/Duay/Temp/26/003", "issue": "2026-04-28", "expiry": "2027-04-28", "location": "Duayeden", "status": "operational", "payment_cat": "medium-paid", "amt_planning": "300", "amt_revenue": "200", "planning_paid": true, "revenue_paid": true, "amt_paid": "300", "receipt_p": "25/07152428", "drawing": "yes", "year": "2026"},
+    {"id": "e0280", "name": "John Oteng Agyarko", "contact": "270803551", "gps": "EG-006-4214", "permitNo": "xx/Djan/Temp/26/017", "issue": "2026-04-30", "expiry": "2027-04-30", "location": "Djankrom", "status": "operational", "payment_cat": "medium-paid", "amt_planning": "300", "amt_revenue": "200", "planning_paid": true, "revenue_paid": true, "amt_paid": "300", "receipt_p": "25/07152701", "drawing": "yes", "year": "2026"},
+    {"id": "e0281", "name": "Janet Martey", "contact": "558451816", "gps": "EG-005-9243", "permitNo": "xx/Djan/Temp/26/018", "issue": "2026-05-05", "expiry": "2027-05-05", "location": "Djankrom", "status": "operational", "payment_cat": "medium-paid", "amt_planning": "300", "amt_revenue": "200", "planning_paid": true, "revenue_paid": true, "amt_paid": "300", "receipt_p": "25/07152706", "drawing": "yes", "year": "2026"},
+    {"id": "e0282", "name": "Ansomaa Francisca", "contact": "243978882", "gps": "EG-020-1495", "permitNo": "xx/Duay/Temp/26/004", "issue": "2026-05-07", "expiry": "2027-05-07", "location": "Duayeden", "status": "operational", "payment_cat": "medium-paid", "amt_planning": "200", "amt_revenue": "200", "planning_paid": true, "revenue_paid": true, "amt_paid": "200", "receipt_p": "25/07152727", "drawing": "yes", "year": "2026"},
+    {"id": "e0283", "name": "Tenkorang Agyekum", "contact": "547572250", "gps": "EG-040-2794", "permitNo": "xx/Afutu/Temp/26/001", "issue": "2026-05-08", "expiry": "2027-05-08", "location": "Affutu", "status": "operational", "payment_cat": "medium-paid", "amt_planning": "300", "amt_revenue": "200", "planning_paid": true, "revenue_paid": true, "amt_paid": "300", "receipt_p": "25/07152732", "drawing": "yes", "year": "2026"},
+    {"id": "e0284", "name": "Tenkorang Agyekum", "contact": "547572250", "gps": "EG-006-2794", "permitNo": "xx/Djan/Temp/26/019", "issue": "2026-05-08", "expiry": "2027-05-08", "location": "Djankrom", "status": "operational", "payment_cat": "small-paid", "amt_planning": "200", "amt_revenue": "100", "planning_paid": true, "revenue_paid": true, "amt_paid": "200", "receipt_p": "25/07152740", "drawing": "yes", "year": "2026"},
+    {"id": "e0285", "name": "Thomas Ohene Darko", "contact": "549156274", "gps": "EG-039-3505", "permitNo": "xx/CMB-MKT/Temp/26/001", "issue": "2026-05-11", "expiry": "2027-05-11", "location": "CMB-Market", "status": "operational", "payment_cat": "medium-paid", "amt_planning": "300", "amt_revenue": "200", "planning_paid": true, "revenue_paid": true, "amt_paid": "300", "receipt_p": "25/07152763", "drawing": "yes", "year": "2026"},
+    {"id": "e0286", "name": "Stephen Obona", "contact": "536866071", "gps": "EG-003-3112", "location": "Oparekrom", "status": "operational", "size": "12x12", "year": "2026"},
+    {"id": "e0287", "name": "George Opare", "contact": "538146357", "gps": "EG-003-3112", "location": "Oparekrom", "status": "operational", "size": "11X12", "notice": "issued", "year": "2026"},
+    {"id": "e0288", "name": "Samuel Azuah", "contact": "553954323", "gps": "EG-003-3113", "location": "Oparekrom", "status": "operational", "size": "13x10", "year": "2026"},
+    {"id": "e0289", "name": "Rosalinda Safoa Oduro", "contact": "243204555", "gps": "EG-003-4314", "location": "Oparekrom", "status": "operational", "size": "12x12", "year": "2026"},
+    {"id": "e0290", "name": "John Antwi", "contact": "546660231", "gps": "EG-003-3135", "location": "Oparekrom", "status": "operational", "size": "10X15", "notice": "issued", "year": "2026"},
+    {"id": "e0291", "name": "Sarah Agbovi Manu", "contact": "249649758", "gps": "EG-002-3260", "location": "Oparekrom", "status": "operational", "size": "24X19", "notice": "issued", "year": "2026"},
+    {"id": "e0292", "name": "Kwame Felix Taiko", "contact": "546333314", "gps": "EG-003-1295", "location": "Oparekrom", "status": "operational", "size": "15X10", "notice": "issued", "year": "2026"},
+    {"id": "e0293", "name": "Joyce Akagbo", "contact": "245862160", "gps": "EG-004-9683", "location": "Oparekrom", "status": "operational", "amt_revenue": "250", "amt_paid": "250", "balance": "250", "receipt_p": "25/07153801", "size": "12x9", "notice": "issued", "year": "2026"},
+    {"id": "e0294", "name": "Amanda Baah", "contact": "548725156", "gps": "EG-004-9683", "location": "Oparekrom", "status": "operational", "size": "11X9", "year": "2026"},
+    {"id": "e0295", "name": "Mavis Darko", "contact": "537316166", "gps": "EG-004-9731", "permitNo": "xx/Angl-c/Temp/26/004", "issue": "2026-05-12", "expiry": "2027-05-12", "location": "Anglican C", "status": "operational", "payment_cat": "medium-paid", "amt_planning": "200", "amt_revenue": "200", "planning_paid": true, "revenue_paid": true, "amt_paid": "200", "receipt_p": "25/07153804", "size": "14x15", "drawing": "yes", "year": "2026"},
+    {"id": "e0296", "name": "Janet Frimpomma", "contact": "243238392", "gps": "EG-003-1738", "permitNo": "xx/Angl-c/Temp/26/003", "issue": "2026-05-12", "expiry": "2027-05-12", "location": "Anglican C", "status": "operational", "payment_cat": "medium-paid", "amt_planning": "200", "amt_revenue": "200", "planning_paid": true, "revenue_paid": true, "amt_paid": "200", "receipt_p": "25/07153805", "size": "15X11", "drawing": "yes", "year": "2026"},
+    {"id": "e0297", "name": "Emmanuel Ahiagble", "contact": "244541780", "gps": "EG-004-9731", "permitNo": "xx/Angl-c/Temp/26/001", "issue": "2026-05-12", "expiry": "2027-05-12", "location": "Anglican C", "status": "operational", "payment_cat": "medium-paid", "amt_planning": "200", "amt_revenue": "300", "planning_paid": true, "revenue_paid": true, "amt_paid": "200", "receipt_p": "25/07153802", "size": "11X10", "drawing": "yes", "year": "2026"},
+    {"id": "e0298", "name": "Jacob Akpalu", "contact": "244294032", "gps": "EG-004-7894", "permitNo": "xx/Angl-c/Temp/26/002", "issue": "2026-05-12", "expiry": "2027-05-12", "location": "Anglican C", "status": "operational", "payment_cat": "large-paid", "amt_planning": "400", "amt_revenue": "500", "planning_paid": true, "revenue_paid": true, "amt_paid": "400", "receipt_p": "25/07153803", "size": "34X26", "drawing": "yes", "year": "2026"},
+    {"id": "e0299", "name": "Stephen Anokye", "contact": "244134924", "gps": "EG-004-8378", "location": "Anglican C", "status": "operational", "size": "22X8", "year": "2026"},
+    {"id": "e0300", "name": "Mercy Donkor", "contact": "248892726", "gps": "EG-198-3599", "location": "Djankrom", "status": "operational", "size": "10X12", "year": "2026"},
+    {"id": "e0301", "name": "Emmanuel Mawuko", "contact": "246607408", "gps": "EG-198-3599", "location": "Djankrom", "status": "operational", "size": "10x12", "year": "2026"},
+    {"id": "e0302", "name": "Bismark Koranteng", "contact": "550802950", "gps": "EG-036-7409", "location": "Djankrom", "status": "operational", "size": "13x10", "year": "2026"},
+    {"id": "e0303", "name": "Emelia Nyame", "contact": "202992780", "gps": "EG-036-7409", "location": "Djankrom", "status": "operational", "size": "10x10", "year": "2026"},
+    {"id": "e0304", "name": "Gladys Darkoaa", "contact": "541859635", "gps": "EG-000-6639", "location": "Djankrom", "status": "operational", "size": "8x10", "year": "2026"},
+    {"id": "e0305", "name": "Gladys Darkoaa", "contact": "541859635", "gps": "EG-000-6639", "location": "Djankrom", "status": "operational", "size": "16X16", "year": "2026"},
+    {"id": "e0306", "name": "Emelia Teiko", "contact": "247317137", "gps": "EG-007-6640", "location": "Djankrom", "status": "operational", "size": "12X13", "year": "2026"},
+    {"id": "e0307", "name": "Shadrack Tetteh", "contact": "548883734", "gps": "EG-005-8546", "location": "Djankrom", "status": "operational", "size": "10X11", "year": "2026"},
+    {"id": "e0308", "name": "Baka Kofi", "contact": "541265188", "gps": "EG-006-7335", "location": "Djankrom", "status": "operational", "size": "11x7", "year": "2026"},
+    {"id": "e0309", "name": "Otubea Joana", "contact": "548883748", "gps": "EG-006-4123", "location": "Oparekrom", "status": "operational", "size": "10x12", "year": "2026"},
+    {"id": "e0310", "name": "Francis Azuah", "contact": "540790888", "gps": "EG-003-1494", "location": "Oparekrom", "status": "operational", "size": "15x10", "year": "2026"},
+    {"id": "e0311", "name": "William Adofo", "contact": "262707758", "gps": "EG-002-3261", "location": "Oparekrom", "status": "operational", "size": "15x10", "year": "2026"},
+    {"id": "e0312", "name": "Bernice Asante", "contact": "249816778", "gps": "EG-003-1194", "location": "Oparekrom", "status": "operational", "size": "12x12", "year": "2026"},
+    {"id": "e0313", "name": "Faustina Asare", "contact": "534829135", "gps": "EG-003-1194", "location": "Oparekrom", "status": "operational", "size": "10x14", "year": "2026"},
+    {"id": "e0314", "name": "Moses Agbanyo", "contact": "548499804", "gps": "EG-003-9444", "location": "Oparekrom", "status": "operational", "size": "9x12", "year": "2026"},
+    {"id": "e0315", "name": "Jacob Quarm", "contact": "532766026", "gps": "EG-002-1857", "location": "Oparekrom", "status": "operational", "size": "9x15", "year": "2026"},
+    {"id": "e0316", "name": "Mercy Akoto", "contact": "248737951", "gps": "EG-002-1757", "location": "Oparekrom", "status": "operational", "size": "8x9", "year": "2026"},
+    {"id": "e0317", "name": "Linda Obeng", "contact": "543358271", "gps": "EG-017-8567", "location": "Oparekrom", "status": "operational", "size": "13x12", "year": "2026"},
+    {"id": "e0318", "name": "Nancy Akoto Bentil", "contact": "541601039", "gps": "EG-036-8207", "location": "Oparekrom", "status": "operational", "size": "10x12", "year": "2026"},
+    {"id": "e0319", "name": "Michael Boateng", "contact": "544886270", "gps": "EG-004-0392", "location": "Oparekrom", "status": "operational", "size": "5x6", "year": "2026"},
+    {"id": "e0320", "name": "Mr. Lamptey", "contact": "245982573", "gps": "EG-005-6057", "location": "Oparekrom", "status": "operational", "size": "10x10", "year": "2026"},
+    {"id": "e0321", "name": "Mr. Lamptey", "contact": "245982573", "gps": "EG-004-8178", "location": "Oparekrom", "status": "operational", "size": "13x15", "year": "2026"},
+    {"id": "e0322", "name": "Eunice White", "contact": "548870456", "gps": "EG-004-6175", "location": "Oparekrom", "status": "operational", "size": "8x9", "year": "2026"},
+    {"id": "e0323", "name": "Tina Yayra", "contact": "507174303", "gps": "EG-004-0919", "location": "Oparekrom", "status": "operational", "size": "13x15", "year": "2026"},
+    {"id": "e0324", "name": "Mr. Lamptey", "contact": "245982573", "gps": "EG-004-6175", "location": "Oparekrom", "status": "operational", "size": "11x11", "year": "2026"},
+    {"id": "e0325", "name": "Emmanuel", "contact": "559403440", "gps": "EG-004-7976", "location": "Oparekrom", "status": "operational", "size": "11x12", "year": "2026"},
+    {"id": "e0326", "name": "Ernest Osae", "contact": "546738751", "gps": "EG-004-7976", "location": "Djankrom", "status": "operational", "size": "8x10", "year": "2026"},
+    {"id": "e0327", "name": "Silvia MOMO", "contact": "558679532", "gps": "EG-004-2614", "location": "Djankrom", "status": "operational", "size": "16x9", "year": "2026"},
+    {"id": "e0328", "name": "Naomi Aryee", "contact": "249496854", "gps": "EG-036-9703", "location": "Djankrom", "status": "operational", "size": "11x10", "year": "2026"},
+    {"id": "e0329", "name": "Ebenezer Darko", "contact": "548985002", "gps": "EG-036-7409", "location": "Djankrom", "status": "operational", "size": "8x8", "year": "2026"},
+    {"id": "e0330", "name": "Maa Adwoa", "contact": "541482024", "gps": "EG-003-4314", "location": "Djankrom", "status": "operational", "size": "12x17", "year": "2026"},
+    {"id": "e0331", "name": "Evelyn Antwiwaa", "contact": "548329098", "gps": "EG-003-4314", "location": "Djankrom", "status": "operational", "size": "11x19", "year": "2026"},
+    {"id": "e0332", "name": "Evelyn Antwiwaa", "contact": "548329098", "gps": "EG-003-4314", "location": "Djankrom", "status": "operational", "size": "13x12", "year": "2026"},
+    {"id": "e0333", "name": "Joe", "contact": "241851205", "gps": "EG-005-9034", "location": "Djankrom", "status": "operational", "size": "8x10", "year": "2026"},
+    {"id": "e0334", "name": "Ofosua Eunice", "contact": "549498460", "gps": "EG-005-9345", "location": "Djankrom", "status": "operational", "size": "13x11", "year": "2026"},
+    {"id": "e0335", "name": "Nicholas Afitie", "contact": "544906101", "gps": "EG-006-8626", "permitNo": "xx/Angl-c/Temp/26/005", "issue": "2026-05-14", "expiry": "2027-05-14", "location": "Anglican C", "status": "operational", "payment_cat": "large-paid", "amt_planning": "200", "amt_revenue": "200", "planning_paid": true, "revenue_paid": true, "amt_paid": "200", "receipt_p": "25/07154402", "drawing": "yes", "year": "2026"},
+    {"id": "e0336", "name": "Fred Ntow", "contact": "541044393", "gps": "EG-005-6477", "permitNo": "xx/Osei-DJN/Temp/26/001", "issue": "2026-05-14", "expiry": "2027-05-14", "location": "Osei Djan", "status": "operational", "payment_cat": "large-paid", "amt_planning": "300", "amt_revenue": "500", "planning_paid": true, "revenue_paid": true, "amt_paid": "300", "receipt_p": "25/07154403", "drawing": "yes", "year": "2026"},
+    {"id": "e0337", "name": "Alex Osei Safo", "contact": "243471448", "gps": "EG-006-2078", "permitNo": "xx/Djan/Temp/26/020", "issue": "2026-05-14", "expiry": "2027-05-14", "location": "Djankrom", "status": "operational", "payment_cat": "large-paid", "amt_planning": "200", "amt_revenue": "300", "planning_paid": true, "revenue_paid": true, "amt_paid": "200", "receipt_p": "25/07154405", "drawing": "yes", "year": "2026"},
+    {"id": "e0338", "name": "Juliana Asare", "contact": "243734066", "gps": "EG-006-2586", "permitNo": "xx/Djan/Temp/26/021", "issue": "2026-05-14", "expiry": "2027-05-14", "location": "Djankrom", "status": "operational", "payment_cat": "large-paid", "amt_planning": "300", "amt_revenue": "400", "planning_paid": true, "revenue_paid": true, "amt_paid": "300", "receipt_p": "25/07154404", "drawing": "yes", "year": "2026"},
+    {"id": "e0339", "name": "Linda Addison", "gps": "EG-006-4214", "permitNo": "xx/Djan/Temp/26/022", "issue": "2026-05-14", "expiry": "2027-05-14", "location": "Djankrom", "status": "operational", "payment_cat": "large-paid", "amt_planning": "200", "amt_revenue": "300", "planning_paid": true, "revenue_paid": true, "amt_paid": "200", "receipt_p": "25/07154406", "drawing": "yes", "year": "2026"},
+    {"id": "e0340", "name": "Obeng Desmond", "contact": "556658750", "gps": "EG-020-1785", "permitNo": "xx/Duay/Temp/26/005", "issue": "2026-05-15", "expiry": "2027-05-15", "location": "Duayeden", "status": "operational", "payment_cat": "large-paid", "amt_planning": "100", "amt_revenue": "200", "planning_paid": true, "revenue_paid": true, "amt_paid": "100", "receipt_p": "25/07154415", "drawing": "yes", "year": "2026"},
+    {"id": "e0341", "name": "Priscilla Humbo", "contact": "533201954", "gps": "EG-006-4693", "permitNo": "xx/Angl-C/Temp/26/006", "issue": "2026-05-18", "expiry": "2027-05-18", "location": "Anglican C", "status": "operational", "payment_cat": "large-paid", "amt_planning": "200", "amt_revenue": "300", "planning_paid": true, "revenue_paid": true, "amt_paid": "200", "receipt_p": "25/07154433", "size": "8x12", "drawing": "yes", "year": "2026"},
+    {"id": "e0342", "name": "Mary Akan", "gps": "EG-196-8365", "permitNo": "xx/Akwa/Temp/26/001", "location": "Akwamu", "status": "non-operational", "year": "2026"},
+    {"id": "e0343", "name": "Prince Owusu Ansah", "contact": "596826546", "gps": "EG-042-3615", "permitNo": "XX/PPD/NAMA/SEC.2/23/04", "issue": "2025-04-29", "expiry": "2026-04-29", "location": "Sector 2", "status": "operational", "payment_cat": "small-paid", "amt_planning": "50", "amt_revenue": "100", "planning_paid": true, "revenue_paid": true, "amt_paid": "50", "receipt_p": "25/0016081", "drawing": "yes", "year": "RENEWAL"},
+    {"id": "e0344", "name": "Benard Segbenu", "gps": "EG-020-4139", "permitNo": "XX/NAMA/NSWA/DUA/21", "issue": "2025-05-20", "expiry": "2026-05-20", "location": "Duayeden", "status": "operational", "payment_cat": "small-paid", "amt_planning": "100", "amt_revenue": "100", "planning_paid": true, "revenue_paid": true, "amt_paid": "100", "receipt_r": "11031", "drawing": "yes", "year": "RENEWAL"},
+    {"id": "e0345", "name": "Samuel Anakwah", "contact": "597008688", "permitNo": "XX/NAMA/ANK-DOB/23/06", "issue": "2025-05-10", "expiry": "2026-05-10", "location": "Curve", "status": "operational", "payment_cat": "small-paid", "amt_revenue": "100", "planning_paid": true, "revenue_paid": true, "amt_paid": "100", "receipt_p": "25/3160402", "drawing": "yes", "year": "RENEWAL"}
+  ].map(r => ({...r, createdAt: r.createdAt || Date.now(), updatedAt: r.updatedAt || Date.now()}));
+}
+
+/* ════════════════════ INIT ════════════════════ */
+let filteredRecords = [];
+// loadRecords() will call initFirebase() which sets up the real-time listener.
+// The listener populates allRecords and calls renderAll() whenever data changes.
+loadRecords();
+</script>
+
+<!-- ══════════ FIREBASE SETUP OVERLAY ══════════
+     Shown only when no Firebase config is detected.
+     User pastes their Firebase project credentials here once.
+     Config is saved to localStorage so subsequent opens skip this screen.
+════════════════════════════════════════════════ -->
+<div id="setup-overlay" style="display:none;position:fixed;inset:0;background:rgba(13,33,55,0.97);z-index:9999;align-items:center;justify-content:center;padding:20px;overflow-y:auto">
+  <div style="background:#fff;border-radius:20px;max-width:560px;width:100%;padding:36px 32px;box-shadow:0 30px 80px rgba(0,0,0,0.4)">
+    <div style="text-align:center;margin-bottom:28px">
+      <div style="font-size:40px;margin-bottom:8px">🔥</div>
+      <h2 style="font-size:20px;font-weight:800;color:#0d2137;margin-bottom:6px">Connect to Firebase</h2>
+      <p style="font-size:13px;color:#8a96a8;line-height:1.6">
+        This app syncs live across all devices using <strong>Firebase Realtime Database</strong> (free).<br>
+        Paste your Firebase project config below — this only needs to be done once.
+      </p>
+    </div>
+    <div style="background:#f7f8fa;border-radius:12px;padding:16px;margin-bottom:20px;font-size:12px;color:#4a5568;line-height:1.8">
+      <strong>Quick setup (5 min):</strong><br>
+      1. Go to <a href="https://console.firebase.google.com" target="_blank" style="color:#1a5fb4">console.firebase.google.com</a><br>
+      2. Create a project → Realtime Database → Create Database → Test mode<br>
+      3. ⚙ Project settings → Your apps → &lt;/&gt; Web app → copy config<br>
+      4. Paste each field below and click Connect
+    </div>
+    <div id="setup-error" style="display:none;background:#fdecea;color:#c0392b;border-radius:8px;padding:10px 14px;margin-bottom:16px;font-size:13px"></div>
+    <div style="display:grid;gap:10px">
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+        <div>
+          <label style="font-size:11px;font-weight:700;color:#4a5568;text-transform:uppercase;letter-spacing:0.4px">API Key *</label>
+          <input id="cfg-apiKey" type="text" placeholder="AIzaSy…" style="width:100%;margin-top:4px;padding:9px 12px;border:1px solid #d0d7e2;border-radius:8px;font-size:13px;font-family:inherit"/>
+        </div>
+        <div>
+          <label style="font-size:11px;font-weight:700;color:#4a5568;text-transform:uppercase;letter-spacing:0.4px">Auth Domain</label>
+          <input id="cfg-authDomain" type="text" placeholder="your-project.firebaseapp.com" style="width:100%;margin-top:4px;padding:9px 12px;border:1px solid #d0d7e2;border-radius:8px;font-size:13px;font-family:inherit"/>
+        </div>
+      </div>
+      <div>
+        <label style="font-size:11px;font-weight:700;color:#4a5568;text-transform:uppercase;letter-spacing:0.4px">Database URL * <span style="font-weight:400;text-transform:none">(ends in .firebaseio.com)</span></label>
+        <input id="cfg-databaseURL" type="text" placeholder="https://your-project-default-rtdb.firebaseio.com" style="width:100%;margin-top:4px;padding:9px 12px;border:1px solid #d0d7e2;border-radius:8px;font-size:13px;font-family:inherit"/>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+        <div>
+          <label style="font-size:11px;font-weight:700;color:#4a5568;text-transform:uppercase;letter-spacing:0.4px">Project ID</label>
+          <input id="cfg-projectId" type="text" placeholder="your-project-id" style="width:100%;margin-top:4px;padding:9px 12px;border:1px solid #d0d7e2;border-radius:8px;font-size:13px;font-family:inherit"/>
+        </div>
+        <div>
+          <label style="font-size:11px;font-weight:700;color:#4a5568;text-transform:uppercase;letter-spacing:0.4px">Storage Bucket</label>
+          <input id="cfg-storageBucket" type="text" placeholder="your-project.appspot.com" style="width:100%;margin-top:4px;padding:9px 12px;border:1px solid #d0d7e2;border-radius:8px;font-size:13px;font-family:inherit"/>
+        </div>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+        <div>
+          <label style="font-size:11px;font-weight:700;color:#4a5568;text-transform:uppercase;letter-spacing:0.4px">Messaging Sender ID</label>
+          <input id="cfg-messagingSenderId" type="text" placeholder="123456789012" style="width:100%;margin-top:4px;padding:9px 12px;border:1px solid #d0d7e2;border-radius:8px;font-size:13px;font-family:inherit"/>
+        </div>
+        <div>
+          <label style="font-size:11px;font-weight:700;color:#4a5568;text-transform:uppercase;letter-spacing:0.4px">App ID</label>
+          <input id="cfg-appId" type="text" placeholder="1:123…:web:abc…" style="width:100%;margin-top:4px;padding:9px 12px;border:1px solid #d0d7e2;border-radius:8px;font-size:13px;font-family:inherit"/>
+        </div>
+      </div>
+    </div>
+    <button onclick="submitFirebaseConfig()" style="width:100%;margin-top:20px;padding:13px;background:#0d2137;color:#fff;border:none;border-radius:10px;font-size:15px;font-weight:700;cursor:pointer;font-family:inherit">
+      🔥 Connect & Go Live
+    </button>
+    <p style="text-align:center;font-size:11px;color:#8a96a8;margin-top:14px">
+      Your config is saved locally on this device. All devices using the same Database URL will sync instantly.
+    </p>
+  </div>
+</div>
+
+</body>
+</html>
